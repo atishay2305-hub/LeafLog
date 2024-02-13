@@ -6,10 +6,10 @@ import { mongoConfig } from '../config/settings.mjs';
 const apiKey = "sk-1cDo65c5314199c384079";
 const apiURL = 'https://perenual.com/api/species-list';
 
-const fetchData = async () => {
+export const plant_data = async () => {
     try {
         const response = await axios.get(apiURL, {
-            params: {key: apiKey},
+            params: { key: apiKey },
         });
 
         const plantData = response.data;
@@ -22,4 +22,5 @@ const fetchData = async () => {
     }
 };
 
-fetchData();
+// Call the function asynchronously
+plant_data();
