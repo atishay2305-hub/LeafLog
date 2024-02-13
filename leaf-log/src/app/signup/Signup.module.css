@@ -1,0 +1,119 @@
+/* src/app/signup/Signup.module.css */
+
+.container {
+  max-width: 60%;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  background-color: #467061;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 75%;
+}
+
+.title {
+  text-align: center;
+  color: #ffffff;
+  font-size: 36px;
+}
+
+.description {
+  text-align: center;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.input {
+  padding: 20px;
+  border: 1px solid #585858;
+  border-radius: 4px;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 20px 0;
+  box-sizing: border-box;
+  height: 20px;
+  max-width: 60%;
+}
+
+.input-field {
+  padding: 10px;
+  border: 1px solid #c0c0c0;
+  /* subtle border for input fields */
+  border-radius: 3px;
+  font-size: 15px;
+  max-width: 60%;
+}
+
+.button {
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #fff;
+  color: #467061;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #467061;
+}
+
+.submit-button {
+  padding: 0.5rem 1rem;
+  background-color: #5cb85c;
+  color: white;
+  border: rgb(0, 0, 0);
+  border-radius: 1px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.submit-button:hover {
+  background-color: #4cae4c;
+  /* Darker shade for hover effect */
+}
+
+.google-signup-button {
+  padding: 0.5rem 1rem;
+  background-color: #db4437;
+  /* Google brand color */
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+  text-align: center;
+  /* Space from the main form */
+}
+
+.google-signup-button:hover {
+  background-color: #c1351d;
+  /* Darker shade for hover effect */
+}
+
+.signupForm {
+  margin-right: 30%;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 80%;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
