@@ -55,32 +55,47 @@ export default function SignupPage() {
     <div className={styles.container}>
       <Head>
         <title>Sign Up</title>
+        <br />
         <meta name="description" content="Sign up for our service" />
       </Head>
-      <h1 className={styles.title}>Sign Up</h1>
-      <p>Please sign up to continue.</p>
-      {/* Sign up form */}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Sign Up</button>
-      </form>
+      <div className={styles.formWrapper}>
+        <h1 className={styles.title}>Sign Up</h1>
+        <p className={styles.description}>Please sign up to continue.</p>
+
+        {/* Sign up form */}
+        <form onSubmit={handleSubmit} id="signupForm" className={styles.form}>
+          <input
+            className={styles.inputField}
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            required
+          />
+          <br />
+          <input
+            className={styles.inputField}
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+          />
+          <button type="submit" className={styles.submitButton}>
+            Sign Up
+          </button>
+          <br />
+        </form>
+      </div>
       {/* Google OAuth sign up */}
-      <button onClick={handleGoogleSignUp}>Sign Up with Google</button>
+      <button
+        onClick={handleGoogleSignUp}
+        className={styles.googleSignupButton}
+      >
+        Sign Up with Google
+      </button>
     </div>
   );
 }
