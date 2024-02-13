@@ -73,7 +73,7 @@ export default function SignupPage() {
             placeholder="Email"
             required
           />
-          <br />
+
           <input
             className={styles.inputField}
             type="password"
@@ -83,19 +83,32 @@ export default function SignupPage() {
             placeholder="Password"
             required
           />
-          <button type="submit" className={styles.submitButton}>
+          <button
+            type="submit"
+            id="buttonStyle"
+            className={styles.redirectButton}
+          >
             Sign Up
           </button>
-          <br />
         </form>
+      </div>{" "}
+      <div className={styles.bottom}>
+        {/* Google OAuth sign up */}
+        <button
+          onClick={handleGoogleSignUp}
+          className={styles.googleSignupButton}
+        >
+          Sign Up with Google
+        </button>
+        <br />
+        <br />
+
+        <a className={styles.bottomText}>Have an account?</a>
+
+        <button type="submit" className={styles.redirectButton}>
+          <a href="http://localhost:3000/login">Login</a>
+        </button>
       </div>
-      {/* Google OAuth sign up */}
-      <button
-        onClick={handleGoogleSignUp}
-        className={styles.googleSignupButton}
-      >
-        Sign Up with Google
-      </button>
     </div>
   );
 }
