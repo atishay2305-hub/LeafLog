@@ -50,13 +50,12 @@ export default function LoginPage() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Log In</title>
+        <title>Login</title>
         <meta name="description" content="Log in to your account" />
       </Head>
       <div className={styles.formWrapper}>
         <h1 className={styles.title}>Log In</h1>
         <p className={styles.description}>Please log in to continue.</p>
-
         {/* Login form */}
         <form onSubmit={handleSubmit} id="loginForm" className={styles.form}>
           <input
@@ -68,6 +67,7 @@ export default function LoginPage() {
             placeholder="Email"
             required
           />
+
           <input
             className={styles.inputField}
             type="password"
@@ -77,11 +77,19 @@ export default function LoginPage() {
             placeholder="Password"
             required
           />
-          <button type="submit" className={styles.submitButton}>
-            Log In
+          <button type="submit" className={styles.redirectButton}>
+            Login
           </button>
         </form>
-        {/* Consider adding functionality like 'Forgot Password?' or 'Remember me' checkbox here */}
+        <br />
+        <br />
+        <div className={styles.bottom}>
+          <a className={styles.bottomText}> Dont have an account?</a>
+          <button type="submit" className={styles.redirectButton}>
+            <a href="http://localhost:3000/signup">Sign Up</a>
+          </button>
+          {/* Consider adding functionality like 'Forgot Password?' or 'Remember me' checkbox here */}
+        </div>{" "}
       </div>
     </div>
   );
