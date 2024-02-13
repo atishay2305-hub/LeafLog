@@ -1,34 +1,40 @@
 /* src/app/signup/Signup.module.css */
 
 .container {
-  max-width: 60%;
-  margin: 50px auto;
-  padding: 20px;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: 40px;
+  margin-top: 40px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   background-color: #467061;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 75%;
+  width: 100%;
+  max-width: 1200px;
+  /* Adjust the width of the form container */
 }
 
 .title {
   text-align: center;
   color: #ffffff;
   font-size: 36px;
+  margin-bottom: 10px;
 }
 
 .description {
   text-align: center;
   color: #ffffff;
   font-size: 16px;
-  padding: 10px;
+  margin-bottom: 20px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
+  width: 60%;
+  align-self: center;
+  margin-left: 18%;
 }
 
 .label {
@@ -50,12 +56,14 @@
 }
 
 .input-field {
-  padding: 10px;
-  border: 1px solid #c0c0c0;
-  /* subtle border for input fields */
-  border-radius: 3px;
-  font-size: 15px;
-  max-width: 60%;
+  width: 100%;
+  padding: 30px;
+  /* Taller input fields */
+  margin-bottom: 15px;
+  /* Space between input fields */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 .button {
@@ -74,17 +82,13 @@
 
 .submit-button {
   padding: 0.5rem 1rem;
-  background-color: #5cb85c;
+  background-color: #000000;
   color: white;
   border: rgb(0, 0, 0);
   border-radius: 1px;
   cursor: pointer;
   font-size: 12px;
-}
-
-.submit-button:hover {
-  background-color: #4cae4c;
-  /* Darker shade for hover effect */
+  padding: 10px;
 }
 
 .google-signup-button {
