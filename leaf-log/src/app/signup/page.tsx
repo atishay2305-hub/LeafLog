@@ -25,24 +25,40 @@ export default function SignupPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/signup", {
+      const res = await fetch("../../pages/api/signup.tsx", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (data.error) {
-        console.error(data.error);
-        // Implement error handling logic, perhaps show an error message to the user
+
+      // Check if the response is ok and the content is JSON
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      if (
+        res.ok &&
+        res.headers.get("Content-Type")?.includes("application/json")
+      ) {
+        const data = await res.json();
+        if (data.error) {
+          console.error("Signup error:", data.error);
+          // Implement error handling logic
+        } else {
+          console.log("User signed up successfully:", data);
+          // Redirect user or show success message
+        }
       } else {
-        // Redirect user or show success message
-        console.log("User signed up successfully:", data);
+        // Handle non-JSON response or non-ok status
+        const text = await res.text(); // Read the response as text
+        console.error("Failed to sign up:", text);
+        // Show the text or a error message to the user
       }
     } catch (error) {
       console.error("An error occurred while signing up:", error);
-      // Implement error handling logic, perhaps show an error message to the user
+      // Implement network error handling logic
     }
   };
 
