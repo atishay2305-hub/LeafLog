@@ -1,6 +1,8 @@
 import express from 'express';
 import { plant_data } from '../data/plant_data.mjs';
-import { plants as plantCollection } from '../config/mongoCollections.mjs';
+import { detailsData} from '../data/details.mjs';
+
+import { plants as plantCollection, details as detailsCollection } from '../config/mongoCollections.mjs';
 
 const router = express.Router();
 
@@ -94,6 +96,31 @@ router.post('/api/plantdata', async (req, res) => {
 
     } catch (error) {
         console.error('Error: ', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+router.get('/api/plantdata/:id', async (req, res) => {
+    try {
+        const apiKey = "sk-1cDo65c5314199c384079";
+        const plantId = req.params.id;
+
+        const apiURL = `https://perenual.com/api/species/details/${plantId}?key=${apiKey}`;
+
+        const response = await axios.get(apiURL, {
+            params: { key: apiKey },
+        });
+
+        const detailsData = response.data;
+        const collection = await detailsCollection();
+        await collection.insertOne(detailsData);
+
+        console.log('Plant Details Data has been stored in MongoDB');
+
+        res.status(200).json({ message: 'Plant details stored successfully' });
+    } catch (error) {
+        console.error('Error: ', error.message || (error.response && error.response.data));
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
