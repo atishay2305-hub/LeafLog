@@ -4,6 +4,7 @@
   "description": "Please see https://github.com/verdetea22/LeafLog/wiki for more !",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon app.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
