@@ -75,6 +75,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  color: black;
 }
 
 .button {
@@ -94,7 +95,7 @@
 .submitButton {
   padding: 0.5rem 1rem;
   background-color: #000000;
-  color: white;
+  color: rgb(124, 118, 118);
   border: rgb(0, 0, 0);
   border-radius: 1px;
   cursor: pointer;
