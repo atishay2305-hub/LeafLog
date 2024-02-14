@@ -6,7 +6,7 @@ import { mongoConfig } from '../config/settings.mjs';
 const apiKey = "sk-1cDo65c5314199c384079";
 const apiURL = 'https://perenual.com/api/pest-disease-list?key=sk-1cDo65c5314199c384079';
 
-const fetchData = async () => {
+export const diseaseData = async () => {
     try {
         const response = await axios.get(apiURL, {
             params: {key: apiKey},
@@ -22,4 +22,4 @@ const fetchData = async () => {
     }
 };
 
-fetchData();
+diseaseData();

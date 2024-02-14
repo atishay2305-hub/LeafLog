@@ -69,5 +69,35 @@ router.get('/api/plantdata/search', async (req, res) => {
 });
 
 
+// Define a route to create a new plant
+router.post('/api/plantdata', async (req, res) => {
+    try {
+        const collection = await plantCollection();
+
+        const newPlantData = req.body;
+
+        if (
+            // Uncomment these lines if the newPlantData and newPlantData.data checks are needed
+            // !newPlantData || 
+            // !newPlantData.data ||
+            !newPlantData.common_name ||
+            !newPlantData.scientific_name ||
+            !newPlantData.cycle || 
+            !newPlantData.watering ||
+            !newPlantData.sunlight
+        ){
+            return res.status(400).json({ error: 'All parameters are required.' });
+        }
+
+        const result = await collection.insertOne(newPlantData);
+        res.status(201).json({ success: true, insertedId: result.insertedId });
+
+    } catch (error) {
+        console.error('Error: ', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
 
 export default router;

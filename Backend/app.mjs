@@ -4,7 +4,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 // import MongoStore from 'connect-mongo';
 import plantDataRouter from './routes/plant_dataRoutes.mjs'
+import diseaseDataRouter from './routes/diseaseRoutes.mjs';
 import { plant_data } from './data/plant_data.mjs';
+import {diseaseData} from './data/diseases.mjs';
 
 
 // import keys from './config/keys';
@@ -50,7 +52,7 @@ app.use(express.json());
 
 app.use(plantDataRouter);
 
-
+app.use(diseaseDataRouter);
 
 
 // Start the server
@@ -59,3 +61,4 @@ app.listen(port, () => {
 });
 
 plant_data();
+diseaseData();
