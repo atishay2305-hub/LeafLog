@@ -19,6 +19,7 @@
     "express-session": "^1.18.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.2",
+    "nodemailer": "^6.9.9",
     "nodemon": "^3.0.3",
     "passport": "^0.7.0",
     "passport-google-oidc": "^0.1.0"
