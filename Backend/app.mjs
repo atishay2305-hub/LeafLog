@@ -7,6 +7,7 @@ import plantDataRouter from './routes/plant_dataRoutes.mjs'
 import diseaseDataRouter from './routes/diseaseRoutes.mjs';
 import { plant_data } from './data/plant_data.mjs';
 import {diseaseData} from './data/diseases.mjs';
+import { detailsData} from './data/details.mjs';
 
 
 // import keys from './config/keys';
@@ -62,3 +63,4 @@ app.listen(port, () => {
 
 plant_data();
 diseaseData();
+detailsData();
