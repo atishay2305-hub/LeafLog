@@ -1,8 +1,6 @@
 import express from 'express';
-import { plant_data } from '../data/plant_data.mjs';
-import { detailsData} from '../data/details.mjs';
-
-import { plants as plantCollection, details as detailsCollection } from '../config/mongoCollections.mjs';
+import { detailsData } from '../data/details.mjs';
+import { plants as plantCollection } from '../config/mongoCollections.mjs';
 
 const router = express.Router();
 
@@ -11,21 +9,25 @@ router.get('/api/plantdata', async (req, res) => {
         const collection = await plantCollection();
         const allPlantData = await collection.find().toArray();
 
-        const filteredData = allPlantData.flatMap(plant => plant.data.map(plant => ({
-            common_name: plant.common_name,
-            scientific_name: plant.scientific_name[0],
-            other_name: plant.other_name ? plant.other_name[0] : null,
-            cycle: plant.cycle,
-            watering: plant.watering,
-            sunlight: plant.sunlight ? plant.sunlight[0] : null,
-        })));
+        const filteredData = allPlantData.flatMap(plant =>
+            plant.data ? plant.data.map(plantEntry => ({
+                common_name: plantEntry.common_name,
+                scientific_name: plantEntry.scientific_name[0],
+                other_name: plantEntry.other_name ? plantEntry.other_name[0] : null,
+                cycle: plantEntry.cycle,
+                watering: plantEntry.watering,
+                sunlight: plantEntry.sunlight ? plantEntry.sunlight[0] : null,
+            })) : []
+        );
 
         res.json(filteredData);
     } catch (error) {
         console.error('Error: ', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
 });
+
+
 
 router.get('/api/plantdata/search', async (req, res) => {
     try {
@@ -66,12 +68,10 @@ router.get('/api/plantdata/search', async (req, res) => {
         }
     } catch (error) {
         console.error('Error: ', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
 });
 
-
-// Define a route to create a new plant
 router.post('/api/plantdata', async (req, res) => {
     try {
         const collection = await plantCollection();
@@ -96,9 +96,11 @@ router.post('/api/plantdata', async (req, res) => {
 
     } catch (error) {
         console.error('Error: ', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
 });
+
+
 
 
 router.get('/api/plantdata/:id', async (req, res) => {
