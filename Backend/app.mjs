@@ -8,6 +8,7 @@ import diseaseDataRouter from './routes/diseaseRoutes.mjs';
 import { plant_data } from './data/plant_data.mjs';
 import {diseaseData} from './data/diseases.mjs';
 import { detailsData} from './data/details.mjs';
+import emailRoute from './routes/node-mailer_route.mjs';
 
 
 // import keys from './config/keys';
@@ -50,6 +51,7 @@ const port = 3000;
 // });
 
 app.use(express.json());
+app.use('/email', emailRoute);
 
 app.use(plantDataRouter);
 

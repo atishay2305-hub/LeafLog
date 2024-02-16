@@ -1,6 +1,7 @@
 import express from 'express';
 import { detailsData } from '../data/details.mjs';
-import { plants as plantCollection } from '../config/mongoCollections.mjs';
+import { details, plants as plantCollection } from '../config/mongoCollections.mjs';
+import { ObjectId } from 'mongodb';
 
 const router = express.Router();
 
@@ -13,6 +14,7 @@ router.get('/api/plantdata', async (req, res) => {
             plant.data ? plant.data.map(plantEntry => ({
                 common_name: plantEntry.common_name,
                 scientific_name: plantEntry.scientific_name[0],
+           
                 other_name: plantEntry.other_name ? plantEntry.other_name[0] : null,
                 cycle: plantEntry.cycle,
                 watering: plantEntry.watering,
@@ -23,6 +25,84 @@ router.get('/api/plantdata', async (req, res) => {
         res.json(filteredData);
     } catch (error) {
         console.error('Error: ', error.message);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
+});
+
+
+router.get('/api/plantdata/:id', async (req, res) => {
+    try {
+        const requestedId = new ObjectId(req.params.id);
+        const collection = await details();
+        const allDetails = await collection.findOne({ _id: requestedId });
+
+        if (!allDetails) {
+            return res.status(404).json({ error: 'Plant details not found' });
+        }
+
+        const filteredData = allDetails.data
+            ? allDetails.data.map(detailEntry => ({
+                common_name: detailEntry.common_name,
+                scientific_name: detailEntry.scientific_name[0],
+                other_name: detailEntry.other_name ? detailEntry.other_name[0] : null,
+                family: detailEntry.family || null,
+                origin: detailEntry.origin || [],
+                type: detailEntry.type || null,
+                dimension: detailEntry.dimension || null,
+                dimensions: detailEntry.dimensions || {},
+                cycle: detailEntry.cycle || null,
+                attracts: detailEntry.attracts || [],
+                propagation: detailEntry.propagation || [],
+                hardiness: detailEntry.hardiness || {},
+                hardiness_location: detailEntry.hardiness_location || {},
+                watering: detailEntry.watering || null,
+                depth_water_requirement: detailEntry.depth_water_requirement || {},
+                volume_water_requirement: detailEntry.volume_water_requirement || [],
+                watering_period: detailEntry.watering_period || null,
+                watering_general_benchmark: detailEntry.watering_general_benchmark || {},
+                plant_anatomy: detailEntry.plant_anatomy || [],
+                sunlight: detailEntry.sunlight || [],
+                pruning_month: detailEntry.pruning_month || [],
+                pruning_count: detailEntry.pruning_count || [],
+                seeds: detailEntry.seeds || 0,
+                maintenance: detailEntry.maintenance || null,
+                care_guides: detailEntry["care-guides"] || null,
+                soil: detailEntry.soil || [],
+                growth_rate: detailEntry.growth_rate || null,
+                drought_tolerant: detailEntry.drought_tolerant || false,
+                salt_tolerant: detailEntry.salt_tolerant || false,
+                thorny: detailEntry.thorny || false,
+                invasive: detailEntry.invasive || false,
+                tropical: detailEntry.tropical || false,
+                indoor: detailEntry.indoor || false,
+                care_level: detailEntry.care_level || null,
+                pest_susceptibility: detailEntry.pest_susceptibility || [],
+                pest_susceptibility_api: detailEntry.pest_susceptibility_api || "Coming Soon",
+                flowers: detailEntry.flowers || false,
+                flowering_season: detailEntry.flowering_season || null,
+                flower_color: detailEntry.flower_color || "",
+                cones: detailEntry.cones || false,
+                fruits: detailEntry.fruits || false,
+                edible_fruit: detailEntry.edible_fruit || false,
+                edible_fruit_taste_profile: detailEntry.edible_fruit_taste_profile || "Coming Soon",
+                fruit_nutritional_value: detailEntry.fruit_nutritional_value || "Coming Soon",
+                fruit_color: detailEntry.fruit_color || [],
+                harvest_season: detailEntry.harvest_season || null,
+                leaf: detailEntry.leaf || false,
+                leaf_color: detailEntry.leaf_color || [],
+                edible_leaf: detailEntry.edible_leaf || false,
+                cuisine: detailEntry.cuisine || false,
+                medicinal: detailEntry.medicinal || false,
+                poisonous_to_humans: detailEntry.poisonous_to_humans || 0,
+                poisonous_to_pets: detailEntry.poisonous_to_pets || 0,
+                description: detailEntry.description || "",
+                default_image: detailEntry.default_image || {},
+                other_images: detailEntry.other_images || "Upgrade Plan To Supreme For Access https://perenual.com/subscription-a...",
+            }))
+            : [];
+
+        res.json(filteredData);
+    } catch (error) {
         res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
 });
@@ -102,30 +182,6 @@ router.post('/api/plantdata', async (req, res) => {
 
 
 
-
-router.get('/api/plantdata/:id', async (req, res) => {
-    try {
-        const apiKey = "sk-1cDo65c5314199c384079";
-        const plantId = req.params.id;
-
-        const apiURL = `https://perenual.com/api/species/details/${plantId}?key=${apiKey}`;
-
-        const response = await axios.get(apiURL, {
-            params: { key: apiKey },
-        });
-
-        const detailsData = response.data;
-        const collection = await detailsCollection();
-        await collection.insertOne(detailsData);
-
-        console.log('Plant Details Data has been stored in MongoDB');
-
-        res.status(200).json({ message: 'Plant details stored successfully' });
-    } catch (error) {
-        console.error('Error: ', error.message || (error.response && error.response.data));
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
 
 
 
