@@ -1,10 +1,8 @@
-import { exportedMethods } from '../data/users.mjs';
+import userData from '../data/users.mjs';
+import validation from '../validation_checker.mjs';
 import { Router } from 'express';
-import path from "path";
-import bcrypt from 'bcrypt';
+import path from 'path';
 import xss from 'xss';
-import { ObjectId } from 'mongodb';
-import { users } from '../config/mongoCollections.mjs';
 
 const router = Router();
 
@@ -19,25 +17,29 @@ router.route('/').get(async (req, res) => {
 router.route('/login')
     .get(async (req, res) => {
         try {
-            return res.render("login", { title: "Login" });
+            return res.render('login', { title: 'Login' });
         } catch (e) {
-            return res.sendFile(path.resolve("/public/notFound.html"));
+            return res.sendFile(path.resolve('/public/notFound.html'));
         }
     })
     .post(async (req, res, next) => {
         try {
             let email = xss(req.body.email);
             let password = xss(req.body.password);
-            // You need to define the validation object with checkEmail and checkPassword methods
-            // const validation = require('path to validation module'); // Import your validation module
+
+            // Validate email and password
             email = validation.checkEmail(email);
             password = validation.checkPassword(password);
-            const sessionUser = await exportedMethods.checkUser(email, password);
 
-            req.session.user = {
-                userName: sessionUser.userName,
-                email: sessionUser.Email
-            };
+            const sessionUser = await userData.checkUser(email, password);
+
+            if (!req.session.user) {
+                req.session.user = {
+                    userName: sessionUser.userName,
+                    email: sessionUser.Email
+                };
+            }
+
             return res.redirect('/homepage');
         } catch (e) {
             return res.status(401).json({
@@ -51,7 +53,7 @@ router.route('/login')
 
 router.route('/register')
     .get(async (req, res) => {
-        return res.status(200).render('register', { title: "Register Page" });
+        return res.status(200).render('register', { title: 'Register Page' });
     })
     .post(async (req, res) => {
         try {
@@ -61,11 +63,14 @@ router.route('/register')
             let email = xss(req.body.email);
             let password = xss(req.body.password);
             let DOB = xss(req.body.DOB);
-            DOB = validation.checkDOB(DOB);
-            let user;
-            const userCollection = await users();
-            const existingUser = await userCollection.findOne({ email: email });
 
+            // Validate email, password, and DOB
+            email = validation.checkEmail(email);
+            password = validation.checkPassword(password);
+            DOB = validation.checkDOB(DOB);
+
+            // Check if user already exists
+            const existingUser = await userData.checkUser(email, password);
             if (existingUser) {
                 return res.status(401).json({
                     success: false,
@@ -75,21 +80,21 @@ router.route('/register')
                     email: req.body.email,
                     DOB: req.body.DOB,
                     password: req.body.password,
-                    authentication: req.body.authentication || "",
-                    message: "either username or email already exists."
+                    authentication: req.body.authentication || '',
+                    message: 'Either username or email already exists.'
                 });
             }
 
-            // You need to define the userData object with createUser method
-            // const userData = require('path to user data module'); // Import your user data module
-            user = await userData.createUser(firstName, lastName, userName, email, password, DOB, role, department, authentication);
+            // Create new user
+            const user = await userData.createUser(firstName, lastName, userName, email, password, DOB);
 
             if (user.insertedUser) {
                 return res.redirect('/login');
             }
+
             return res.status(200).json({
                 success: true,
-                message: "Registration complete",
+                message: 'Registration complete',
                 data: req.session.user
             });
         } catch (e) {
@@ -101,14 +106,20 @@ router.route('/register')
                 email: req.body.email,
                 DOB: req.body.DOB,
                 password: req.body.password,
-                error: e,
+                error: e
             });
         }
     });
 
 router.route('/homepage').get(async (req, res) => {
+    // Assuming these variables are defined somewhere in your code
+    const userId = req.session.user ? req.session.user.userId : undefined;
+    const userName = req.session.user ? req.session.user.userName : undefined;
+    const postList = []; // Assuming you fetch posts from somewhere
+    const resu = {}; // Assuming you fetch events from somewhere
+
     return res.render('homepage', {
-        userId: userId, // Assuming these variables are defined somewhere in your code
+        userId: userId,
         userName: userName,
         posts: postList,
         events: resu,

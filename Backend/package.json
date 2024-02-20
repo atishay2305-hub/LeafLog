@@ -22,7 +22,8 @@
     "nodemailer": "^6.9.9",
     "nodemon": "^3.0.3",
     "passport": "^0.7.0",
-    "passport-google-oidc": "^0.1.0"
+    "passport-google-oidc": "^0.1.0",
+    "xss": "^1.0.14"
   },
   "devDependencies": {
     "jest": "^29.7.0"
