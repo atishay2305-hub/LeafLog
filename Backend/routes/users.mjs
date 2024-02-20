@@ -21,7 +21,7 @@ router.route('/login')
         try {
             return res.render("login", { title: "Login" });
         } catch (e) {
-            return res.sendFile(path.resolve("/public/static/notFound.html"));
+            return res.sendFile(path.resolve("/public/notFound.html"));
         }
     })
     .post(async (req, res, next) => {
