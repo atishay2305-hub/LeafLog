@@ -3,8 +3,6 @@ import { details as detailsCollection } from '../config/mongoCollections.mjs';
 import { mongoConfig } from '../config/settings.mjs';
 
 const apiKey = "sk-1cDo65c5314199c384079";
-
-// TODO: Below I have entered "2" manually, so it should be taken from the user from req.params.id
 const apiURL = 'https://perenual.com/api/species/details/2?key=sk-1cDo65c5314199c384079';
 
 export const detailsData = async () => {
