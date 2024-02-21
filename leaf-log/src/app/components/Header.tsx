@@ -8,7 +8,7 @@ const Header = () => {
         <Link href="/" legacyBehavior>
           <a id="homeLink">Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
         </Link>
-        <Link href="/my-plants" legacyBehavior>
+        <Link href="/plant-log" legacyBehavior>
           <a id="myPlantsLink">
             My Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
           </a>
