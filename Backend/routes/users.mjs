@@ -1,5 +1,5 @@
 import userData from '../data/users.mjs';
-import validation from '../validation_checker.mjs';
+import validation from '../Helper/validation_checker.mjs';
 import { Router } from 'express';
 import path from 'path';
 import xss from 'xss';

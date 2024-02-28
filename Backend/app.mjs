@@ -8,7 +8,7 @@ import { plant_data } from './data/plant_data.mjs';
 import { diseaseData } from './data/diseases.mjs';
 import { detailsData } from './data/details.mjs';
 import userRoutes from './routes/users.mjs';
-import './auth.mjs';
+import './models/auth.mjs'
 
 const isLoggedIn = (req, res, next) => {
   req.user ? next() : res.sendStatus(401);
