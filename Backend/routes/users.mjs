@@ -1,14 +1,14 @@
-import userData from '../data/users.mjs';
-import validation from '../Helper/validation_checker.mjs';
 import { Router } from 'express';
 import path from 'path';
+import userData from '../data/users.mjs';
+import validation from '../Helper/validation_checker.mjs';
 import xss from 'xss';
 
 const router = Router();
 
 router.route('/').get(async (req, res) => {
-    if (req.session.user) {
-        return res.status(200).redirect('/protected');
+if (req.session.user) {
+    return res.status(200).redirect('/protected');
     } else {
         return res.status(200).render('login', { title: 'Login' });
     }
@@ -20,7 +20,7 @@ router.route('/login')
             // Your login logic here
 
             // If login is successful, you can redirect to a different route
-            return res.redirect('/dashboard');
+            return res.redirect('/protected');
         } catch (e) {
             // If an error occurs, send a status code and redirect to the 'notfound' route
             return res.status(404).redirect('/notfound');
@@ -65,7 +65,6 @@ router.route('/notfound')
 
 
 router.route('/protected').get(async (req, res) => {
-    // Assuming these variables are defined somewhere in your code
     const userId = req.session.user ? req.session.user.userId : undefined;
     const userName = req.session.user ? req.session.user.userName : undefined;
     const postList = []; // Assuming you fetch posts from somewhere

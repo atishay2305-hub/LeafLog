@@ -97,7 +97,6 @@ router.get('/api/plantdata/:id', async (req, res) => {
                 poisonous_to_pets: detailEntry.poisonous_to_pets || 0,
                 description: detailEntry.description || "",
                 default_image: detailEntry.default_image || {},
-                other_images: detailEntry.other_images || "Upgrade Plan To Supreme For Access https://perenual.com/subscription-a...",
             }))
             : [];
 
