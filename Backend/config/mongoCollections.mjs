@@ -25,3 +25,5 @@ export const details = getCollection('details');
 export const diseases = getCollection('diseases');
 
 
+
+
