@@ -9,7 +9,8 @@ passport.use(new GoogleStrategy({
   clientSecret: GOOGLE_CLIENT_SECRET,
   callbackURL: 'http://localhost:3000/google/callback',
 }, (accessToken, refreshToken, profile, done) => {
-  // Handle the user profile here
+  // TODO: Handle the user profile here
+  // TODO: add the data to mongodb database in user collection
   return done(null, profile);
 }));
 
