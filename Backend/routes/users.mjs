@@ -17,11 +17,22 @@ const router = Router();
 // router.route('/login')
 //     .get(async (req, res) => {
 //         try {
-//             return res.render('login', { title: 'Login' });
+//             // Your login logic here
+
+//             // If login is successful, you can redirect to a different route
+//             return res.redirect('/dashboard');
 //         } catch (e) {
-//             return res.sendFile(path.resolve('/public/notFound.html'));
+//             // If an error occurs, send a status code and redirect to the 'notfound' route
+//             return res.status(404).redirect('/notfound');
 //         }
-//     })
+//     });
+
+// // Define the 'notfound' route
+// router.route('/notfound')
+//     .get((req, res) => {
+//         // Handle the 'notfound' route logic here
+//         return res.status(404).send('Not Found'); // You can customize the response as needed
+//     });
 //     .post(async (req, res, next) => {
 //         try {
 //             let email = xss(req.body.email);
