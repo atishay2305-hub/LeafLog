@@ -1,4 +1,3 @@
-// Import other necessary modules
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
@@ -49,7 +48,7 @@ app.get('/protected', isLoggedIn, (req, res) => {
 });
 
 app.get('/logout', (req, res)=>{
-  req.logOut();
+  req.logout();
   req.session.destroy();
   res.send('GoodBye!');
 })
@@ -60,7 +59,7 @@ app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
 
-// Load initial data
+
 plant_data();
 diseaseData();
 detailsData();
