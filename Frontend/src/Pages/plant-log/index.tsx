@@ -23,6 +23,7 @@ export default function PlantLog() {
     });
     // Handle the response from your API route
     const data = await response.json();
+    console.log({ plantSpecies, petName, otherNotes });
     if (response.ok) {
       // Do something with the successful response
     } else {
@@ -34,14 +35,56 @@ export default function PlantLog() {
     <>
       <Header />
       <div className={styles.container}>
+        {" "}
         <Head>
-          <title>Log your plants!</title>
-          <meta name="description" content="Log in to your account" />
+          <title>Log Your Plant</title>
+          <meta name="description" content="Create a new plant log entry" />
         </Head>
-        <form onSubmit={handleSubmit}>
-          <h1>Log your plants!</h1>
-          {/* Add your input fields and submit button here */}
-          {/* ... */}
+        <h1 className={styles.title}>Create Plant Log Entry</h1>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <label htmlFor="plantSpecies" className={styles.label}>
+            Plant Species
+          </label>
+          <input
+            type="text"
+            id="plantSpecies"
+            name="plantSpecies"
+            value={plantSpecies}
+            onChange={(e) => setPlantSpecies(e.target.value)}
+            className={styles.input}
+            placeholder="Type and search for a plant species"
+            required
+          />
+          {/* Placeholder for search functionality */}
+
+          <label htmlFor="petName" className={styles.label}>
+            Pet Name
+          </label>
+          <input
+            type="text"
+            id="petName"
+            name="petName"
+            value={petName}
+            onChange={(e) => setPetName(e.target.value)}
+            className={styles.input}
+            placeholder="What do you call your plant?"
+          />
+
+          <label htmlFor="otherNotes" className={styles.label}>
+            Other Notes
+          </label>
+          <textarea
+            id="otherNotes"
+            name="otherNotes"
+            value={otherNotes}
+            onChange={(e) => setOtherNotes(e.target.value)}
+            className={styles.inputField} // Changed class for textarea to use inputField for better spacing
+            placeholder="Any special care instructions or notes?"
+          />
+
+          <button type="submit" className={styles.button}>
+            Submit Log Entry
+          </button>
         </form>
       </div>
     </>
