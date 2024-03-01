@@ -1,10 +1,9 @@
-// Import necessary modules and functions
 import express from 'express';
 import { diseases } from '../config/mongoCollections.mjs';
 
 const router = express.Router();
 
-// Define a route to get disease data
+
 router.get('/api/diseasedata', async (req, res) => {
     try {
         const collection = await diseases();
@@ -21,7 +20,8 @@ router.get('/api/diseasedata', async (req, res) => {
             })) : []
         );
 
-        // Return the first 100 records
+        // Returning the first 100 records
+        // TODO: see if you require more records in future
         const first100Records = filteredData.slice(0, 100);
         res.json(first100Records);
     } catch (error) {

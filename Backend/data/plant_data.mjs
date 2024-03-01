@@ -24,5 +24,4 @@ export const plant_data = async () => {
     }
 };
 
-// Call the function asynchronously
 plant_data();

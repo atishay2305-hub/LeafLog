@@ -1,4 +1,3 @@
-// main file
 import axios from 'axios';
 import { diseases as diseasesCollection } from '../config/mongoCollections.mjs';
 import { mongoConfig } from '../config/settings.mjs';
@@ -13,7 +12,7 @@ export const diseaseData = async () => {
         });
 
         const diseaseData = response.data;
-        const collection = await diseasesCollection(); // Call the function to get the collection
+        const collection = await diseasesCollection(); 
         await collection.insertOne(diseaseData);
 
         console.log('Disease Data has been stored in MongoDB');
