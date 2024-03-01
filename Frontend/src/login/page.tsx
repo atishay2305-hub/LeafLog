@@ -2,6 +2,7 @@
 "use client";
 
 import Head from "next/head";
+import Header from "../components/Header";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from "./Login.module.css"; // Make sure to create a Login.module.css or reuse Signup.module.css
 
@@ -48,49 +49,52 @@ export default function LoginPage() {
   };
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Login</title>
-        <meta name="description" content="Log in to your account" />
-      </Head>
-      <div className={styles.formWrapper}>
-        <h1 className={styles.title}>Log In</h1>
-        <p className={styles.description}>Please log in to continue.</p>
-        {/* Login form */}
-        <form onSubmit={handleSubmit} id="loginForm" className={styles.form}>
-          <input
-            className={styles.inputField}
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-            required
-          />
+    <>
+      <Header />
+      <div className={styles.container}>
+        <Head>
+          <title>Login</title>
+          <meta name="description" content="Log in to your account" />
+        </Head>
+        <div className={styles.formWrapper}>
+          <h1 className={styles.title}>Log In</h1>
+          <p className={styles.description}>Please log in to continue.</p>
+          {/* Login form */}
+          <form onSubmit={handleSubmit} id="loginForm" className={styles.form}>
+            <input
+              className={styles.inputField}
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              required
+            />
 
-          <input
-            className={styles.inputField}
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-            required
-          />
-          <button type="submit" className={styles.redirectButton}>
-            Login
-          </button>
-        </form>
-        <br />
-        <br />
-        <div className={styles.bottom}>
-          <a className={styles.bottomText}> Dont have an account?</a>
-          <button type="submit" className={styles.redirectButton}>
-            <a href="http://localhost:3000/signup">Sign Up</a>
-          </button>
-          {/* Consider adding functionality like 'Forgot Password?' or 'Remember me' checkbox here */}
-        </div>{" "}
+            <input
+              className={styles.inputField}
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              required
+            />
+            <button type="submit" className={styles.redirectButton}>
+              Login
+            </button>
+          </form>
+          <br />
+          <br />
+          <div className={styles.bottom}>
+            <a className={styles.bottomText}> Dont have an account?</a>
+            <button type="submit" className={styles.redirectButton}>
+              <a href="http://localhost:3000/signup">Sign Up</a>
+            </button>
+            {/* Consider adding functionality like 'Forgot Password?' or 'Remember me' checkbox here */}
+          </div>{" "}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
