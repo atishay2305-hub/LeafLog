@@ -2,7 +2,7 @@
 "use client";
 
 import Head from "next/head";
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from "./Login.module.css"; // Make sure to create a Login.module.css or reuse Signup.module.css
 
