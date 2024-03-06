@@ -6,9 +6,9 @@ const router = Router();
 
 const checkAuth = (req, res, next) => {
     if (req.session.user) {
-        next(); // Continue to the next middleware or route handler
+        next();
     } else {
-        res.status(401).redirect('/login'); // Redirect to login if not authenticated
+        res.status(401).redirect('/login');
     }
 };
 
@@ -17,16 +17,16 @@ router.route('/')
         if (req.session.user) {
             return res.status(200).redirect('/protected');
         } else {
-            return res.status(200).render('login', { title: 'Login' });
+            return res.status(200).json({ message: 'Not authenticated' });
         }
     });
 
 router
     .route('/register')
-    .get((req, res) => res.render('register', { title: "Register" }))
+    .get((req, res) => res.status(200).json({ message: 'Register page' }))
     .post(async (req, res) => {
         try {
-            if (!req.body) return res.status(400).send("Error: Body cannot be empty");
+            if (!req.body) return res.status(400).json({ error: "Body cannot be empty" });
 
             let {
                 firstNameInput: firstName,
@@ -37,122 +37,116 @@ router
                 roleInput: role
             } = req.body;
 
-            validate(firstName.trim(), lastName.trim(), emailAddress.trim(), password, role.trim());
+            validation(firstName.trim(), lastName.trim(), emailAddress.trim(), password, role.trim());
 
             if (password !== confirmPasswordInput)
-                return res.status(400).render('register', { title: 'Register', error: "400 - Error: Both password & confirm password should match." });
+                return res.status(400).json({ error: "Both password & confirm password should match." });
 
             let newUser = await userData.createUser(firstName, lastName, emailAddress, password, role);
 
-            if (newUser.insertedUser) return res.redirect("/login");
+            if (newUser.insertedUser) return res.status(200).json({ message: 'User created successfully' });
         } catch (err) {
             console.error(err);
 
             if (typeof err === "string")
                 return err.startsWith("VError") ?
-                    res.status(400).render('register', { title: "Register", error: `400 - ${err.substr(1)}` }) :
-                    res.status(400).render('register', { title: "Register", error: `400 - ${err}` });
-
-            return res.status(500).send("Internal Server Error");
+                    res.status(400).json({ error: err.substr(1) }) :
+                    res.status(500).json({ error: "Internal Server Error" });
         }
     });
 
-router
+    router
     .route('/login')
-    .get((req, res) => res.render('login', { title: "Login" }))
+    .get((req, res) => res.status(200).json({ message: 'Login page' }))
     .post(async (req, res) => {
         try {
-            if (!req.body) return res.status(400).send("Error: Email and password are required");
+            if (!req.body) return res.status(400).json({ error: "Email and password are required" });
             let { emailAddressInput: emailAddress, passwordInput: password } = req.body;
             validation(emailAddress.trim(), password.trim());
 
             let user = await userData.checkUser(emailAddress, password);
             req.session.user = user;
 
-            return (user.role === "admin") ? res.redirect("/admin") : res.redirect("/protected");
+            return (user.role === "admin") ? res.status(200).json({ message: 'Admin login' }) : res.status(200).json({ message: 'User login' });
         } catch (err) {
             console.error(err);
 
-            if (typeof err === "string")
+            if (typeof err === "string") {
                 return err.startsWith("VError") ?
-                    res.status(400).render('login', { title: "Login", error: `400 - ${err.substr(1)}` }) :
-                    res.status(400).render('login', { title: "Login", error: `400 - ${err}` });
-
-            return res.status(500).send("Internal Server Error");
-        }
+                    res.status(400).json({ error: err.substring(1) }) :
+                    res.status(500).json({ error: "Internal Server Error" });
+            }
+        } 
     });
+
 
 // Define the 'notfound' route
 router.route('/notfound')
-    .get((req, res) => {
-        // Handle the 'notfound' route logic here
-        return res.status(404).send('Not Found'); // You can customize the response as needed
-    });
+    .get((req, res) => res.status(404).json({ error: 'Not Found' }));
 
 router.route('/protected').get((req, res) => {
-    let data = {
-        title: "Protected",
-        isAdmin: (req.session.user.role === "admin"),
-        firstName: req.session.user.firstName,
-        currentTime: new Date().toUTCString(),
-        role: req.session.user.role
-    };
-    return res.render("protected", data);
+    if (req.session.user) {
+        let data = {
+            message: 'Protected Route',
+            isAdmin: (req.session.user.role === "admin"),
+            firstName: req.session.user.firstName,
+            currentTime: new Date().toUTCString(),
+            role: req.session.user.role
+        };
+        return res.status(200).json(data);
+    } else {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
 });
 
 // Profile route - requires authentication
 router.route('/profile')
-    .all(checkAuth) // Apply the checkAuth middleware to all HTTP methods for this route
+    .all(checkAuth)
     .get(async (req, res) => {
         const userId = req.session.user ? req.session.user.userId : undefined;
         const userName = req.session.user ? req.session.user.userName : undefined;
 
-        return res.render('profile', {
+        return res.status(200).json({
             userId,
             userName,
-            title: 'User Profile'
+            message: 'User Profile'
         });
     });
 
 // Update user route - requires authentication
 router.route('/updateProfile')
-    .all(checkAuth) // Apply the checkAuth middleware to all HTTP methods for this route
+    .all(checkAuth)
     .get(async (req, res) => {
         const userId = req.session.user ? req.session.user.userId : undefined;
         const userName = req.session.user ? req.session.user.userName : undefined;
 
-        return res.render('updateProfile', {
+        return res.status(200).json({
             userId,
             userName,
-            title: 'Update Profile'
+            message: 'Update Profile'
         });
     })
     .post(async (req, res) => {
         try {
             const userId = req.session.user ? req.session.user.userId : undefined;
-
-            // Assuming you have a form with updated user data in req.body.updatedData
             const updatedData = req.body.updatedData;
-
-            // Perform the update
             const updatedUserInfo = await userData.updateUser(userId, updatedData);
-
-            // Update session user data
             req.session.user = {
                 userId,
                 userName: updatedUserInfo.userName,
                 email: updatedUserInfo.email
             };
 
-            return res.redirect('/profile');
+            return res.status(200).json({ message: 'Profile updated successfully' });
         } catch (e) {
-            return res.status(400).json({
-                success: false,
-                error: e.message
-            });
+            return res.status(400).json({ error: e.message });
         }
     });
 
+router.route('/logout')
+    .get((req, res) => {
+        req.session.destroy();
+        return res.status(200).json({ message: 'Logout successful' });
+    });
 
-// Export the router
 export default router;

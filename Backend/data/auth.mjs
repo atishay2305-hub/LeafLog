@@ -29,8 +29,10 @@ passport.deserializeUser(async (id, done) => {
 
 const findUserById = async (id) => {
     const userCollection = await users();
-    return await userCollection.findOne({ _id: ObjectId(id) });
+    return await userCollection.findOne({ _id: ObjectId.createFromTime(id) });
 };
+
+
 
 const auth = {
     googleAuth: passport.authenticate('google', {

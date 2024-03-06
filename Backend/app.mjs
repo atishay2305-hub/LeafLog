@@ -4,6 +4,7 @@ import passport from "passport";
 import MongoStore from "connect-mongo";
 import dotenv from "dotenv"; // Import dotenv for loading environment variables
 import authRoutes from "./Routes/authRoutes.mjs"; 
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 
@@ -26,8 +27,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
-app.use(plantDataRouter);
-app.use(diseaseDataRouter);
 app.use(authRoutes);
 
 const mailTransporter = nodemailer.createTransport({
@@ -60,6 +59,13 @@ app.get("/", (req, res) => {
   res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 
+const isLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ error: 'Not authenticated' });
+};
+
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
@@ -74,18 +80,17 @@ app.get(
 );
 
 app.get("/auth/failure", (req, res) => {
-  res.send("Something went wrong.");
+  res.status(400).json({ error: 'Something went wrong.' });
 });
 
 app.get("/protected", isLoggedIn, (req, res) => {
-  // Handle protected route for authenticated users
-  res.send("Protected Route");
+  res.status(200).json({ message: 'Protected Route' });
 });
 
 app.get("/logout", (req, res) => {
   req.logout();
   req.session.destroy();
-  res.send("GoodBye!");
+  res.status(200).json({ message: 'GoodBye!' });
 });
 
 const port = PORT || 3000; 
