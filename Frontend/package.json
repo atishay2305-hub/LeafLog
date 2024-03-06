@@ -1,11 +1,10 @@
-
 {
   "name": "leaf-log",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "babel-node next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -21,7 +20,7 @@
     "@types/react-dom": "^18",
     "@babel/core": "^7.16.12",
     "@babel/preset-react": "^7.16.7",
-    "babel-node": "^17.0.1",
+    "babel-node": "^17.16.12",
     "babel-register": "^6.26.0",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
