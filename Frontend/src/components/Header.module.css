@@ -13,6 +13,7 @@
   /* Center the navigation links */
   gap: 1rem;
   /* Add space between each link */
+  margin-top: 15px;
 }
 
 .LeafLog {

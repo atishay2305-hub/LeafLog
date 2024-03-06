@@ -37,19 +37,6 @@
   margin-left: 18%;
 }
 
-.bottom {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-  align-self: center;
-  margin-left: 28%;
-}
-
-.descriptionText {
-  margin-left: 35%;
-  font-weight: bold;
-}
-
 .label {
   margin-top: 10px;
   margin-bottom: 5px;
@@ -95,7 +82,7 @@
 .submitButton {
   padding: 0.5rem 1rem;
   background-color: #000000;
-  color: rgb(124, 118, 118);
+  color: white;
   border: rgb(0, 0, 0);
   border-radius: 1px;
   cursor: pointer;
@@ -120,27 +107,7 @@
   background-color: #8fc4b1;
 }
 
-.googleSignupButton {
-  padding: 0.5rem 1rem;
-  background-color: #db4437;
-  /* Google brand color */
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 1rem;
-  text-align: center;
-  margin-top: 1rem;
-  font-weight: bold;
-  /* Space from the main form */
-}
-
-.google-signup-button:hover {
-  background-color: #c1351d;
-  /* Darker shade for hover effect */
-}
-
-.signupForm {
+.loginForm {
   margin-right: 30%;
   margin-top: 20px;
   width: 100%;
@@ -151,6 +118,63 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.bottom {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  align-self: center;
+  margin-left: 28%;
+}
+
 .bottomText {
-  margin-left: 36%;
+  margin-left: 34%;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  color: #ffffff;
+  /* Darker shade for the title */
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.searchInput {
+  padding: 15px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 800px;
+  /* Adjust the width as needed */
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.searchButton {
+  padding: 15px 20px;
+  background-color: white;
+  /* Consistent with the header background */
+  color: #467061;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.searchButton:hover {
+  background-color: #a5d1c1;
+  /* Hover effect for the button */
 }
