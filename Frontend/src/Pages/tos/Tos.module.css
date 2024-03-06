@@ -1,0 +1,130 @@
+/* src/app/tos/Tos.module.css */
+
+.container {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: 40px;
+  margin-top: 40px;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  background-color: #467061;
+  width: 100%;
+  max-width: 1200px;
+  /* Adjust the width of the form container */
+}
+
+.title {
+  text-align: center;
+  color: #ffffff;
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.description {
+  text-align: center;
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  align-self: center;
+  margin-left: 18%;
+}
+
+.label {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.input {
+  padding: 20px;
+  border: 1px solid #585858;
+  border-radius: 4px;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 20px 0;
+  box-sizing: border-box;
+  height: 20px;
+  max-width: 60%;
+}
+
+.inputField {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.button {
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #fff;
+  color: #467061;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #467061;
+}
+
+.submitButton {
+  padding: 0.5rem 1rem;
+  background-color: #000000;
+  color: white;
+  border: rgb(0, 0, 0);
+  border-radius: 1px;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 10px;
+}
+
+.redirectButton {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: white;
+  color: #467061;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.redirectButton:hover {
+  background-color: #8fc4b1;
+}
+
+.loginForm {
+  margin-right: 30%;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 80%;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  align-self: center;
+  margin-left: 28%;
+}
+
+.bottomText {
+  margin-left: 34%;
+}
