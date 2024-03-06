@@ -9,7 +9,7 @@ import { diseaseData } from './data/diseases.mjs';
 import { detailsData } from './data/details.mjs';
 import plantDataRouter from './routes/plant_dataRoutes.mjs';
 import diseaseDataRouter from './routes/diseaseRoutes.mjs';
-import ProtectedComponent from '../Frontend/src/Pages/protected.mjs';
+// import ProtectedComponent from '../Frontend/src/Pages/protected.mjs';
 import path from 'path';
 import './Authentication/auth.mjs';
 
@@ -20,9 +20,9 @@ const isLoggedIn = (req, res, next) => {
 const app = express();
 const port = 3000;
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jsx');
-app.engine('jsx', require('express-react-views').createEngine());
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jsx');
+// app.engine('jsx', require('express-react-views').createEngine());
 
 app.use(session({ secret: 'cats' }));
 app.use(passport.initialize());
@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(plantDataRouter);
 app.use(diseaseDataRouter);
 
-app.use(express.static(path.join(__dirname, '../Frontend')));
+// app.use(express.static(path.join(__dirname, '../Frontend')));
 
 
 const mailTransporter = nodemailer.createTransport({
