@@ -3,14 +3,12 @@ import session from "express-session";
 import passport from "passport";
 import MongoStore from "connect-mongo";
 import dotenv from "dotenv"; // Import dotenv for loading environment variables
+import authRoutes from "./Routes/authRoutes.mjs"; 
 
-// Load environment variables from .env file
 dotenv.config();
 
-// Create an instance of Express
 const app = express();
 
-// Load environment variables
 const { SESSION_SECRET, MONGO_URL, PORT } = process.env;
 
 // Set up session middleware with MongoDB store
@@ -30,6 +28,7 @@ app.use(passport.session());
 app.use(express.json());
 app.use(plantDataRouter);
 app.use(diseaseDataRouter);
+app.use(authRoutes);
 
 const mailTransporter = nodemailer.createTransport({
   service: "gmail",
@@ -89,7 +88,7 @@ app.get("/logout", (req, res) => {
   res.send("GoodBye!");
 });
 
-const port = PORT || 3000; // Use default port 3000 if not provided
+const port = PORT || 3000; 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

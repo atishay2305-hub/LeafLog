@@ -153,11 +153,6 @@ router.route('/updateProfile')
         }
     });
 
-router.route('/logout')
-    .get((req, res) => {
-        req.session.destroy();
-        return res.redirect('/login'); // Redirecting to login after logout
-    });
 
 // Export the router
 export default router;
