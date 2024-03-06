@@ -40,24 +40,25 @@
 .label {
   margin-top: 10px;
   margin-bottom: 5px;
-  color: #666;
+  color: #ffffff;
+  font-size: 18px;
 }
 
 .input {
-  padding: 20px;
+  padding: 12px 20px;
   border: 1px solid #585858;
   border-radius: 4px;
   width: 100%;
   padding: 12px 20px;
-  margin: 20px 0;
+  margin: 10px 0;
   box-sizing: border-box;
-  height: 20px;
-  max-width: 60%;
+  height: 35px;
+  max-width: 100%;
 }
 
 .inputField {
   width: 100%;
-  padding: 15px;
+  padding: 12px 20px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -72,11 +73,13 @@
   color: #467061;
   border: none;
   border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
+  width: 100%;
 }
 
 .button:hover {
-  background-color: #467061;
+  background-color: #e2f1edd3;
 }
 
 .submitButton {

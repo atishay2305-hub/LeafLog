@@ -72,11 +72,6 @@ export default function SignupPage() {
     <>
       <Header />
       <div className={styles.container}>
-        <Head>
-          <title>Sign Up</title>
-          <br />
-          <meta name="description" content="Sign up for our service" />
-        </Head>
         <div className={styles.formWrapper}>
           <h1 className={styles.title}>Sign Up</h1>
           <p className={styles.description}>Please sign up to continue.</p>
