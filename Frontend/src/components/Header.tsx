@@ -3,7 +3,7 @@ import styles from "./Header.module.css"; // Adjust the import path as necessary
 
 const Header = () => {
   return (
-    <div>
+   <div>
       <header className={styles.header}>
         <nav>
           <div className={styles.LeafLog}>LeafLog</div>
@@ -34,6 +34,11 @@ const Header = () => {
                 Log In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
+             <Link href="/tos" legacyBehavior>
+          <a id="tosLink">
+            Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </a>
+        </Link>
             {/* Add other navigation links here */}
           </div>
         </nav>
