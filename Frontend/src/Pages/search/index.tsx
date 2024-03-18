@@ -20,6 +20,8 @@ interface Plant {
 export default function Search() {
   const [plantQuery, setPlantQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
+  const [loading, setLoading] = useState(false); // For tracking loading state
+  const [error, setError] = useState<string | null>(null); // For tracking error state
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlantQuery(event.target.value);
@@ -27,23 +29,34 @@ export default function Search() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    // Use the correct URL for your backend
-    const backendUrl = "http://localhost:3000"; // Replace with the actual backend URL
+    setError(null); // Reset error state on new submission
+    setLoading(true); // Start loading
+
     try {
       const response = await fetch(
-        `${backendUrl}/api/plantdata/search?name=${encodeURIComponent(
+        `http://localhost:3000/api/plantdata/search?name=${encodeURIComponent(
           plantQuery
         )}`
       );
+
+      // Assuming the server returns a non-200 response for not found
       if (!response.ok) {
-        throw new Error("Plant not found");
+        if (response.status === 404) {
+          throw new Error("No plants found matching your query.");
+        }
+        throw new Error("An error occurred while searching.");
       }
+
       const results = await response.json();
-      // Assuming the backend returns an array of plants
       setSearchResults(results);
-    } catch (error) {
-      console.error("Searching error:", error);
-      setSearchResults([]);
+    } catch (e) {
+      if (e instanceof Error) {
+        setError(e.message); // Store the error message
+      } else {
+        setError("An unexpected error occurred."); // Fallback for non-Error throwables
+      }
+    } finally {
+      setLoading(false); // End loading whether or not an error occurred
     }
   };
 
