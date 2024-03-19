@@ -20,8 +20,6 @@ router.get('/api/diseasedata', async (req, res) => {
             })) : []
         );
 
-        // Returning the first 100 records
-        // TODO: see if you require more records in future
         const first100Records = filteredData.slice(0, 100);
         res.json(first100Records);
     } catch (error) {
