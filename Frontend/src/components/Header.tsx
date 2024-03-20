@@ -14,6 +14,11 @@ const Header = () => {
                 Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
+            <Link href="/getting-started" legacyBehavior>
+              <a id="startLink" className={styles.navLink}>
+                Getting Started &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+              </a>
+            </Link>
             <Link href="/plant-log" legacyBehavior>
               <a id="myPlantsLink" className="navLink">
                 My Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
@@ -39,6 +44,12 @@ const Header = () => {
                 Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </a>
             </Link>          
+             <Link href="/tos" legacyBehavior>
+              <a id="loginLink" className={styles.navLink}>
+                Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </a>
+            </Link>
+            {/* Add other navigation links here */}
           </div>
         </nav>
       </header>
