@@ -15,37 +15,37 @@ const Header = () => {
               </a>
             </Link>
             <Link href="/getting-started" legacyBehavior>
-              <a id="startLink" className={styles.navLink}>
+              <a id="startLink">
                 Getting Started &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
               </a>
             </Link>
             <Link href="/plant-log" legacyBehavior>
-              <a id="myPlantsLink" className="navLink">
+              <a id="myPlantsLink">
                 My Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
               </a>
             </Link>
             <Link href="/search" legacyBehavior>
-              <a id="searchLink" className="navLink">
+              <a id="searchLink">
                 Discover Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
               </a>
             </Link>
             <Link href="/signup" legacyBehavior>
-              <a id="signupLink" className="navLink">
+              <a id="signupLink">
                 Sign Up &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
             <Link href="/login" legacyBehavior>
-              <a id="loginLink" className="navLink">
+              <a id="loginLink">
                 Log In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
             <Link href="/tos" legacyBehavior>
               <a id="tosLink">
                 Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </a>
-            </Link>          
-             <Link href="/tos" legacyBehavior>
-              <a id="loginLink" className={styles.navLink}>
+              </a>
+            </Link>
+            <Link href="/tos" legacyBehavior>
+              <a id="loginLink">
                 Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
@@ -55,7 +55,5 @@ const Header = () => {
       </header>
     </div>
   );
-}
-  ;
-
+};
 export default Header;
