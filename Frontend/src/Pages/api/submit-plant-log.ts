@@ -1,6 +1,7 @@
-// pages/api/submit-plant-log.ts
+// frontend/src/pages/api/submit-plant-log.ts
+
+// import necessary modules for handling API requests
 import type { NextApiRequest, NextApiResponse } from "next";
-import { users } from "../../../../Backend/config/mongoCollections.mjs";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,18 +9,25 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      const { db } = await users();
-      const { plantSpecies, petName, otherNotes } = req.body;
-      // Add the plant log entry to the user's document...
-      // You'll need to modify this part to add the entry to the user's data
-      const response = await db.collection("plantLogs").insertOne({
-        plantSpecies,
-        petName,
-        otherNotes,
-        createdAt: new Date(),
-      });
+      // Here, instead of directly interacting with MongoDB,
+      // You should send a request to your backend Express server.
+      const backendResponse = await fetch(
+        "http://localhost:3000/your-backend-endpoint",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(req.body),
+        }
+      );
 
-      res.status(200).json({ success: true, data: response });
+      if (!backendResponse.ok) {
+        throw new Error("Backend failed");
+      }
+
+      const responseData = await backendResponse.json();
+      res.status(200).json(responseData);
     } catch (error) {
       res.status(500).json({ success: false, error: "Internal Server Error" });
     }
