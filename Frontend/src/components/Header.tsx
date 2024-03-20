@@ -40,6 +40,14 @@ const Header = () => {
                         </Link>
                       </li>
                       <li>
+                        <Link href="/getting-started" legacyBehavior>
+                          <a id="homeLink" className="navLink, font20">
+                            Getting Started
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
                         <Link href="/plant-log" legacyBehavior>
                           <a id="myPlantsLink" className="navLink">
                             My Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
