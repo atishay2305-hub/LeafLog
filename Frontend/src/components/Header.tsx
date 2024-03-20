@@ -1,46 +1,51 @@
 import Link from "next/link";
-import styles from "./Header.module.css"; // Adjust the import path as necessary
+import "./Header.scss"; // Adjust the import path as necessary
 
 const Header = () => {
   return (
-   <div>
-      <header className={styles.header}>
+    <div>
+      <header className="header">
         <nav>
-          <div className={styles.LeafLog}>LeafLog</div>
+          <div className="LeafLog">LeafLog</div>
           <br />
-          <div className={styles.navContainer}>
+          <div className="navContainer">
             <Link href="/" legacyBehavior>
-              <a id="homeLink" className={styles.navLink}>
+              <a id="homeLink" className="navLink, font20">
                 Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
             <Link href="/getting-started" legacyBehavior>
-              <a id="startLink" className={styles.navLink}>
+              <a id="startLink">
                 Getting Started &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
               </a>
             </Link>
             <Link href="/plant-log" legacyBehavior>
-              <a id="myPlantsLink" className={styles.navLink}>
+              <a id="myPlantsLink">
                 My Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
               </a>
             </Link>
             <Link href="/search" legacyBehavior>
-              <a id="searchLink" className={styles.navLink}>
+              <a id="searchLink">
                 Discover Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
               </a>
             </Link>
             <Link href="/signup" legacyBehavior>
-              <a id="signupLink" className={styles.navLink}>
+              <a id="signupLink">
                 Sign Up &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
             <Link href="/login" legacyBehavior>
-              <a id="loginLink" className={styles.navLink}>
+              <a id="loginLink">
                 Log In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
-             <Link href="/tos" legacyBehavior>
-              <a id="loginLink" className={styles.navLink}>
+            <Link href="/tos" legacyBehavior>
+              <a id="tosLink">
+                Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </a>
+            </Link>
+            <Link href="/tos" legacyBehavior>
+              <a id="loginLink">
                 Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
@@ -51,5 +56,4 @@ const Header = () => {
     </div>
   );
 };
-
 export default Header;
