@@ -1,3 +1,374 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+  color: #333;
+  overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+}
+
+.home {
+  background-color: #f2f5f4;
+  background-size: cover;
+  background-position: center;
+  overflow-x: hidden;
+}
+
+
+.top-level {
+  background-color: yellow;
+  width: 100%; /* Adjust the width for better responsiveness */
+  height: 700px;
+  margin: 2px auto; /* Center the element */
+  margin-bottom: 50px;
+  text-align: center; /* Center text inside the element */
+  padding: 20px; /* Add padding for better appearance */
+  box-sizing: border-box; /* Include padding and border in the total width */
+  color: #fff;
+}
+
+
+@media only screen and (max-width: 800px) {
+  .top-level {
+    width: 100%; /* Adjust the width for mobile devices */
+  }
+}
+
+
+
+
+
+.resume-download-button {
+  display: block;
+  margin: 20px auto 20px; /* Adjust the margin-top value */
+  width: 200px;
+  padding: 10px;
+  border: none;
+  border-radius: 0; /* Set border-radius to 0 for a rectangle */
+  font-family: monospace;
+  background-color: #021945;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 23px;
+}
+
+.resume-download-button:hover {
+  background-color: #cad4de;
+}
+
+
+.content {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+}
+
+.about-content {
+  width: 70%;
+  max-width: 1200px;
+}
+
+.column-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.column {
+  width: 48%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #aaa;
+}
+
+@media only screen and (max-width: 800px) {
+  .column {
+    width: 100%;
+  }
+}
+
+.summary h1 {
+  color: #021945;
+  margin-top: 100px;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.summary-container {
+  padding: 2px;
+  border-color: #021945;
+  border-width: 2px; /* Adjust the thickness of the border as needed */
+  border-style: solid; /* Add this line to define the border style */
+}
+
+.professional-summary {
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: justify;
+}
+
+.professional-summary p {
+  font-size: 16px;
+  color: #333333;
+  margin-top: 10px;
+}
+
+@media only screen and (max-width: 800px) {
+
+  .professional-summary{
+    text-align: center;
+  }
+
+
+  .professional-summary p {
+    font-size: 16px;
+  }
+}
+.summary-box {
+  margin: 20px 0;
+  padding: 30px;
+  font-size: 18px;
+  line-height: 1.2; /* Adjusted line-height for closer text */
+}
+
+.summary-box p {
+  font-size: 18px;
+  line-height: 1.2; /* Adjusted line-height for closer text */
+  margin-top: 10px;
+}
+
+.summary-box p.summary-text {
+  font-size: 100px;
+  line-height: 1.2; /* Adjusted line-height for closer text */
+  margin-top: 100px;
+  color: #f2685e;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: justify;
+}
+
+.role {
+  font-size: 45px;
+  color: #021945;
+  margin-top: 10px;
+}
+
+@media only screen and (max-width: 800px) {
+  .summary-box p.summary-text {
+    font-size: 27px;
+    margin-top: 10px;
+    padding: 12px;
+  }
+
+  .role {
+    font-size: 22px;
+    /* Allow the text to wrap onto the next line */
+    white-space: normal;
+  }
+}
+
+
+
+@keyframes typingAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.rectangle-image-container {
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.rectangle-image {
+  width: 30%;
+  max-width: 100%;
+  margin-top: 100px;
+  height: 30%;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+@media only screen and (max-width: 800px) {
+  .rectangle-image {
+    width: 80%;
+    margin-top: 50px;
+  }
+}
+.skills-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.skills-box {
+  width: 100vw; /* Set width to 100% of the viewport width */
+  box-sizing: border-box;
+  padding: 10px;
+  margin-bottom: 40px;
+  border-color: #021945;
+  border-width: 2px; /* Adjust the thickness of the border as needed */
+  border-style: solid; /* Add this line to define the border style */
+  text-align: left;
+}
+.skills h1 {
+  color: #021945;
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+
+
+.skills-container ul {
+  list-style-type: none;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.skills-container ul li {
+  margin-bottom: 10px;
+  text-align: left;
+  flex: 0 0 30%;
+}
+
+@media only screen and (max-width: 800px) {
+  .skills-box {
+    width: 100%;
+  }
+
+  .skills-container ul li {
+    flex: 0 0 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.projects {
+  scroll-margin-top: 100px;
+  margin-bottom: 30px;
+
+
+
+}
+
+.experience {
+  scroll-margin-top: 130px;
+  width: 100%;
+}
+
+.vertical-timeline-element {
+  margin-bottom: 40px;
+}
+
+.vertical-timeline-element-icon {
+  display: none !important;
+}
+
+.vertical-timeline-element-content {
+  border: 2px solid #021945;
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+  background-color: #fff;
+  color: #021945;
+}
+
+.vertical-timeline-element a {
+  display: inline-block;
+  margin-top: 10px; /* Adjust the margin as needed */
+  padding: 8px 12px;
+  background-color: #021945;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.vertical-timeline-element a:hover {
+  background-color: #cc0000;
+}
+
+
+
+.vertical-timeline-element-content-arrow {
+  display: none !important;
+}
+
+.achievements-container {
+  text-align: center;
+  box-sizing: border-box;
+  /* padding: 10px; */
+  border-color: #021945;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.achievements-box {
+
+  padding: 20px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.achievements-box ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.achievements-box ul li {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.experience {
+  border-radius: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.experience h1 {
+  color: #021945;
+}
+
+.vertical-timeline-element-date {
+  color: #021945;
+}
+
+.experience .vertical-timeline-element-title {
+  color: #021945;
+}
+
+.experience p {
+  color: #021945;
+}
+
 /* [Master Stylesheet] */
 
 /*
@@ -13,6 +384,10 @@ Version: - v1.0
 @import url("https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800");
 
 /* :: 2.0 Import All CSS */
+
+
+
+
 
 @import url(css/bootstrap.min.css);
 @import url(css/classy-nav.css);
