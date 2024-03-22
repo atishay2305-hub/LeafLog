@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import "./Header.scss"; // Adjust the import path as necessary
+import "./Header.css"; // Adjust the import path as necessary
 
 const Header = () => {
   return (

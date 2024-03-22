@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "../style.scss";
+import "../style.css";
 import bg1 from "../img/bg-img/1.jpg";
 import bg2 from "../img/bg-img/2.jpg";
 import bg3 from "../img/bg-img/3.jpg";

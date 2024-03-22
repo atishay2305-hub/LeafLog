@@ -1,4 +1,4 @@
-import "../style.scss";
+import "../style.css";
 import bg3 from "../img/bg-img/3.jpg";
 
 const Footer = () => {
