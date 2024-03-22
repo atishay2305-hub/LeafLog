@@ -74,7 +74,7 @@ app.get(
 app.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/protected",
+    successRedirect: "/",
     failureRedirect: "/auth/failure",
   })
 );
@@ -83,8 +83,8 @@ app.get("/auth/failure", (req, res) => {
   res.status(400).json({ error: 'Something went wrong.' });
 });
 
-app.get("/protected", isLoggedIn, (req, res) => {
-  res.status(200).json({ message: 'Protected Route' });
+app.get("/", isLoggedIn, (req, res) => {
+  res.status(200).json({ message: 'Homepage' });
 });
 
 app.get("/logout", (req, res) => {
