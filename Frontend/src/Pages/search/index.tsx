@@ -2,6 +2,7 @@
 
 import Head from "next/head";
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from "./Search.module.css";
 
@@ -96,7 +97,8 @@ export default function Search() {
             ))}
           </div>
         </div>
-      </div>
+      </div>{" "}
+      <Footer />
     </>
   );
 }

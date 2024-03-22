@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import "./Header.scss"; // Adjust the import path as necessary
 
 const Header = () => {
@@ -30,6 +31,7 @@ const Header = () => {
                       <span className="bottom"></span>
                     </div>
                   </div>
+
                   <div className="classynav">
                     <ul>
                       <li>
