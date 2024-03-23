@@ -6,7 +6,6 @@ body {
 }
 
 .home {
-  
   background-color: white;
   background-size: cover;
   background-position: center;
@@ -15,7 +14,7 @@ body {
 
 
 .top-level {
-  background-image: url("./img/bg.jpg");
+background-color: #00ff87;
   background-size: cover; /* Ensure the background image covers the entire element */
   background-position: center; /* Center the background image */
   width: 100%; /* Adjust the width for better responsiveness */
