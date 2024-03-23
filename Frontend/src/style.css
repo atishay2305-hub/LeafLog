@@ -2,12 +2,12 @@ body {
   margin: 0;
   padding: 0;
   font-family: monospace;
-  color: #333;
   overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
 }
 
 .home {
-  background-color: #f2f5f4;
+  
+  background-color: white;
   background-size: cover;
   background-position: center;
   overflow-x: hidden;
@@ -15,7 +15,9 @@ body {
 
 
 .top-level {
-  background-color: blue;
+  background-image: url("./img/bg.jpg");
+  background-size: cover; /* Ensure the background image covers the entire element */
+  background-position: center; /* Center the background image */
   width: 100%; /* Adjust the width for better responsiveness */
   height: 700px;
   margin: 2px auto; /* Center the element */
@@ -32,29 +34,6 @@ body {
     width: 100%; /* Adjust the width for mobile devices */
   }
 }
-
-
-
-
-
-.resume-download-button {
-  display: block;
-  margin: 20px auto 20px; /* Adjust the margin-top value */
-  width: 200px;
-  padding: 10px;
-  border: none;
-  border-radius: 0; /* Set border-radius to 0 for a rectangle */
-  font-family: monospace;
-  background-color: #021945;
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 23px;
-}
-
-.resume-download-button:hover {
-  background-color: #cad4de;
-}
-
 
 .content {
   width: 100%;
@@ -102,9 +81,6 @@ body {
 
 .summary-container {
   padding: 2px;
-  border-color: #021945;
-  border-width: 2px; /* Adjust the thickness of the border as needed */
-  border-style: solid; /* Add this line to define the border style */
 }
 
 .professional-summary {
@@ -293,4 +269,244 @@ body {
 .achievements-box ul li {
   margin-bottom: 10px;
   text-align: center;
+}
+
+.bento-box-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns with equal width */
+  gap: 20px; /* Adjust the gap between grid items */
+  padding: 20px; /* Add padding to the grid */
+}
+
+.bento-box-item {
+  background-color: #fff; /* Set background color */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 8px; /* Add border radius for rounded corners */
+  overflow: hidden; /* Ensure content inside doesn't overflow */
+}
+
+.bento-box-item-content {
+  position: relative;
+  padding: 20px; /* Add padding to the content */
+}
+
+.bento-box-image {
+  max-width: 100%; /* Ensures the image doesn't exceed the width of its container */
+  max-height: 100%; /* Ensures the image doesn't exceed the height of its container */
+  display: block; /* Ensures the image doesn't create any whitespace beneath it */
+  margin: 0 auto; /* Centers the image horizontally */
+  position: absolute; /* Position absolute to adjust the image within its container */
+  top: 0; /* Places the image at the top of its container */
+  left: 0; /* Places the image at the left of its container */
+  right: 0; /* Places the image at the right of its container */
+  bottom: 0; /* Places the image at the bottom of its container */
+}
+
+@media only screen and (max-width: 800px) {
+  .bento-box-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr)); /* Change to single column for smaller screens */
+  }
+}
+
+/* mobile view */
+
+.max-w-lg {
+  max-width: 32rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.md\\:max-w-none {
+  max-width: none;
+}
+
+.md\\:text-center {
+  text-align: center;
+}
+
+.sm\\:mx-72 {
+  margin-left: 18rem;
+}
+
+.sm\\:mt-20 {
+  margin-top: 5rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.sm\\:max-w-xl {
+  max-width: 36rem;
+}
+
+.md\\:max-w-full {
+  max-width: 100%;
+}
+
+.lg\\:max-w-screen-xl {
+  max-width: 1280px;
+}
+
+.md\\:px-24 {
+  padding-left: 6rem;
+  padding-right: 6rem;
+}
+
+.lg\\:px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.border {
+  border-width: 1px;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.sm\\:rounded-0 {
+  border-radius: 0;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.lg\\:flex-row {
+  flex-direction: row;
+}
+
+.hidden {
+  display: none;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.tracking-tight {
+  letter-spacing: -0.025em;
+}
+
+.max-w-lg {
+  max-width: 32rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.text-base {
+  font-size: 1rem;
+}
+
+.md\\:text-lg {
+  font-size: 1.125rem;
+}
+
+.text-sky-600 {
+  color: #3b82f6;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.bg-neutral-200 {
+  background-color: #e5e7eb;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-1-5 {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+
+
+.rounded-md {
+  border-radius: 0.375rem;
+}
+
+.sm\\:mt-0 {
+  margin-top: 0;
+}
+
+.pt-0 {
+  padding-top: 0;
+}
+
+.pt-5 {
+  padding-top: 1.25rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.sm\\:block {
+  display: block;
+}
+
+.space-x-3 > :not(template) ~ :not(template) {
+  --space-x-reverse: 0;
+  margin-right: calc(0.75rem * var(--space-x-reverse));
+  margin-left: calc(0.75rem * (1 - var(--space-x-reverse)));
+}
+
+
+.sm\\:block {
+  display: block;
+}
+
+.space-x-3 > :not(template) ~ :not(template) {
+  --space-x-reverse: 0;
+  margin-right: calc(0.75rem * var(--space-x-reverse));
+  margin-left: calc(0.75rem * (1 - var(--space-x-reverse)));
 }

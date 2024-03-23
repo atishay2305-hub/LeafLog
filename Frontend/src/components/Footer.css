@@ -10,29 +10,11 @@
     padding-top: 10px;
     margin-top: 50px;
     backdrop-filter: blur(5px);
-    background-color: #f1675d;
+    background-color: green;
     background-size: cover;
     background-position: center;
-    border-top: 3px solid #3d487a;
   }
   
-  .gif-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    margin-top: auto;
-  }
-  
-  .gif-container img {
-    width: 80px; /* Reduced width for smaller screens */
-    margin: 0 5px;
-  }
-  
-  .social-media {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
   
   .social-media p {
     font-size: 18px; /* Reduced font size for smaller screens */
@@ -69,21 +51,6 @@
   }
   
   .social-button:hover {
-    background-color: #333;
-  }
-  
-  .scroll-button {
-    background-color: #333;
-    color: gray;
-    padding: 10px; /* Reduced padding for smaller screens */
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 16px; /* Reduced font size for smaller screens */
-    margin: -5px;
-  }
-  
-  .scroll-button:hover {
     background-color: #333;
   }
   

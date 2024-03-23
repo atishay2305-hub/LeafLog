@@ -3,7 +3,7 @@
 .navbar {
     width: 100%;
     height: 100px;
-    background-color: #f1675d;
+    background-color: green;
     background-size: cover;
     background-position: center;
     position: relative;
@@ -19,15 +19,15 @@
   }
   
   .navbar a {
-    color: yellow;
+    color: white;
     text-decoration: none;
     margin: 10px;
-    font-size: 20px; /* Updated font size */
+    font-size: 16px; /* Updated font size */
     white-space: nowrap;
   }
   
   .navbar a:hover {
-    color: #021945;
+    color: #8eb15c;
   }
   
   @media only screen and (max-width: 600px) {
