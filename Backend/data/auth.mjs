@@ -13,7 +13,6 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:3000/google/callback',
     passReqToCallback: true,
 }, async (req, accessToken, refreshToken, profile, done) => {
-    // Here, you could also check if the user exists in your database and create a new user if they do not.
     return done(null, profile);
 }));
 
@@ -22,8 +21,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-    // Here you should find the user by ID from your database and then call done
-    const user = await findUserById(id); // Add a function to find the user by ID
+    const user = await findUserById(id); 
     done(null, user);
 });
 

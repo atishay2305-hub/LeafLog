@@ -15,7 +15,7 @@ const checkAuth = (req, res, next) => {
 router.route('/')
     .get(async (req, res) => {
         if (req.session.user) {
-            return res.status(200).redirect('/protected');
+            return res.status(200).redirect('/');
         } else {
             return res.status(200).json({ message: 'Not authenticated' });
         }
@@ -84,10 +84,10 @@ router
 router.route('/notfound')
     .get((req, res) => res.status(404).json({ error: 'Not Found' }));
 
-router.route('/protected').get((req, res) => {
+router.route('/').get((req, res) => {
     if (req.session.user) {
         let data = {
-            message: 'Protected Route',
+            message: 'Homepage',
             isAdmin: (req.session.user.role === "admin"),
             firstName: req.session.user.firstName,
             currentTime: new Date().toUTCString(),

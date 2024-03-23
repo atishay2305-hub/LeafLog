@@ -98,6 +98,7 @@ export default function Search() {
           </div>
         </div>
       </div>{" "}
+      
       <Footer />
     </>
   );
