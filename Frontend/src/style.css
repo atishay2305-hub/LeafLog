@@ -279,15 +279,11 @@ body {
 }
 
 .bento-box-item {
+  position: relative; /* Ensure the position of the container is relative */
   background-color: #fff; /* Set background color */
   border: 1px solid #ccc; /* Add border */
   border-radius: 8px; /* Add border radius for rounded corners */
   overflow: hidden; /* Ensure content inside doesn't overflow */
-}
-
-.bento-box-item-content {
-  position: relative;
-  padding: 20px; /* Add padding to the content */
 }
 
 .bento-box-image {
@@ -295,11 +291,10 @@ body {
   max-height: 100%; /* Ensures the image doesn't exceed the height of its container */
   display: block; /* Ensures the image doesn't create any whitespace beneath it */
   margin: 0 auto; /* Centers the image horizontally */
-  position: absolute; /* Position absolute to adjust the image within its container */
-  top: 0; /* Places the image at the top of its container */
-  left: 0; /* Places the image at the left of its container */
-  right: 0; /* Places the image at the right of its container */
-  bottom: 0; /* Places the image at the bottom of its container */
+}
+
+.bento-box-item-content {
+  padding: 20px; /* Add padding to the content */
 }
 
 @media only screen and (max-width: 800px) {
@@ -307,6 +302,7 @@ body {
     grid-template-columns: repeat(1, minmax(0, 1fr)); /* Change to single column for smaller screens */
   }
 }
+
 
 /* mobile view */
 

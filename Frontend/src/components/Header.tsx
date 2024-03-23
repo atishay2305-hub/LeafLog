@@ -12,11 +12,6 @@ const Header = () => {
               Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
-          <Link href="/getting-started" legacyBehavior>
-            <a id="gettingStartedLink" className="navLink">
-              Getting Started &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </a>
-          </Link>
           <Link href="/plant-log" legacyBehavior>
             <a id="myPlantsLink" className="navLink">
               My Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
