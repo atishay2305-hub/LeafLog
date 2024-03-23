@@ -69,7 +69,7 @@ const bentoBoxItems: BentoBoxItem[] = [
 
 const GettingStarted: React.FC<{ features: Feature[] }> = ({ features }) => (
   <div className="bg-white">
-    <div className="mx-auto grid max-w-3xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
+    <div className="mx-auto grid max-w-3xl grid-cols-1 items-center gap-x-8 gap-y-12 px-4 py-10 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
       <div>
         <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Getting Started
@@ -200,7 +200,7 @@ export default function Home() {
             </p>
 
             <br />
-            <h1 className="summary-text">Enhance your plant care experience</h1>
+            <h1 className="text-3xl">Enhance your plant care experience</h1>
           </div>
         </div>
 

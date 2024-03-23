@@ -14,7 +14,8 @@ body {
 }
 
 .top-level {
-  background-color: #467061;
+  background: linear-gradient(135deg, #467061 0%, #5a897a 100%);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   background-size: cover;
   /* Ensure the background image covers the entire element */
   background-position: center;
@@ -32,6 +33,35 @@ body {
   box-sizing: border-box;
   /* Include padding and border in the total width */
   color: #fff;
+  position: relative;
+}
+
+.top-level h1 {
+  transition: color 0.3s ease;
+}
+
+.top-level h1:hover {
+  color: #e6f1f3;
+}
+
+/* Add before the content starts */
+
+.top-level::before {
+  content: "";
+  display: block;
+  position: fixed;
+  top: 105px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* margin-top: 105px; */
+  background: url("./img/fern-pattern.png");
+  background-repeat: repeat;
+  /* This will repeat your pattern */
+  background-size: auto;
+  /* Keeps the image at its natural size */
+  background-position: center;
+  opacity: 0.1;
 }
 
 @media only screen and (max-width: 800px) {
