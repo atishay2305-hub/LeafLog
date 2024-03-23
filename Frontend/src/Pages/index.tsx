@@ -3,9 +3,9 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import "../style.css";
-import image1 from "../img/1.jpeg";
-import image2 from "../img/2.jpeg";
-import image3 from "../img/3.jpeg";
+import image1 from "../img/1.jpg";
+import image2 from "../img/2.jpg";
+import image3 from "../img/3.jpg";
 import { StaticImageData } from 'next/image';
 
 interface Person {
