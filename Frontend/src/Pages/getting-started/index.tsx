@@ -4,8 +4,7 @@
 import Head from "next/head";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import bg2 from "../../img/bg-img/2.jpg";
-import "../../style.scss";
+import "../../style.css";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from "./start.module.css";
 
