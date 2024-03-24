@@ -6,7 +6,7 @@ import "../style.css";
 import image1 from "../img/1.jpg";
 import image2 from "../img/2.jpg";
 import image3 from "../img/3.jpg";
-import { StaticImageData } from 'next/image';
+import { StaticImageData } from "next/image";
 
 interface Person {
   name: string;
@@ -16,6 +16,7 @@ interface Person {
 interface Feature {
   name: string;
   description: string;
+  details: string;
 }
 
 interface BentoBoxItem {
@@ -24,15 +25,21 @@ interface BentoBoxItem {
   image: StaticImageData;
 }
 
-
 const BentoBoxGrid: React.FC<{ items: BentoBoxItem[] }> = ({ items }) => (
   <div className="bento-box-grid">
     {items.map((item, index) => (
       <div key={index} className="bento-box-item">
         <div className="bento-box-item-content">
-          <img src={item.image.src} alt={item.title} className="bento-box-image" /> {/* Accessing src property */}
-          <h1>{item.title}</h1>
-          <p>{item.description}</p>
+          <img
+            src={item.image.src}
+            alt={item.title}
+            className="bento-box-image"
+          />{" "}
+          {/* Accessing src property */}
+          <h1 className="mt-6 text-xl leading-8 text-gray-900">{item.title}</h1>
+          <p className="mt-2 text-lg leading-8 text-gray-600">
+            {item.description}
+          </p>
         </div>
       </div>
     ))}
@@ -42,38 +49,48 @@ const BentoBoxGrid: React.FC<{ items: BentoBoxItem[] }> = ({ items }) => (
 const bentoBoxItems: BentoBoxItem[] = [
   {
     title: "Plant Logging",
-    description: "Keep a detailed log of your plant collection. Track watering schedules, soil changes, and any special care your leafy friends need.",
-    image: image1
+    description:
+      "Keep a detailed log of your plant collection. Track watering schedules, soil changes, and any special care your leafy friends need.",
+    image: image1,
   },
   {
     title: "Plant Wiki",
-    description: "Access a comprehensive plant encyclopedia to learn more about your favorite plants. Expand your knowledge and discover new species to add to your collection.",
-    image: image2
+    description:
+      "Access a comprehensive plant encyclopedia to learn more about your favorite plants. Expand your knowledge and discover new species to add to your collection.",
+    image: image2,
   },
   {
     title: "Notifications",
-    description: "Receive timely notifications to help you stay on top of your plant care routine. Get reminders for watering, fertilizing, and other essential tasks.",
-    image: image3
-  }
+    description:
+      "Receive timely notifications to help you stay on top of your plant care routine. Get reminders for watering, fertilizing, and other essential tasks.",
+    image: image3,
+  },
 ];
-
 
 const GettingStarted: React.FC<{ features: Feature[] }> = ({ features }) => (
   <div className="bg-white">
-    <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
+    <div className="mx-auto grid max-w-3xl grid-cols-1 items-center gap-x-8 gap-y-12 px-4 py-10 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Getting Started
-        </h2>
-        <p className="mt-4 text-gray-500">
+        </h1>
+        <p className="mt-5 text-xl text-gray-600">
           Welcome to LeafLog! Here's a quick guide to get you started:
         </p>
-        <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+        <dl className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
           {features.map((feature, index) => (
             <div key={index} className="border-t border-gray-200 pt-4">
-              <dt className="font-medium text-gray-900">{feature.name}</dt>
-              <dd className="mt-2 text-sm text-gray-500">
+              <dt className="mt-2 text-xl text-gray-900">{feature.name}</dt>
+              <dt className="mt-2 text-lg text-gray-600">
                 {feature.description}
+              </dt>
+              <dd className="mt-2 text-lg text-gray-600">
+                {feature.details.split("; ").map((line, index) => (
+                  <span key={index}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
               </dd>
             </div>
           ))}
@@ -111,11 +128,11 @@ const people: Person[] = [
     role: "Backend Developer",
   },
   {
-    name: "Mikayla",
+    name: "Mikayla Mount",
     role: "Project Manager and Developer",
   },
   {
-    name: "Caitlyn",
+    name: "Caitlin",
     role: "Test Engineer and Frontend",
   },
 
@@ -128,36 +145,42 @@ const people: Person[] = [
 const feature: Feature[] = [
   {
     name: "Succulents and Cacti",
-    description:
-      "Low-maintenance, drought-tolerant plants Soil: Well-draining mix. Light: Bright indirect or direct sunlight.Watering: Let soil dry completely between waterings.",
+    description: "Low-maintenance, drought-tolerant plants.",
+    details:
+      "Soil: Well-draining mix.; Light: Bright indirect or direct sunlight.; Watering: Let soil dry completely between waterings.",
   },
   {
     name: "Mosses",
-    description:
-      "Moisture-loving plants for shady spots. Soil: Moisture-retentive substrate. Light: Indirect or low light. Watering: Keep consistently moist, avoid waterlogging.",
+    description: "Moisture-loving plants for shady spots.",
+    details:
+      "Soil: Moisture-retentive substrate.; Light: Indirect or low light.; Watering: Keep consistently moist, avoid waterlogging.",
   },
   {
     name: "Ferns",
-    description:
-      "Moisture-loving plants for humid environments. Soil: Rich, well-draining mix. Light: Indirect or low light. Watering: Keep soil consistently moist. Humidity: Maintain high levels.",
+    description: "Moisture-loving plants for humid environments.",
+    details:
+      "Soil: Rich, well-draining mix.; Light: Indirect or low light.; Watering: Keep soil consistently moist.; Humidity: Maintain high levels.",
   },
 
   {
     name: "Climbers",
-    description:
-      "Vining plants needing support. Soil: Well-draining mix. Light: Moderate to bright indirect light. Support: Provide trellis or stakes. Watering: Allow soil to slightly dry between waterings.",
+    description: "Vining plants needing support.",
+    details:
+      "Soil: Well-draining mix.; Light: Moderate to bright indirect light.; Support: Provide trellis or stakes.; Watering: Allow soil to slightly dry between waterings.",
   },
 
   {
     name: "Herbs",
-    description:
-      "Culinary plants with flavorful leaves. Soil: Well-draining mix. Light: Bright, indirect light or direct sunlight. Watering: Keep soil evenly moist. Harvesting: Regularly prune for bushier growth.",
+    description: "Culinary plants with flavorful leaves.",
+    details:
+      "Soil: Well-draining mix.; Light: Bright, indirect light or direct sunlight.; Watering: Keep soil evenly moist.; Harvesting: Regularly prune for bushier growth.",
   },
 
   {
     name: "Flowering Plants",
-    description:
-      "Vibrant blooms adding color and fragrance. Soil: Well-draining mix. Light: Varied, based on species. Watering: Follow specific needs, avoid extremes. Deadheading: Remove spent flowers for continuous blooming.",
+    description: "Vibrant blooms adding color and fragrance.",
+    details:
+      "Soil: Well-draining mix.; Light: Varied, based on species.; Watering: Follow specific needs, avoid extremes.; Deadheading: Remove spent flowers for continuous blooming.",
   },
 ];
 
@@ -175,6 +198,9 @@ export default function Home() {
               <br />
               <span className="role"></span>
             </p>
+
+            <br />
+            <h1 className="text-3xl">Enhance your plant care experience</h1>
           </div>
         </div>
 
@@ -183,12 +209,12 @@ export default function Home() {
         <BentoBoxGrid items={bentoBoxItems} />
 
         <div className="bg-white py-24 sm:py-32">
-          <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
+          <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-10 px-6 lg:px-8 xl:grid-cols-3">
             <div className="max-w-2xl">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 Meet our leadership
               </h2>
-              <p className="mt-6 text-lg leading-8 text-gray-600">
+              <p className="mt-4 text-lg leading-8 text-gray-600">
                 The team behind this project.
               </p>
             </div>
@@ -198,15 +224,12 @@ export default function Home() {
             >
               {people.map((person) => (
                 <li key={person.name}>
-                  <div className="flex items-center gap-x-6">
+                  <div className="flex  items-center gap-x-6">
                     <div>
-                      <h3
-                        className="
-text-base font-semibold leading-7 tracking-tight text-gray-900"
-                      >
+                      <h2 className="text-base text-xl font-semibold leading-7 tracking-tight text-gray-900">
                         {person.name}
-                      </h3>
-                      <p className="text-sm font-semibold leading-6 text-indigo-600">
+                      </h2>
+                      <p className="text-lg font-semibold leading-6 text-indigo-600">
                         {person.role}
                       </p>
                     </div>
@@ -221,8 +244,6 @@ text-base font-semibold leading-7 tracking-tight text-gray-900"
           rel="stylesheet"
           href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"
         />
-
-        
 
         <div className="max-w-lg px-4 mx-auto text-left md:max-w-none md:text-center">
           <div className="sm:mx-72 sm:mt-20 mt-8">
@@ -240,8 +261,6 @@ text-base font-semibold leading-7 tracking-tight text-gray-900"
           </div>
         </div>
       </div>
-
-      
 
       <Footer />
     </>
