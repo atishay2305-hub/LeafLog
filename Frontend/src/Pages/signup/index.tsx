@@ -109,6 +109,7 @@ export default function SignupPage() {
               <button onClick={handleGoogleSignUp} className={styles.button}>
                 Sign Up with Google
               </button>
+              <br />
               <p className={styles.bottomText}>Have an account?</p>
               <a
                 href="http://localhost:3000/login"
