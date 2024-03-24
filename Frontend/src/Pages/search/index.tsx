@@ -67,21 +67,12 @@ export default function Search() {
       <Header />
       <div className="home">
         {" "}
-        {/* Reused className for overall layout consistency */}
         <div className="top-level">
           {" "}
-          {/* Reused className for consistency */}
           <div className={styles.container}>
             {" "}
-            {/* Reused className for the form container */}
-            <Head>
-              <title>Search Plants</title>
-              <meta
-                name="description"
-                content="Search for a variety of plants"
-              />
-            </Head>
             <h1 className={styles.title}>Discover Plants</h1>
+            <br />
             <form onSubmit={handleSubmit} className={styles.form}>
               <input
                 type="text"
@@ -93,6 +84,7 @@ export default function Search() {
                 placeholder="Type and search for a plant species"
                 required
               />
+              <br />
               <button type="submit" className={styles.button}>
                 {" "}
                 {/* Reused button style */}
