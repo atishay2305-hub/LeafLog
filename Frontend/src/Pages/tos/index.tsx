@@ -5,12 +5,11 @@ import Footer from "../../components/Footer";
 export default function TosPage() {
   return (
     <>
+      <Header />
       <Head>
         <title>Terms of Service</title>
         <meta name="description" content="Terms of Service" />
       </Head>
-
-      <Header />
 
       <div className="flex min-h-screen items-center justify-center">
         <div className="relative flex w-full max-w-[48rem] flex-row rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
