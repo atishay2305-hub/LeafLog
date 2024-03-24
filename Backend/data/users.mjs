@@ -15,22 +15,18 @@ async function createUser(firstName, lastName, userName, email, password, DOB) {
         checkPassword(password);
         checkDOB(DOB);
 
-        // Check if email already exists
         const existingEmail = await users.findOne({ email });
         if (existingEmail) {
             throw new Error("Sign in to this account or enter an email address that does not exist.");
         }
 
-        // Check if username already exists
         const existingUserName = await users.findOne({ userName });
         if (existingUserName) {
             throw new Error("User name already exists.");
         }
 
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create user object
         const user = {
             firstName,
             lastName,
@@ -40,15 +36,12 @@ async function createUser(firstName, lastName, userName, email, password, DOB) {
             DOB,
         };
 
-        // Insert user into the collection
         const insertInfo = await users.insertOne(user);
 
-        // Check if user was successfully added
         if (!insertInfo.acknowledged || !insertInfo.insertedId) {
             throw new Error("Could not add user.");
         }
 
-        // Include the user ID in the return object
         return { insertedUser: true, userId: insertInfo.insertedId.toString(), user };
     } catch (error) {
         throw new Error(error.message);
