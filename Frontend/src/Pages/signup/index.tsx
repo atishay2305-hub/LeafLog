@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from "./Signup.module.css";
+import "../../style.css";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -46,7 +47,7 @@ export default function SignupPage() {
           console.log("User signed up successfully:", data);
         }
       } else {
-        const text = await res.text(); 
+        const text = await res.text();
         console.error("Failed to sign up:", text);
       }
     } catch (error) {
@@ -61,57 +62,64 @@ export default function SignupPage() {
   return (
     <>
       <Header />
-      <div className={styles.container}>
-        <div className={styles.formWrapper}>
-          <h1 className={styles.title}>Sign Up</h1>
-          <p className={styles.description}>Please sign up to continue.</p>
-
-          <form onSubmit={handleSubmit} id="signupForm" className={styles.form}>
-            <input
-              className={styles.inputField}
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              required
-            />
-
-            <input
-              className={styles.inputField}
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              required
-            />
-            <button
-              type="submit"
-              id="buttonStyle"
-              className={styles.redirectButton}
+      <div className="home">
+        {" "}
+        {/* Reused className for overall layout consistency */}
+        <div className="top-level">
+          {" "}
+          {/* Reused className for consistency */}
+          <div className={styles.container}>
+            {" "}
+            {/* Reused className for the form container */}
+            <Head>
+              <title>Sign Up</title>
+              <meta name="description" content="Sign up for a new account" />
+            </Head>
+            <h1 className={styles.title}>Sign Up</h1>
+            <p className={styles.description}>Please sign up to continue.</p>
+            <form
+              onSubmit={handleSubmit}
+              id="signupForm"
+              className={styles.form}
             >
-              Sign Up
-            </button>
-          </form>
-        </div>{" "}
-        <div className={styles.bottom}>
-          <button
-            onClick={handleGoogleSignUp}
-            className={styles.googleSignupButton}
-          >
-            Sign Up with Google
-          </button>
-          <br />
-          <br />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={styles.inputField} // Reused input style
+                placeholder="Email"
+                required
+              />
 
-          <a className={styles.bottomText}>Have an account?</a>
-
-          <button type="submit" className={styles.redirectButton}>
-            <a href="http://localhost:3000/login">Login</a>
-          </button>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={styles.inputField} // Reused input style
+                placeholder="Password"
+                required
+              />
+              <button type="submit" id="buttonStyle" className={styles.button}>
+                Sign Up
+              </button>
+            </form>
+            <div className={styles.bottom}>
+              <button onClick={handleGoogleSignUp} className={styles.button}>
+                Sign Up with Google
+              </button>
+              <p className={styles.bottomText}>Have an account?</p>
+              <a
+                href="http://localhost:3000/login"
+                className={styles.redirectButton}
+              >
+                Login
+              </a>
+            </div>
+          </div>
         </div>
-      </div>{" "}
+      </div>
       <Footer />
     </>
   );
