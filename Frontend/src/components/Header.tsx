@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import "./Header.css"; 
+import "./Header.css";
 
 const Header = () => {
   return (
@@ -22,6 +22,7 @@ const Header = () => {
               Discover Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
+
           <Link href="/signup" legacyBehavior>
             <a id="signupLink" className="navLink">
               Sign Up &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

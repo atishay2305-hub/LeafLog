@@ -1,56 +1,80 @@
 /* Footer.css */
 
 .footer {
-    width: 100%;
-    height: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-top: 10px;
-    margin-top: 50px;
-    backdrop-filter: blur(8px);
-    background-color: white;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  
-  .social-media p {
-    font-size: 18px; /* Reduced font size for smaller screens */
-    color: black;
-    margin: 0 10px;
-  }
-  
-  .social-links {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  .social-links a {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-    margin-bottom: 15px;
-    color: black;
-    font-size: 22px; /* Reduced font size for smaller screens */
-    text-decoration: none;
-  }
-  
-  .social-button {
-    background-color: black;
-    color: #fff;
-    padding: 10px; /* Reduced padding for smaller screens */
-    margin: 1px;
-    border: none;
-    border-radius: 100px;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  
-  .social-button:hover {
-    background-color: black;
-  }
-  
+  width: max-content;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  backdrop-filter: blur(8px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
+  /* This will repeat your pattern */
+  /* Keeps the image at its natural size */
+}
+
+.links {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}
+
+.footerNavbar a {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  margin: 10px;
+  font-size: 22px;
+  margin-top: 100px;
+  /* Updated font size */
+  white-space: nowrap;
+}
+
+.footerNavbar a:hover {
+  color: #8fc4b1;
+}
+
+.social-media p {
+  font-size: 18px;
+  /* Reduced font size for smaller screens */
+  color: black;
+  margin: 0 10px;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.social-links a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  margin-bottom: 15px;
+  color: black;
+  font-size: 22px;
+  /* Reduced font size for smaller screens */
+  text-decoration: none;
+}
+
+.social-button {
+  background-color: black;
+  color: #fff;
+  padding: 10px;
+  /* Reduced padding for smaller screens */
+  margin: 1px;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.social-button:hover {
+  background-color: black;
+}
