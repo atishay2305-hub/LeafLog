@@ -20,13 +20,67 @@ router.get('/api/diseasedata', async (req, res) => {
             })) : []
         );
 
-        const first100Records = filteredData.slice(0, 100);
-        res.json(first100Records);
+        res.json(filteredData);
     } catch (error) {
         console.error('Error: ', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
+
+// Route to fetch all common names
+router.get('/api/commonnames', async (req, res) => {
+    try {
+        const commonNames = await getAllCommonNames();
+        res.json(commonNames);
+    } catch (error) {
+        console.error('Error: ', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Route to fetch all scientific names
+router.get('/api/scientificnames', async (req, res) => {
+    try {
+        const scientificNames = await getAllScientificNames();
+        res.json(scientificNames);
+    } catch (error) {
+        console.error('Error: ', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Route to fetch all descriptions
+router.get('/api/descriptions', async (req, res) => {
+    try {
+        const descriptions = await getAllDescriptions();
+        res.json(descriptions);
+    } catch (error) {
+        console.error('Error: ', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Route to fetch all hosts
+router.get('/api/hosts', async (req, res) => {
+    try {
+        const hosts = await getAllHosts();
+        res.json(hosts);
+    } catch (error) {
+        console.error('Error: ', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Route to fetch all other names
+router.get('/api/othernames', async (req, res) => {
+    try {
+        const otherNames = await getAllOtherNames();
+        res.json(otherNames);
+    } catch (error) {
+        console.error('Error: ', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 export default router;
