@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from "./Search.module.css";
+import "../../style.css";
 
 // Define the interface for our plant objects
 interface Plant {
@@ -64,41 +65,55 @@ export default function Search() {
   return (
     <>
       <Header />
-      <div className={styles.container}>
-        <div className={styles.searchContainer}>
-          <Head>
-            <title>Search Plants</title>
-            <meta name="description" content="Search for a variety of plants" />
-          </Head>
-          <h1 className={styles.title}>Discover Plants</h1>
-          <form onSubmit={handleSubmit} className={styles.searchForm}>
-            <input
-              type="text"
-              className={styles.searchInput}
-              placeholder="Type and search for a plant species"
-              value={plantQuery}
-              onChange={handleSearchChange}
-              required
-            />
-            <button type="submit" className={styles.searchButton}>
-              Search
-            </button>
-          </form>
-          <div className={styles.resultsContainer}>
-            {searchResults.map((plant, index) => (
-              <div key={index} className={styles.resultItem}>
-                <h2>
-                  {plant.common_name} ({plant.scientific_name})
-                </h2>
-                <p>{plant.other_name}</p>
-                <p>{plant.cycle}</p>
-                <p>{plant.watering}</p>
-              </div>
-            ))}
+      <div className="home">
+        {" "}
+        {/* Reused className for overall layout consistency */}
+        <div className="top-level">
+          {" "}
+          {/* Reused className for consistency */}
+          <div className={styles.container}>
+            {" "}
+            {/* Reused className for the form container */}
+            <Head>
+              <title>Search Plants</title>
+              <meta
+                name="description"
+                content="Search for a variety of plants"
+              />
+            </Head>
+            <h1 className={styles.title}>Discover Plants</h1>
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <input
+                type="text"
+                id="plantQuery"
+                name="plantQuery"
+                value={plantQuery}
+                onChange={handleSearchChange}
+                className={styles.searchInput} // Reused input style
+                placeholder="Type and search for a plant species"
+                required
+              />
+              <button type="submit" className={styles.button}>
+                {" "}
+                {/* Reused button style */}
+                Search
+              </button>
+            </form>
+            {/* Results styling needs to be added or reused accordingly */}
+            <div className={styles.resultsContainer}>
+              {" "}
+              {/* Updated to match plant-log styles */}
+              {searchResults.map((plant, index) => (
+                <div key={index} className={styles.resultItem}>
+                  {" "}
+                  {/* Updated to match plant-log styles */}
+                  {/* ... display plant details ... */}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>{" "}
-      
+      </div>
       <Footer />
     </>
   );
