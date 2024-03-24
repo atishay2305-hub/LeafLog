@@ -10,10 +10,12 @@ import styles from "./plant-log.module.css";
 interface PlantLogItem {
   label: string;
   placeholder: string;
-  type: string;
+  type: "text" | "textarea";
   value: string;
   onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
 }
 
@@ -31,23 +33,30 @@ const PlantLogForm: React.FC<{ items: PlantLogItem[] }> = ({ items }) => (
               id={item.label}
               name={item.label}
               value={item.value}
-              onChange={item.onChange}
-              className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              // Use the input event type here
+              onChange={
+                item.onChange as React.ChangeEventHandler<HTMLInputElement>
+              }
+              className={styles.input}
               placeholder={item.placeholder}
             />
           )}
           {item.type === "textarea" && (
             <textarea
-              className={styles.input}
               id={item.label}
               name={item.label}
               value={item.value}
-              onChange={item.onChange}
+              // Use the textarea event type here
+              onChange={
+                item.onChange as React.ChangeEventHandler<HTMLTextAreaElement>
+              }
+              className={styles.input}
               placeholder={item.placeholder}
             />
           )}
         </div>
       ))}
+      <br />
       <button type="submit" className={styles.button}>
         Submit Log Entry
       </button>
@@ -66,23 +75,27 @@ export default function PlantLog() {
       placeholder: "Type and search for a plant species",
       type: "text",
       value: plantSpecies,
-      onChange: (e) => setPlantSpecies(e.target.value),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+        setPlantSpecies(e.target.value),
     },
     {
       label: "Pet Name",
       placeholder: "What do you call your plant?",
       type: "text",
       value: petName,
-      onChange: (e) => setPetName(e.target.value),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+        setPetName(e.target.value),
     },
     {
       label: "Other Notes",
       placeholder: "Any special care instructions or notes?",
       type: "textarea",
       value: otherNotes,
-      onChange: (e) => setOtherNotes(e.target.value),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+        setOtherNotes(e.target.value),
     },
   ];
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     // Construct the form data payload
@@ -119,7 +132,7 @@ export default function PlantLog() {
             <h1 className={styles.title}>Create Plant Log Entry</h1>
             <br />
             <PlantLogForm items={plantLogItems} />
-            {/*form onSubmit={handleSubmit} className={styles.form}>
+            {/*<form onSubmit={handleSubmit} className={styles.form}>
               <label htmlFor="plantSpecies" className={styles.label}>
                 Plant Species
               </label>
