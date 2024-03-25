@@ -7,7 +7,6 @@ async function createUser(firstName, lastName, userName, email, password, DOB) {
     try {
         const users = await usersCollection();
 
-        // Validate input data
         checkLegitName(firstName, 'First Name');
         checkLegitName(lastName, 'Last Name');
         checkLegitName(userName, 'User Name');
@@ -48,64 +47,29 @@ async function createUser(firstName, lastName, userName, email, password, DOB) {
     }
 }
 
+
 async function checkUser(email, password) {
     try {
         const users = await usersCollection();
 
-        // Check if the user with the given email exists
         const user = await users.findOne({ email });
 
         if (!user) {
-            throw new Error("You may have entered the wrong email address or password.");
-        }
+            throw new Error("User does not exist.");
+        } else {
+            const passwordMatch = await bcrypt.compare(password, user.password);
 
-        // Compare the provided password with the hashed password in the database
-        const passwordMatch = await bcrypt.compare(password, user.password);
-
-        if (!passwordMatch) {
-            throw new Error("You may have entered the wrong email address or password.");
-        }
-
-        // Return user information (excluding the password)
-        const { firstName, lastName, userName, email, DOB } = user;
-        return { firstName, lastName, userName, email, DOB };
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
-async function updateUser(userId, updatedData) {
-    try {
-        const users = await usersCollection();
-
-        // Check if the user with the given ID exists
-        const user = await users.findOne({ _id: ObjectId(userId) });
-
-        if (!user) {
-            throw new Error("User not found.");
-        }
-
-        // If there are updates, apply them
-        if (Object.keys(updatedData).length > 0) {
-            // Update user in the collection
-            const updateInfo = await users.findOneAndUpdate(
-                { _id: ObjectId(userId) },
-                { $set: updatedData },
-                { returnDocument: 'after' }
-            );
-
-            // Check if user was successfully updated
-            if (!updateInfo.ok || !updateInfo.value) {
-                throw new Error("Could not update user.");
+            if (!passwordMatch) {
+                throw new Error("You may have entered the wrong email address or password.");
             }
-        }
 
-        // Return user information (excluding the password)
-        const { firstName, lastName, userName, email, DOB } = user;
-        return { firstName, lastName, userName, email, DOB };
+            const { firstName, lastName, userName, DOB } = user;
+            return { firstName, lastName, userName, email: user.email, DOB };
+        }
     } catch (error) {
+        console.log("I am here")
         throw new Error(error.message);
     }
 }
 
-export { createUser, checkUser, updateUser };
+export { createUser, checkUser};

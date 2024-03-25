@@ -1,22 +1,18 @@
 import passport from 'passport';
 import { createUser, checkUser } from '../data/users.mjs';
+import { ensureAuthenticated } from "../middleware/authMiddleware.mjs";
 
 export const signup = async (req, res) => {
     try {
         const { firstName, lastName, userName, email, password, DOB } = req.body;
-
-        // Check if all required fields are present
         if (!firstName || !lastName || !userName || !email || !password || !DOB) {
             throw new Error("All fields are required for signup.");
         }
-
-        // Check if the email already exists
-        const existingUser = await checkUser(email);
-        if (existingUser) {
-            throw new Error("Email already exists. Please use a different email address.");
-        }
-
-        // Create the new user
+        
+        // const existingUser = await checkUser(email);
+        // if (existingUser) {
+        //     throw new Error("Email already exists. Please use a different email address.");
+        // }
         const newUser = await createUser(firstName, lastName, userName, email, password, DOB);
 
         res.status(201).json({ message: "User created successfully", user: newUser });
@@ -26,11 +22,27 @@ export const signup = async (req, res) => {
 };
 
 
-export const login = passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/auth/login',
-    failureFlash: true
-});
+
+
+export const login = async (req, res, next) => { // Add 'next' parameter
+    try {
+        const { email, password } = req.body;
+
+        // Check if the user with the given email exists
+        const existingUser = await checkUser(email, password);
+        if (!existingUser) {
+            throw new Error("User with this email does not exist or the password is incorrect.");
+        }
+
+        // If authentication succeeds, you can handle success here
+        res.status(200).json({ message: 'Login successful', user: existingUser });
+
+    } catch (error) {
+        console.log("here")
+        res.status(400).json({ error: error.message });
+    }
+};
+
 
 export const logout = (req, res) => {
     req.logout();
@@ -38,6 +50,8 @@ export const logout = (req, res) => {
 };
 
 export const googleLogin = passport.authenticate('google', {
-    successRedirect: '/',
-    failureRedirect: '/auth/login'
+    successRedirect: '/search',
+    failureRedirect: '/google/failure'
 });
+
+
