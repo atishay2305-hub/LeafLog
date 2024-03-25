@@ -49,6 +49,44 @@ export const logout = (req, res) => {
     res.redirect('/auth/login');
 };
 
+export const googleLoginCallback = async (req, res, next) => {
+    passport.authenticate('google', async (err, user) => {
+        if (err) {
+            return res.status(500).json({ message: 'An error occurred during authentication.' });
+        }
+        if (!user) {
+            return res.status(401).json({ message: 'Authentication failed.' });
+        }
+
+        // Check if the user exists in the database
+        const existingUser = await checkUser(user.email); // Assuming you have a function to check user by email
+
+        if (!existingUser) {
+            // If the user does not exist, create a new user based on Google information
+            try {
+                const newUser = await createUser(user.firstName, user.lastName, user.email, user.password, null); // Assuming user data structure returned from Google
+
+                req.logIn(newUser, async (err) => {
+                    if (err) {
+                        return res.status(500).json({ message: 'An error occurred during login.' });
+                    }
+                    return res.status(200).json({ message: 'Signup and login successful.', user: newUser });
+                });
+            } catch (error) {
+                return res.status(500).json({ message: 'Error creating user.', error: error.message });
+            }
+        } else {
+            // If the user already exists, log them in
+            req.logIn(existingUser, async (err) => {
+                if (err) {
+                    return res.status(500).json({ message: 'An error occurred during login.' });
+                }
+                return res.status(200).json({ message: 'Login successful.', user: existingUser });
+            });
+        }
+    })(req, res, next);
+};
+
 export const googleLogin = passport.authenticate('google', {
     successRedirect: '/search',
     failureRedirect: '/google/failure'
