@@ -1,20 +1,20 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
+import { Strategy as LocalStrategy } from 'passport-local'; // Import LocalStrategy
 import bcrypt from 'bcryptjs';
-import { createUser} from '../data/users.mjs';
+import { createUser } from '../data/users.mjs'; // Assuming you have createUser function
 import User from '../models/Users.mjs';
 
-const GOOGLE_CLIENT_ID = '986312544048-7a63n93h3c8od12r16l336lnft7baq3o.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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'
-
+const GOOGLE_CLIENT_ID = 'your_google_client_id';
+const GOOGLE_CLIENT_SECRET = 'your_google_client_secret';
 
 // Google OAuth strategy configuration
-passport.use(new GoogleStrategy({
+passport.use('google', new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
     callbackURL: 'http://localhost:3000/google/callback',
     passReqToCallback: true,
-}, async (accessToken, refreshToken, profile, done) => {
+}, async (req, accessToken, refreshToken, profile, done) => {
     try {
         let user = await User.findOne({ googleId: profile.id });
 
@@ -28,6 +28,24 @@ passport.use(new GoogleStrategy({
         done(null, user);
     } catch (error) {
         done(error, null);
+    }
+}));
+
+// Local strategy configuration
+passport.use('local', new LocalStrategy({
+    usernameField: 'email', // Assuming email is used as username
+    passwordField: 'password', // Assuming password is sent as 'password'
+}, async (email, password, done) => {
+    try {
+        const user = await checkUser(email, password);
+
+        if (!user) {
+            return done(null, false, { message: 'Incorrect email or password.' });
+        }
+
+        return done(null, user);
+    } catch (error) {
+        return done(error);
     }
 }));
 

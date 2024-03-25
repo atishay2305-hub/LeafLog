@@ -1,16 +1,19 @@
 import express from "express";
 import session from "express-session";
 import passport from "passport";
+import cors from 'cors';
 import MongoStore from "connect-mongo";
-// import dotenv from "dotenv";
 import authRoutes from './routes/authRoutes.mjs';
 import nodemailer from 'nodemailer';
 import { ensureAuthenticated } from "./middleware/authMiddleware.mjs";
 import './config/passport.mjs';
 
-// dotenv.config();
+
 
 const app = express();
+
+app.use(cors());
+
 
 app.use(express.json()); // Parse JSON-encoded bodies
 
@@ -70,7 +73,7 @@ app.get("/logout", (req, res) => {
   res.status(200).json({ message: 'GoodBye!' });
 });
 
-const port = 3000;
+const port = 3001;
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

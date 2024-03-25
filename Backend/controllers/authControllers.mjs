@@ -9,18 +9,18 @@ export const signup = async (req, res) => {
             throw new Error("All fields are required for signup.");
         }
         
-        // const existingUser = await checkUser(email);
-        // if (existingUser) {
-        //     throw new Error("Email already exists. Please use a different email address.");
-        // }
+        const existingUser = await checkUser(email);
+        if (existingUser) {
+            throw new Error("Email already exists. Please use a different email address.");
+        }
         const newUser = await createUser(firstName, lastName, userName, email, password, DOB);
 
-        res.status(201).json({ message: "User created successfully", user: newUser });
+        res.redirect('/login'); // Fixed redirect URL
+
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
-
 
 
 
@@ -35,13 +35,17 @@ export const login = async (req, res, next) => { // Add 'next' parameter
         }
 
         // If authentication succeeds, you can handle success here
-        res.status(200).json({ message: 'Login successful', user: existingUser });
+        res.redirect('/search');
+        // res.status(200).json({ message: 'Login successful', user: existingUser });
 
     } catch (error) {
         console.log("here")
         res.status(400).json({ error: error.message });
     }
 };
+
+
+
 
 
 export const logout = (req, res) => {
