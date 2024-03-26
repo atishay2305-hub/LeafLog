@@ -1,26 +1,29 @@
 import express from "express";
 import session from "express-session";
 import passport from "passport";
+import cors from 'cors';
 import MongoStore from "connect-mongo";
-import dotenv from "dotenv";
 import authRoutes from './routes/authRoutes.mjs';
 import nodemailer from 'nodemailer';
-import bodyParser from 'body-parser';
-import { ensureAuthenticated } from './middleware/authMiddleware.mjs'; 
+import { ensureAuthenticated } from "./middleware/authMiddleware.mjs";
+import './config/passport.mjs';
 
-dotenv.config();
+
 
 const app = express();
 
-app.use(bodyParser.json()); // Parse JSON-encoded bodies
+app.use(cors());
 
-const { SESSION_SECRET, MONGO_URL, PORT } = process.env;
+
+app.use(express.json()); // Parse JSON-encoded bodies
+
+app.use(authRoutes);
 
 app.use(
   session({
-    secret: SESSION_SECRET || "defaultSecret",
+    secret: "defaultSecret",
     store: MongoStore.create({
-      mongoUrl: MONGO_URL || "mongodb://localhost:27017/sessionstore",
+      mongoUrl: "mongodb://localhost:27017/sessionstore",
     }),
     resave: false,
     saveUninitialized: false,
@@ -30,8 +33,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.json());
-app.use(authRoutes);
+
 
 const mailTransporter = nodemailer.createTransport({
   service: "gmail",
@@ -60,17 +62,18 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
+// Protected route - requires authentication
 app.get("/", ensureAuthenticated, (req, res) => {
   res.status(200).json({ message: 'Homepage' });
 });
 
+// Logout route
 app.get("/logout", (req, res) => {
-  req.logout();
   req.session.destroy();
   res.status(200).json({ message: 'GoodBye!' });
 });
 
-const port = PORT || 3000;
+const port = 3001;
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
