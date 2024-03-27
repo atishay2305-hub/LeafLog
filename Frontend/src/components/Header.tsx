@@ -39,11 +39,6 @@ const Header = () => {
                 Log In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </a>
             </Link>
-             <Link href="/tos" legacyBehavior>
-              <a id="loginLink" className={styles.navLink}>
-                Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </a>
-            </Link>
             {/* Add other navigation links here */}
           </div>
         </nav>

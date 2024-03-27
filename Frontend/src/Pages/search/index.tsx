@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from "./Search.module.css"; // Make sure to create a Login.module.css or reuse Signup.module.css
 
@@ -42,6 +43,7 @@ export default function Search() {
           </form>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
