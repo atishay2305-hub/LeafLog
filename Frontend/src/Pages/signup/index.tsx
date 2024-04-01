@@ -3,7 +3,6 @@
 
 import Head from "next/head";
 import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from "./Signup.module.css";
 
@@ -125,7 +124,6 @@ export default function SignupPage() {
           </button>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

@@ -1,7 +1,6 @@
 // pages/feedback.tsx
 import Head from "next/head";
 import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import { useState, FormEvent } from "react";
 import styles from "./feedback.module.css";
 
@@ -58,7 +57,6 @@ export default function PlantLog() {
           </button>
         </form>
       </div>
-      <Footer />
     </>
   );
 }
