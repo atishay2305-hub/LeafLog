@@ -1,19 +1,19 @@
-// page/signup.tsx
-"use client";
-
 import Head from "next/head";
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from "./Signup.module.css";
+import { useRouter } from 'next/router'; // Import useRouter from Next.js
+import "../../style.css";
 
 export default function SignupPage() {
-  // Client-side state for the sign-up form
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  // Update form state on user input
+  const router = useRouter(); // Initialize the Next.js router
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -22,11 +22,11 @@ export default function SignupPage() {
     }));
   };
 
-  // Handle form submission by sending data to the server
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await fetch("../../pages/api/signup.tsx", {
+      // Send signup request to the server
+      const res = await fetch("/signup", { // Adjust the route as needed
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,96 +34,87 @@ export default function SignupPage() {
         body: JSON.stringify(formData),
       });
 
-      // Check if the response is ok and the content is JSON
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
 
-      if (
-        res.ok &&
-        res.headers.get("Content-Type")?.includes("application/json")
-      ) {
+      const contentType = res.headers.get("Content-Type");
+      if (contentType && contentType.includes("application/json")) {
         const data = await res.json();
         if (data.error) {
           console.error("Signup error:", data.error);
-          // Implement error handling logic
         } else {
           console.log("User signed up successfully:", data);
-          // Redirect user or show success message
+          // Redirect the user to the login page upon successful signup
+          router.push('/login'); // Use Next.js router to navigate
         }
       } else {
-        // Handle non-JSON response or non-ok status
-        const text = await res.text(); // Read the response as text
+        // Handle non-JSON error responses
+        const text = await res.text();
         console.error("Failed to sign up:", text);
-        // Show the text or a error message to the user
       }
     } catch (error) {
       console.error("An error occurred while signing up:", error);
-      // Implement network error handling logic
     }
   };
 
-  // Redirect user to Google OAuth flow
   const handleGoogleSignUp = () => {
-    window.location.href = "/auth/google"; // Your backend endpoint for Google OAuth
+    window.location.href = "/google"; // Your backend endpoint for Google OAuth
   };
 
   return (
     <>
       <Header />
-      <div className={styles.container}>
-        <div className={styles.formWrapper}>
-          <h1 className={styles.title}>Sign Up</h1>
-          <p className={styles.description}>Please sign up to continue.</p>
-
-          {/* Sign up form */}
-          <form onSubmit={handleSubmit} id="signupForm" className={styles.form}>
-            <input
-              className={styles.inputField}
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              required
-            />
-
-            <input
-              className={styles.inputField}
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              required
-            />
-            <button
-              type="submit"
-              id="buttonStyle"
-              className={styles.redirectButton}
+      <div className="home">
+        <div className="top-level">
+          <div className={styles.container}>
+            <Head>
+              <title>Sign Up</title>
+              <meta name="description" content="Sign up for a new account" />
+            </Head>
+            <h1 className={styles.title}>Sign Up</h1>
+            <p className={styles.description}>Please sign up to continue.</p>
+            <form
+              onSubmit={handleSubmit}
+              id="signupForm"
+              className={styles.form}
             >
-              Sign Up
-            </button>
-          </form>
-        </div>{" "}
-        <div className={styles.bottom}>
-          {/* Google OAuth sign up */}
-          <button
-            onClick={handleGoogleSignUp}
-            className={styles.googleSignupButton}
-          >
-            Sign Up with Google
-          </button>
-          <br />
-          <br />
-
-          <a className={styles.bottomText}>Have an account?</a>
-
-          <button type="submit" className={styles.redirectButton}>
-            <a href="http://localhost:3000/login">Login</a>
-          </button>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={styles.inputField}
+                placeholder="Email"
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={styles.inputField}
+                placeholder="Password"
+                required
+              />
+              <button type="submit" className={styles.button}>
+                Sign Up
+              </button>
+            </form>
+            <div className={styles.bottom}>
+              <button onClick={handleGoogleSignUp} className={styles.button}>
+                Sign Up with Google
+              </button>
+              <br />
+              <p className={styles.bottomText}>Have an account?</p>
+              <a href="/login" className={styles.redirectButton}>
+                Login
+              </a>
+            </div>
+          </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

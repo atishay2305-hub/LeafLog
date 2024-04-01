@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: center;
   margin: auto;
-  padding: 40px;
-  margin-top: 20px;
+  padding: 80px;
+  margin-top: 10px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   background-color: #467061;
@@ -89,7 +89,7 @@
 }
 
 .button:hover {
-  background-color: #467061;
+  background-color: #8fc4b1;
 }
 
 .submitButton {
@@ -136,7 +136,7 @@
 }
 
 .google-signup-button:hover {
-  background-color: #c1351d;
+  background-color: #8fc4b1;
   /* Darker shade for hover effect */
 }
 
@@ -152,5 +152,5 @@
 }
 
 .bottomText {
-  margin-left: 36%;
+  margin-left: 0%;
 }

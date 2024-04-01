@@ -1,35 +1,34 @@
-// pages/login.tsx
-"use client";
-
-import Head from "next/head";
-import Header from "../../components/Header";
-import { useState, FormEvent, ChangeEvent } from "react";
-import styles from "./Login.module.css"; // Make sure to create a Login.module.css or reuse Signup.module.css
+import { useState, FormEvent, ChangeEvent } from 'react';
+import Head from 'next/head';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import styles from './Login.module.css'; // Make sure to create a Login.module.css or reuse Signup.module.css
+import '../../style.css';
+import { useRouter } from 'next/router'; // Changed from Router to useRouter
 
 export default function LoginPage() {
-  // Client-side state for the login form
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
-  // Update form state on user input
+  const router = useRouter(); // Initialized useRouter hook
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
+    setFormData(prevFormData => ({
       ...prevFormData,
       [name]: value,
     }));
   };
 
-  // Handle form submission by sending data to the server
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/login", {
-        method: "POST",
+      const res = await fetch('http://localhost:3001/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
@@ -38,12 +37,11 @@ export default function LoginPage() {
         console.error(data.error);
         // Implement error handling logic, perhaps show an error message to the user
       } else {
-        // Redirect user to their dashboard or previous page
-        console.log("User logged in successfully:", data);
         // Redirect logic here...
+        router.push('/search');
       }
     } catch (error) {
-      console.error("An error occurred while logging in:", error);
+      console.error('An error occurred while logging in:', error);
       // Implement error handling logic, perhaps show an error message to the user
     }
   };
@@ -51,50 +49,50 @@ export default function LoginPage() {
   return (
     <>
       <Header />
-      <div className={styles.container}>
-        <Head>
-          <title>Login</title>
-          <meta name="description" content="Log in to your account" />
-        </Head>
-        <div className={styles.formWrapper}>
-          <h1 className={styles.title}>Log In</h1>
-          <p className={styles.description}>Please log in to continue.</p>
-          {/* Login form */}
-          <form onSubmit={handleSubmit} id="loginForm" className={styles.form}>
-            <input
-              className={styles.inputField}
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              required
-            />
+      <div className="home">
+        <div className="top-level">
+          <div className={styles.container}>
+            <Head>
+              <title>Login</title>
+              <meta name="description" content="Log in to your account" />
+            </Head>
+            <h1 className={styles.title}>Log In</h1>
+            <p className={styles.description}>Please log in to continue.</p>
+            <form onSubmit={handleSubmit} id="loginForm" className={styles.form}>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={styles.inputField}
+                placeholder="Email"
+                required
+              />
 
-            <input
-              className={styles.inputField}
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              required
-            />
-            <button type="submit" className={styles.redirectButton}>
-              Login
-            </button>
-          </form>
-          <br />
-          <br />
-          <div className={styles.bottom}>
-            <a className={styles.bottomText}> Dont have an account?</a>
-            <button type="submit" className={styles.redirectButton}>
-              <a href="http://localhost:3000/signup">Sign Up</a>
-            </button>
-            {/* Consider adding functionality like 'Forgot Password?' or 'Remember me' checkbox here */}
-          </div>{" "}
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={styles.inputField}
+                placeholder="Password"
+                required
+              />
+              <button type="submit" className={styles.button}>
+                Login
+              </button>
+            </form>
+            <div className={styles.bottom}>
+              <br />
+              <p className={styles.bottomText}>Don't have an account?</p>
+              <a href="http://localhost:3000/signup" className={styles.redirectButton}>
+                Sign Up
+              </a>
+            </div>
+          </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

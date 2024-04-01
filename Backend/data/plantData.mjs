@@ -27,6 +27,34 @@ export const plant_data = async () => {
     }
 };
 
+export const getPlantCommonNames = async () => {
+    try {
+        const plantCollectionRef = await plantCollection();
+        const plants = await plantCollectionRef.find({}, { common_name: 1 }).toArray();
+        const commonNames = plants.map(plant => plant.common_name);
+        return commonNames;
+    } catch (error) {
+        console.error('Error: ', error.message);
+        return [];
+    }
+};
+
+
+export const getScientificNames = async () => {
+    try {
+        const plantCollectionRef = await plantCollection();
+        const plants = await plantCollectionRef.find({}, {scientific_name: 1}).toArray();
+        const scientificNames = plants.map(plant => plant.scientific_name);
+        return scientificNames;
+    } catch(error){
+        console.error('Error:', error.message);
+        return [];
+    }
+}
+
+
+
+
 export const detailsData = async () => {
     try {
         const detailsResponse = await axios.get(detailsApiURL, {
@@ -42,6 +70,67 @@ export const detailsData = async () => {
         console.error('Error: ', error.message || (error.response && error.response.data));
     }
 };
+
+export const getPlantDetailsByCommonName = async (commonName) => {
+    try {
+        const plantCollectionRef = await plantCollection();
+        const plantDetails = await plantCollectionRef.findOne({ common_name: commonName });
+        return plantDetails;
+    } catch (error) {
+        console.error('Error:', error.message);
+        return null;
+    }
+};
+
+export const getPlantDetailsByScientificName = async (scientificName) => {
+    try {
+        const plantCollectionRef = await plantCollection();
+        const plantDetails = await plantCollectionRef.findOne({ scientific_name: scientificName });
+        return plantDetails;
+    } catch (error) {
+        console.error('Error:', error.message);
+        return null;
+    }
+};
+
+
+export const getAllOtherNames = async () => {
+    try {
+        const detailsCollectionRef = await detailsCollection();
+        const details = await detailsCollectionRef.find({}, { other_name: 1 }).toArray();
+        const otherNames = details.map(detail => detail.other_name);
+        return otherNames;
+    } catch (error) {
+        console.error('Error:', error.message);
+        return [];
+    }
+};
+
+export const getAllFamilies = async () => {
+    try {
+        const detailsCollectionRef = await detailsCollection();
+        const details = await detailsCollectionRef.find({}, { family: 1 }).toArray();
+        const families = details.map(detail => detail.family);
+        return families;
+    } catch (error) {
+        console.error('Error:', error.message);
+        return [];
+    }
+};
+
+export const getAllOrigins = async () => {
+    try {
+        const detailsCollectionRef = await detailsCollection();
+        const details = await detailsCollectionRef.find({}, { origin: 1 }).toArray();
+        const origins = details.flatMap(detail => detail.origin || []);
+        return origins;
+    } catch (error) {
+        console.error('Error:', error.message);
+        return [];
+    }
+};
+
+
 
 plant_data();
 detailsData();

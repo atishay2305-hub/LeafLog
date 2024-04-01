@@ -1,23 +1,29 @@
 import express from "express";
 import session from "express-session";
 import passport from "passport";
+import cors from 'cors';
 import MongoStore from "connect-mongo";
-import dotenv from "dotenv"; // Import dotenv for loading environment variables
-import authRoutes from "./Routes/authRoutes.mjs"; 
+import authRoutes from './routes/authRoutes.mjs';
 import nodemailer from 'nodemailer';
+import { ensureAuthenticated } from "./middleware/authMiddleware.mjs";
+import './config/passport.mjs';
 
-dotenv.config();
+
 
 const app = express();
 
-const { SESSION_SECRET, MONGO_URL, PORT } = process.env;
+app.use(cors());
 
-// Set up session middleware with MongoDB store
+
+app.use(express.json()); // Parse JSON-encoded bodies
+
+app.use(authRoutes);
+
 app.use(
   session({
-    secret: SESSION_SECRET || "defaultSecret", // Use default secret if not provided
+    secret: "defaultSecret",
     store: MongoStore.create({
-      mongoUrl: MONGO_URL || "mongodb://localhost:27017/sessionstore", // Use default URL if not provided
+      mongoUrl: "mongodb://localhost:27017/sessionstore",
     }),
     resave: false,
     saveUninitialized: false,
@@ -26,8 +32,8 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.json());
-app.use(authRoutes);
+
+
 
 const mailTransporter = nodemailer.createTransport({
   service: "gmail",
@@ -38,11 +44,12 @@ const mailTransporter = nodemailer.createTransport({
 });
 
 app.post("/send-email", async (req, res) => {
+  const { to, subject, text } = req.body; // Extract email details from request body
   const details = {
     from: process.env.EMAIL_USER || "test@gmail.com",
-    to: "example@gmail.com",
-    subject: "Subject of your email",
-    text: "Content of your email",
+    to,
+    subject,
+    text,
   };
 
   try {
@@ -55,45 +62,18 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send('<a href="/auth/google">Authenticate with Google</a>');
+// Protected route - requires authentication
+app.get("/", ensureAuthenticated, (req, res) => {
+  res.status(200).json({ message: 'Homepage' });
 });
 
-const isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.status(401).json({ error: 'Not authenticated' });
-};
-
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
-);
-
-app.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "/protected",
-    failureRedirect: "/auth/failure",
-  })
-);
-
-app.get("/auth/failure", (req, res) => {
-  res.status(400).json({ error: 'Something went wrong.' });
-});
-
-app.get("/protected", isLoggedIn, (req, res) => {
-  res.status(200).json({ message: 'Protected Route' });
-});
-
+// Logout route
 app.get("/logout", (req, res) => {
-  req.logout();
   req.session.destroy();
   res.status(200).json({ message: 'GoodBye!' });
 });
 
-const port = PORT || 3000; 
+const port = 3001;
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

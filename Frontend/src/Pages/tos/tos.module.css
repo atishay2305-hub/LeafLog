@@ -1,18 +1,19 @@
-/* src/app/tos/Tos.module.css */
+/* src/app/signup/tos.module.css */
 
-.container {
-  display: block;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  padding: 40px;
-  margin-top: 40px;
-  border: 1px solid #ffffff;
-  border-radius: 8px;
-  background-color: #467061;
+.tosContainer {
+  background: linear-gradient(135deg, #467061 0%, #5a897a 100%);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  background-size: cover;
+  background-position: center;
   width: 100%;
-  max-width: 1200px;
-  /* Adjust the width of the form container */
+  height: 1300px;
+  margin: 2px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #fff;
+  position: relative;
+  /* Needed for z-index to work */
+  z-index: 0;
 }
 
 .title {
@@ -29,27 +30,25 @@
   margin-bottom: 20px;
 }
 
-.body {
-  text-align: left;
-  color: #ffffff;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.indent {
-  text-align: left;
-  color: #ffffff;
-  font-size: 16px;
-  margin-left: 25px;
-  margin-bottom: 20px;
-}
-
 .form {
   display: flex;
   flex-direction: column;
   width: 60%;
   align-self: center;
   margin-left: 18%;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  align-self: center;
+  margin-left: 28%;
+}
+
+.descriptionText {
+  margin-left: 35%;
+  font-weight: bold;
 }
 
 .label {
@@ -77,6 +76,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  color: black;
 }
 
 .button {
@@ -90,13 +90,13 @@
 }
 
 .button:hover {
-  background-color: #467061;
+  background-color: #8fc4b1;
 }
 
 .submitButton {
   padding: 0.5rem 1rem;
   background-color: #000000;
-  color: white;
+  color: rgb(124, 118, 118);
   border: rgb(0, 0, 0);
   border-radius: 1px;
   cursor: pointer;
@@ -121,7 +121,27 @@
   background-color: #8fc4b1;
 }
 
-.loginForm {
+.googleSignupButton {
+  padding: 0.5rem 1rem;
+  background-color: #db4437;
+  /* Google brand color */
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: bold;
+  /* Space from the main form */
+}
+
+.google-signup-button:hover {
+  background-color: #8fc4b1;
+  /* Darker shade for hover effect */
+}
+
+.signupForm {
   margin-right: 30%;
   margin-top: 20px;
   width: 100%;
@@ -132,14 +152,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.bottom {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-  align-self: center;
-  margin-left: 28%;
-}
-
 .bottomText {
-  margin-left: 34%;
+  margin-left: 0%;
 }
