@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "./Header.module.css"; // Adjust the import path as necessary
+import styles from "./Header.css"; // Adjust the import path as necessary
 
 const Header = () => {
   return (
