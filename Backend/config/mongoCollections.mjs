@@ -19,7 +19,6 @@ const getCollection = (collectionName) => {
     };
 };
 
-export const users = getCollection('users');
 export const plants = getCollection('plants');
 export const details = getCollection('details');
 export const diseases = getCollection('diseases');
