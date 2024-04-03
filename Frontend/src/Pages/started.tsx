@@ -2,10 +2,9 @@
 "use client";
 
 import Head from "next/head";
-import Header from "../../components/Header";
+import Header from "../components/Header";
 import { useState, FormEvent, ChangeEvent } from "react";
-import styles from "./start.module.css";
-
+import styles from '../styles/start.module.css';
 
 export default function Start() {
   return (

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom"; 
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/ErrorMessage";
+import Loading from "../components/Loading";
+import ErrorMessage from "../components/ErrorMessage";
 
-import { login } from "../../actions/userActions";
-import MainScreen from "../../components/MainScreen";
-import "./login.css";
+import { login } from "../actions/userActions";
+import MainScreen from "../components/MainScreen";
+import '../styles/login.css';
 
 interface UserLoginState {
   loading: boolean;

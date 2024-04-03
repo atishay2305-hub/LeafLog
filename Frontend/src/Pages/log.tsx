@@ -1,11 +1,11 @@
 // pages/plant-log.tsx
 
 import Head from "next/head";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import React, { useState, FormEvent } from "react";
-import "../../style.css";
-import styles from "./plant-log.module.css";
+import "../styles/style.css";
+import styles from '../styles/plant-log.module.css';
 
 interface PlantLogItem {
   label: string;

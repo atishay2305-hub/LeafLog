@@ -1,54 +1,54 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/ErrorMessage";
-import { register } from "../../actions/userActions";
-import MainScreen from "../../components/MainScreen";
-import "./RegisterScreen.css";
+import { Link, useNavigate } from "react-router-dom"; 
+import Loading from "../components/Loading";
+import ErrorMessage from "../components/ErrorMessage";
+import { register } from "../actions/userActions";
+import MainScreen from "../components/MainScreen";
+import "../styles/RegisterScreen.css";
 
 const RegisterScreen: React.FC = () => { // Remove history from props
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [pic, setPic] = useState<string>(
-    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-  );
+  // const [pic, setPic] = useState<string>(
+  //   "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+  // );
   const [password, setPassword] = useState<string>("");
   const [confirmpassword, setConfirmPassword] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
-  const [picMessage, setPicMessage] = useState<string | null>(null);
+  // const [picMessage, setPicMessage] = useState<string | null>(null);
 
   const { loading, error, userInfo } = useSelector((state: any) => state.userRegister);
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Use useNavigate hook instead of history
 
-  const postDetails = (pics: File) => {
-    if (!pics) {
-      return setPicMessage("Please select an Image");
-    }
-    setPicMessage(null);
-    if (pics.type === "image/jpeg" || pics.type === "image/png") {
-      const data = new FormData();
-      data.append("file", pics);
-      data.append("upload_preset", "notezipper");
-      data.append("cloud_name", "piyushproj");
-      fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setPic(data.url.toString());
-        })
-        .catch((err) => {
-          console.log(err);
-          setPicMessage("Error uploading image");
-        });
-    } else {
-      return setPicMessage("Please Select an Image");
-    }
-  };
+  // const postDetails = (pics: File) => {
+  //   if (!pics) {
+  //     return setPicMessage("Please select an Image");
+  //   }
+  //   setPicMessage(null);
+  //   if (pics.type === "image/jpeg" || pics.type === "image/png") {
+  //     const data = new FormData();
+  //     data.append("file", pics);
+  //     data.append("upload_preset", "notezipper");
+  //     data.append("cloud_name", "piyushproj");
+  //     fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
+  //       method: "post",
+  //       body: data,
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setPic(data.url.toString());
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         setPicMessage("Error uploading image");
+  //       });
+  //   } else {
+  //     return setPicMessage("Please Select an Image");
+  //   }
+  // };
 
   useEffect(() => {
     if (userInfo) {
@@ -62,7 +62,7 @@ const RegisterScreen: React.FC = () => { // Remove history from props
     if (password !== confirmpassword) {
       setMessage("Passwords do not match");
     } else {
-      dispatch(register(name, email, password, pic));
+      dispatch(register(name, email, password, /*pic*/)); // Commented out pic
     }
   };
 
@@ -113,7 +113,7 @@ const RegisterScreen: React.FC = () => { // Remove history from props
             />
           </Form.Group>
 
-          {picMessage && (
+          {/*{picMessage && (
             <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
           )}
 
@@ -132,7 +132,7 @@ const RegisterScreen: React.FC = () => { // Remove history from props
               className="rounded-circle"
               style={{ width: "100px", height: "100px" }}
             />
-          )}
+          )}*/}
 
           <Button variant="primary" type="submit">
             Register

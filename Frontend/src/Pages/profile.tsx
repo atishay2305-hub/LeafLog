@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import MainScreen from "../../components/MainScreen";
-import "./ProfileScreen.css";
+import MainScreen from "../components/MainScreen";
+import "../styles/ProfileScreen.css";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfile } from "../../actions/userActions";
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/ErrorMessage";
+import { updateProfile } from "../actions/userActions";
+import Loading from "../components/Loading";
+import ErrorMessage from "../components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 
 interface UserInfo {
@@ -17,10 +17,10 @@ interface UserInfo {
 const ProfileScreen: React.FC<{ location: any }> = ({ location }) => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [pic, setPic] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [picMessage, setPicMessage] = useState<string | null>(null);
+  // const [pic, setPic] = useState<string>("");
+  // const [picMessage, setPicMessage] = useState<string | null>(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,38 +37,40 @@ const ProfileScreen: React.FC<{ location: any }> = ({ location }) => {
     } else {
       setName(userInfo.name);
       setEmail(userInfo.email);
-      setPic(userInfo.pic);
+      // setPic(userInfo.pic);
     }
   }, [navigate, userInfo]);
 
-  const postDetails = (pics: File) => {
-    setPicMessage(null);
-    if (pics.type === "image/jpeg" || pics.type === "image/png") {
-      const data = new FormData();
-      data.append("file", pics);
-      data.append("upload_preset", "notezipper");
-      data.append("cloud_name", "piyushproj");
-      fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setPic(data.url.toString());
-          console.log(pic);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      return setPicMessage("Please Select an Image");
-    }
-  };
+  // const postDetails = (pics: File) => {
+  //   setPicMessage(null);
+  //   if (pics.type === "image/jpeg" || pics.type === "image/png") {
+  //     const data = new FormData();
+  //     data.append("file", pics);
+  //     data.append("upload_preset", "notezipper");
+  //     data.append("cloud_name", "piyushproj");
+  //     fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
+  //       method: "post",
+  //       body: data,
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setPic(data.url.toString());
+  //         console.log(pic);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   } else {
+  //     return setPicMessage("Please Select an Image");
+  //   }
+  // };
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateProfile({ name, email, password, pic }));
+    dispatch(updateProfile({ name, email, password /*, pic */ }));
   };
+
+  // Use location prop here if needed
 
   return (
     <MainScreen title="EDIT PROFILE">
@@ -119,7 +121,7 @@ const ProfileScreen: React.FC<{ location: any }> = ({ location }) => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 ></Form.Control>
               </Form.Group>{" "}
-              {picMessage && (
+              {/* picMessage && (
                 <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
               )}
               <Form.Group controlId="pic">
@@ -133,13 +135,13 @@ const ProfileScreen: React.FC<{ location: any }> = ({ location }) => {
                   label="Upload Profile Picture"
                   custom
                 />
-              </Form.Group>
+              </Form.Group> */}
               <Button type="submit" variant="primary">
                 Update
               </Button>
             </Form>
           </Col>
-          <Col
+          {/* <Col
             style={{
               display: "flex",
               alignItems: "center",
@@ -147,7 +149,7 @@ const ProfileScreen: React.FC<{ location: any }> = ({ location }) => {
             }}
           >
             <img src={pic} alt={name} className="profilePic" />
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </MainScreen>
