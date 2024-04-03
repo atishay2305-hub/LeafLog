@@ -1,148 +1,113 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import MainScreen from "../components/MainScreen";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"; 
+import { register } from "../redux/actions/userActions";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
-import { register } from "../actions/userActions";
-import MainScreen from "../components/MainScreen";
-import "../styles/RegisterScreen.css";
+import { Link, useNavigate } from "react-router-dom";
 
-const RegisterScreen: React.FC = () => { // Remove history from props
+const RegisterScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
-  // const [pic, setPic] = useState<string>(
-  //   "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-  // );
   const [password, setPassword] = useState<string>("");
-  const [confirmpassword, setConfirmPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
-  // const [picMessage, setPicMessage] = useState<string | null>(null);
 
   const { loading, error, userInfo } = useSelector((state: any) => state.userRegister);
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Use useNavigate hook instead of history
-
-  // const postDetails = (pics: File) => {
-  //   if (!pics) {
-  //     return setPicMessage("Please select an Image");
-  //   }
-  //   setPicMessage(null);
-  //   if (pics.type === "image/jpeg" || pics.type === "image/png") {
-  //     const data = new FormData();
-  //     data.append("file", pics);
-  //     data.append("upload_preset", "notezipper");
-  //     data.append("cloud_name", "piyushproj");
-  //     fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
-  //       method: "post",
-  //       body: data,
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setPic(data.url.toString());
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         setPicMessage("Error uploading image");
-  //       });
-  //   } else {
-  //     return setPicMessage("Please Select an Image");
-  //   }
-  // };
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/LandingPage"); // Use navigate instead of history.push()
+      navigate("/LandingPage");
     }
   }, [navigate, userInfo]);
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (password !== confirmpassword) {
+    if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      dispatch(register(name, email, password, /*pic*/)); // Commented out pic
+      dispatch(register(name, email, password));
     }
   };
 
   return (
     <MainScreen title="REGISTER">
-      <div className="loginContainer">
-        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-        {loading && <Loading />}
-        <Form onSubmit={submitHandler}>
-          <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="name"
-              value={name}
-              placeholder="Enter name"
-              onChange={(e) => setName(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              value={email}
-              placeholder="Enter email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              value={password}
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              value={confirmpassword}
-              placeholder="Confirm Password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </Form.Group>
-
-          {/*{picMessage && (
-            <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-          )}
-
-          <Form.Group controlId="pic">
-            <Form.Label>Profile Picture</Form.Label>
-            <Form.Control
-              type="file"
-              onChange={(e) => postDetails(e.target.files[0])}
-            />
-          </Form.Group>
-
-          {pic && (
-            <img
-              src={pic}
-              alt="Profile"
-              className="rounded-circle"
-              style={{ width: "100px", height: "100px" }}
-            />
-          )}*/}
-
-          <Button variant="primary" type="submit">
-            Register
-          </Button>
-        </Form>
-        <Row className="py-3">
-          <Col>
-            Have an Account? <Link to="/login">Login</Link>
-          </Col>
-        </Row>
+      <div className="flex justify-center items-center h-screen">
+        <div className="max-w-md w-full">
+          <form onSubmit={submitHandler} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+            {loading && <Loading />}
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                Name
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="name"
+                type="name"
+                placeholder="Enter name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                Email address
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="email"
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                Password
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirmPassword">
+                Confirm Password
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="confirmPassword"
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Register
+              </button>
+            </div>
+          </form>
+          <div className="text-center">
+            <p className="text-gray-600 text-sm">
+              Have an Account? <Link to="/login" className="text-blue-500">Login</Link>
+            </p>
+          </div>
+        </div>
       </div>
     </MainScreen>
   );
