@@ -1,36 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
+
 import { login } from "../../actions/userActions";
 import MainScreen from "../../components/MainScreen";
-import "./LoginScreen.css";
+import "./login.css";
 
-function LoginScreen({ history }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+interface UserLoginState {
+  loading: boolean;
+  error: string | null;
+  userInfo: any; // Adjust this according to your user info type
+}
+
+const Login: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Changed this line
 
-  const userLogin = useSelector((state) => state.userLogin);
+  const userLogin = useSelector((state: { userLogin: UserLoginState }) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
 
-      useEffect(() => {
-        if (userInfo) {
-          // Check if history object is available, otherwise fallback to default behavior
-          if (history) {
-            history.push("/mynotes");
-          } else {
-            window.location.href = "/mynotes"; // Fallback to window location
-          }
-        }
-      }, [history, userInfo]);
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/mynotes"); // Changed this line
+    }
+  }, [navigate, userInfo]);
 
-
-  
-  const submitHandler = (e) => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(login(email, password));
   };
@@ -73,6 +74,6 @@ function LoginScreen({ history }) {
       </div>
     </MainScreen>
   );
-}
+};
 
-export default LoginScreen;
+export default Login;

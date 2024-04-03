@@ -6,34 +6,42 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../actions/userActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
+import { useNavigate } from "react-router-dom";
 
-const ProfileScreen = ({ location, history }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [pic, setPic] = useState();
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [picMessage, setPicMessage] = useState();
+interface UserInfo {
+  name: string;
+  email: string;
+  pic: string;
+}
+
+const ProfileScreen: React.FC<{ location: any }> = ({ location }) => {
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [pic, setPic] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [picMessage, setPicMessage] = useState<string | null>(null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const userLogin = useSelector((state) => state.userLogin);
+  const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userUpdate = useSelector((state) => state.userUpdate);
+  const userUpdate = useSelector((state: any) => state.userUpdate);
   const { loading, error, success } = userUpdate;
 
   useEffect(() => {
     if (!userInfo) {
-      history.push("/");
+      navigate("/");
     } else {
       setName(userInfo.name);
       setEmail(userInfo.email);
       setPic(userInfo.pic);
     }
-  }, [history, userInfo]);
+  }, [navigate, userInfo]);
 
-  const postDetails = (pics) => {
+  const postDetails = (pics: File) => {
     setPicMessage(null);
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
@@ -57,9 +65,8 @@ const ProfileScreen = ({ location, history }) => {
     }
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     dispatch(updateProfile({ name, email, password, pic }));
   };
 
@@ -118,14 +125,16 @@ const ProfileScreen = ({ location, history }) => {
               <Form.Group controlId="pic">
                 <Form.Label>Change Profile Picture</Form.Label>
                 <Form.File
-                  onChange={(e) => postDetails(e.target.files[0])}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    postDetails(e.target.files![0])
+                  }
                   id="custom-file"
                   type="image/png"
                   label="Upload Profile Picture"
                   custom
                 />
               </Form.Group>
-              <Button type="submit" varient="primary">
+              <Button type="submit" variant="primary">
                 Update
               </Button>
             </Form>

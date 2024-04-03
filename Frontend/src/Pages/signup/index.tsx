@@ -8,22 +8,22 @@ import { register } from "../../actions/userActions";
 import MainScreen from "../../components/MainScreen";
 import "./RegisterScreen.css";
 
-function RegisterScreen() { // Remove history from props
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [pic, setPic] = useState(
+const RegisterScreen: React.FC = () => { // Remove history from props
+  const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [pic, setPic] = useState<string>(
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
   );
-  const [password, setPassword] = useState("");
-  const [confirmpassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState(null);
-  const [picMessage, setPicMessage] = useState(null);
+  const [password, setPassword] = useState<string>("");
+  const [confirmpassword, setConfirmPassword] = useState<string>("");
+  const [message, setMessage] = useState<string | null>(null);
+  const [picMessage, setPicMessage] = useState<string | null>(null);
 
-  const { loading, error, userInfo } = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = useSelector((state: any) => state.userRegister);
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Use useNavigate hook instead of history
 
-  const postDetails = (pics) => {
+  const postDetails = (pics: File) => {
     if (!pics) {
       return setPicMessage("Please select an Image");
     }
@@ -56,7 +56,7 @@ function RegisterScreen() { // Remove history from props
     }
   }, [navigate, userInfo]);
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (password !== confirmpassword) {
