@@ -52,7 +52,7 @@ const RegisterScreen: React.FC = () => { // Remove history from props
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/mynotes"); // Use navigate instead of history.push()
+      navigate("/LandingPage"); // Use navigate instead of history.push()
     }
   }, [navigate, userInfo]);
 

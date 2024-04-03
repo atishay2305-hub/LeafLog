@@ -23,14 +23,14 @@ const Header = () => {
             </a>
           </Link>
 
-          <Link href="/signup" legacyBehavior>
-            <a id="signupLink" className="navLink">
-              Sign Up &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link href="/profile" legacyBehavior>
+            <a id="profileLink" className="navLink">
+              Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
-          <Link href="/login" legacyBehavior>
-            <a id="loginLink" className="navLink">
-              Log In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link href="/logout" legacyBehavior>
+            <a id="logoutLink" className="navLink">
+              Log Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
           <Link href="/tos" legacyBehavior>

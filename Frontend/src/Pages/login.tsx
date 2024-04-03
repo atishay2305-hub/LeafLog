@@ -27,7 +27,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/mynotes"); // Changed this line
+      navigate("/LandingPage"); // Changed this line
     }
   }, [navigate, userInfo]);
 
