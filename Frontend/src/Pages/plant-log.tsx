@@ -17,14 +17,21 @@ export default function PlantLog() {
   const [plantSpecies, setPlantSpecies] = useState("");
   const [petName, setPetName] = useState("");
   const [otherNotes, setOtherNotes] = useState("");
-  const [submittedData, setSubmittedData] = useState<SubmittedData | null>(
-    null
+  const [submittedDataList, setSubmittedDataList] = useState<SubmittedData[]>(
+    []
   );
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    setSubmittedData({ plantSpecies, petName, otherNotes });
-    // No need to call the API if you're not storing the data
+    // Append the new entry to the submitted data list
+    setSubmittedDataList((prevList) => [
+      ...prevList,
+      { plantSpecies, petName, otherNotes },
+    ]);
+    // Reset the form fields
+    setPlantSpecies("");
+    setPetName("");
+    setOtherNotes("");
   };
 
   return (
@@ -87,14 +94,14 @@ export default function PlantLog() {
           </div>
         </div>
       </div>
-      {submittedData && (
-        <div className={styles.container}>
+      {submittedDataList.map((data, index) => (
+        <div key={index} className={styles.submittedBox}>
           <h2>Submitted Information:</h2>
-          <p>Plant Species: {submittedData.plantSpecies}</p>
-          <p>Pet Name: {submittedData.petName}</p>
-          <p>Other Notes: {submittedData.otherNotes}</p>
+          <p>Plant Species: {data.plantSpecies}</p>
+          <p>Pet Name: {data.petName}</p>
+          <p>Other Notes: {data.otherNotes}</p>
         </div>
-      )}
+      ))}
       <Footer />
     </>
   );
