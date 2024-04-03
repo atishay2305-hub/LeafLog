@@ -1,14 +1,12 @@
-/* src/app/signup/Signup.module.css */
-
-/* src/app/signup/Signup.module.css */
+/* src/app/tos/Tos.module.css */
 
 .container {
   display: block;
   align-items: center;
   justify-content: center;
   margin: auto;
-  padding: 80px;
-  margin-top: 10px;
+  padding: 40px;
+  margin-top: 40px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   background-color: #467061;
@@ -31,25 +29,27 @@
   margin-bottom: 20px;
 }
 
+.body {
+  text-align: left;
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.indent {
+  text-align: left;
+  color: #ffffff;
+  font-size: 16px;
+  margin-left: 25px;
+  margin-bottom: 20px;
+}
+
 .form {
   display: flex;
   flex-direction: column;
   width: 60%;
   align-self: center;
   margin-left: 18%;
-}
-
-.bottom {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-  align-self: center;
-  margin-left: 28%;
-}
-
-.descriptionText {
-  margin-left: 35%;
-  font-weight: bold;
 }
 
 .label {
@@ -77,7 +77,6 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  color: black;
 }
 
 .button {
@@ -91,13 +90,13 @@
 }
 
 .button:hover {
-  background-color: #8fc4b1;
+  background-color: #467061;
 }
 
 .submitButton {
   padding: 0.5rem 1rem;
   background-color: #000000;
-  color: rgb(124, 118, 118);
+  color: white;
   border: rgb(0, 0, 0);
   border-radius: 1px;
   cursor: pointer;
@@ -133,6 +132,14 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.bottom {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  align-self: center;
+  margin-left: 28%;
+}
+
 .bottomText {
-  margin-left: 0%;
+  margin-left: 34%;
 }
