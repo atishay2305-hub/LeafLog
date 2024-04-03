@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-import "../style.css";
+import "../styles/style.css";
 import image1 from "../img/1.jpg";
 import image2 from "../img/2.jpg";
 import image3 from "../img/3.jpg";
@@ -226,7 +226,7 @@ export default function Home() {
                 <li key={person.name}>
                   <div className="flex  items-center gap-x-6">
                     <div>
-                      <h2 className="text-base text-xl font-semibold leading-7 tracking-tight text-gray-900">
+                      <h2 className="text-xl font-semibold leading-7 tracking-tight text-gray-900">
                         {person.name}
                       </h2>
                       <p className="text-lg font-semibold leading-6 text-indigo-600">

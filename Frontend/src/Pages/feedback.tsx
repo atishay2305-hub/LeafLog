@@ -1,10 +1,10 @@
 // pages/feedback.tsx
 import Head from "next/head";
-import Header from "../../components/Header";
+import Header from "../components/Header";
 import { useState, FormEvent } from "react";
-import styles from "./feedback.module.css";
+import styles from '../styles/feedback.module.css'; // Corrected import for styles
 
-export default function PlantLog() {
+export default function Feedback() {
   const [feedback, setFeedback] = useState("");
 
   const handleSubmit = async (event: FormEvent) => {
@@ -32,8 +32,7 @@ export default function PlantLog() {
   return (
     <>
       <Header />
-      <div className={styles.container}>
-        {" "}
+      <div className={styles.container}> {/* Corrected className */}
         <Head>
           <title>Feedback Form</title>
           <meta name="description" content="Submit a Feedback Form" />

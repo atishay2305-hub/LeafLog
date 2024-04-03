@@ -1,11 +1,10 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import nodemailer from "nodemailer";
+import dotenv from "dotenv"; // Add import for dotenv
 import userRoutes from "./routes/userRoutes.js";
-import noteRoutes from "./routes/noteRoutes.js";
-import connectDB from "./config/db.js";
-import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
+import { dbConnection as connectDB } from "./config/mongoConnection.mjs";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js"; // Update import path
 
 dotenv.config();
 
@@ -13,15 +12,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const mongoURI = "mongodb://localhost:27017/notesApp";
-connectDB(mongoURI);
+const mongoURI = "mongodb://localhost:27017/leaflog";
+connectDB(mongoURI); // Call connectDB with the correct argument
 
 app.get("/", (req, res) => {
   res.send("API is running");
 });
 
 app.use("/api/users", userRoutes);
-app.use("/api/notes", noteRoutes);
 
 const mailTransporter = nodemailer.createTransport({
   service: "gmail",
