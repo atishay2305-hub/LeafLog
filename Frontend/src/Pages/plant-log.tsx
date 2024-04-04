@@ -4,8 +4,7 @@ import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import React, { useState, FormEvent } from "react";
-import "./index.module.css";
-import styles from './plant-log.module.css';
+import styles from './plant-log.css';
 
 interface PlantLogItem {
   label: string;

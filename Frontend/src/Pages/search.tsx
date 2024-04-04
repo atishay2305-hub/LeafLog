@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useState, FormEvent, ChangeEvent } from "react";
 import styles from './search.module.css';
-import "./index.module.css";
+
 
 // Define the interface for our plant objects
 interface Plant {
