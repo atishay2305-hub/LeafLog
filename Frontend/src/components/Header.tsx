@@ -7,7 +7,7 @@ const Header = () => {
     <div>
       <header className="navbar">
         <div className="links">
-          <Link href="/" legacyBehavior>
+          <Link href="/LandingPage" legacyBehavior>
             <a id="homeLink" className="navLink">
               Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
@@ -28,7 +28,7 @@ const Header = () => {
               Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
-          <Link href="/logout" legacyBehavior>
+          <Link href="/" legacyBehavior>
             <a id="logoutLink" className="navLink">
               Log Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
