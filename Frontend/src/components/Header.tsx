@@ -33,11 +33,6 @@ const Header = () => {
               Log In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
-          <Link href="/tos" legacyBehavior>
-            <a id="tosLink" className="navLink">
-              Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </a>
-          </Link>
         </div>
       </header>
     </div>

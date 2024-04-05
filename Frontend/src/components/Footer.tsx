@@ -31,7 +31,7 @@ const Footer = () => {
           </Link>
           <Link href="/feedback" legacyBehavior>
             <a id="feedbackLink" className="navLink">
-              Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Feedback &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
           <Link href="/tos" legacyBehavior>

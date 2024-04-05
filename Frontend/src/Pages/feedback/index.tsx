@@ -1,8 +1,10 @@
 // pages/feedback.tsx
 import Head from "next/head";
 import Header from "../../components/Header";
+import Footer from '../../components/Footer';
 import { useState, FormEvent } from "react";
 import styles from "./feedback.module.css";
+import '../../style.css';
 
 export default function PlantLog() {
   const [feedback, setFeedback] = useState("");
@@ -32,6 +34,8 @@ export default function PlantLog() {
   return (
     <>
       <Header />
+      <div className="home">
+      <div className="top-level">
       <div className={styles.container}>
         {" "}
         <Head>
@@ -57,6 +61,9 @@ export default function PlantLog() {
           </button>
         </form>
       </div>
+      </div>
+      </div>
+      <Footer />
     </>
   );
 }
