@@ -2,7 +2,7 @@
 import Head from "next/head";
 import Header from "../components/Header";
 import { useState, FormEvent } from "react";
-import styles from '../styles/feedback.module.css'; // Corrected import for styles
+import styles from './feedback.module.css'; // Corrected import path
 
 export default function Feedback() {
   const [feedback, setFeedback] = useState("");
@@ -32,7 +32,7 @@ export default function Feedback() {
   return (
     <>
       <Header />
-      <div className={styles.container}> {/* Corrected className */}
+      <div className={styles.container}>
         <Head>
           <title>Feedback Form</title>
           <meta name="description" content="Submit a Feedback Form" />

@@ -1,10 +1,9 @@
 import express from "express";
 import cors from "cors";
 import nodemailer from "nodemailer";
-import dotenv from "dotenv"; // Add import for dotenv
-import userRoutes from "./routes/userRoutes.js";
-import { dbConnection as connectDB } from "./config/mongoConnection.mjs";
-import { notFound, errorHandler } from "./middleware/errorMiddleware.js"; // Update import path
+import dotenv from "dotenv"; 
+import { dbConnection as connectDB } from "./config/mongoConnection.js"; // Fix import path
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 
@@ -18,8 +17,6 @@ connectDB(mongoURI); // Call connectDB with the correct argument
 app.get("/", (req, res) => {
   res.send("API is running");
 });
-
-app.use("/api/users", userRoutes);
 
 const mailTransporter = nodemailer.createTransport({
   service: "gmail",

@@ -13,6 +13,63 @@ interface SubmittedData {
   otherNotes: string;
 }
 
+interface PlantLogItem {
+  label: string;
+  placeholder: string;
+  type: "text" | "textarea";
+  value: string;
+  onChange: (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => void;
+}
+
+const PlantLogForm: React.FC<{ items: PlantLogItem[] }> = ({ items }) => (
+  <div className="bg-white p-6 rounded-lg shadow-lg">
+    <form className={styles.form}>
+      {items.map((item, index) => (
+        <div key={index} className="flex flex-col">
+          <label htmlFor={item.label} className={styles.label}>
+            {item.label}
+          </label>
+          {item.type === "text" && (
+            <input
+              type="text"
+              id={item.label}
+              name={item.label}
+              value={item.value}
+              // Use the input event type here
+              onChange={
+                item.onChange as React.ChangeEventHandler<HTMLInputElement>
+              }
+              className={styles.input}
+              placeholder={item.placeholder}
+            />
+          )}
+          {item.type === "textarea" && (
+            <textarea
+              id={item.label}
+              name={item.label}
+              value={item.value}
+              // Use the textarea event type here
+              onChange={
+                item.onChange as React.ChangeEventHandler<HTMLTextAreaElement>
+              }
+              className={styles.input}
+              placeholder={item.placeholder}
+            />
+          )}
+        </div>
+      ))}
+      <br />
+      <button type="submit" className={styles.button}>
+        Submit Log Entry
+      </button>
+    </form>
+  </div>
+);
+
 export default function PlantLog() {
   const [plantSpecies, setPlantSpecies] = useState("");
   const [petName, setPetName] = useState("");

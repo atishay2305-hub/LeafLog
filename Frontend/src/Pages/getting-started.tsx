@@ -4,7 +4,7 @@
 import Head from "next/head";
 import Header from "../components/Header";
 import { useState, FormEvent, ChangeEvent } from "react";
-import styles from '../styles/start.module.css';
+import styles from './getting-started.module.css';
 
 export default function Start() {
   return (
