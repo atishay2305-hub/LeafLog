@@ -1,13 +1,13 @@
 import Link from "next/link";
 import React from "react";
-import "./Header.css";
+import "./Header.css"
 
 const Header = () => {
   return (
     <div>
       <header className="navbar">
         <div className="links">
-          <Link href="/" legacyBehavior>
+          <Link href="/LandingPage" legacyBehavior>
             <a id="homeLink" className="navLink">
               Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
@@ -23,14 +23,14 @@ const Header = () => {
             </a>
           </Link>
 
-          <Link href="/signup" legacyBehavior>
-            <a id="signupLink" className="navLink">
-              Sign Up &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link href="/profile" legacyBehavior>
+            <a id="profileLink" className="navLink">
+              Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
-          <Link href="/login" legacyBehavior>
-            <a id="loginLink" className="navLink">
-              Log In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link href="/" legacyBehavior>
+            <a id="logoutLink" className="navLink">
+              Log Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
           <Link href="/tos" legacyBehavior>

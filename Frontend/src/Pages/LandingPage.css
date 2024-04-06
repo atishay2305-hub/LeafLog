@@ -1,11 +1,3 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: monospace;
-  overflow-x: hidden;
-  /* Prevent horizontal scrolling on mobile */
-}
-
 .home {
   background-color: white;
   background-size: cover;
@@ -56,7 +48,7 @@ body {
   right: 0;
   bottom: 0;
   /* margin-top: 105px; */
-  background: url("../../src/img/fern-pattern.png");
+  background: url("../img/fern-pattern.png");
   background-repeat: repeat;
   /* This will repeat your pattern */
   background-size: auto;
