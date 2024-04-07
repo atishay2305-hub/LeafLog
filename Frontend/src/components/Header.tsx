@@ -1,8 +1,65 @@
+// import Link from "next/link";
+// import React from "react";
+// import "./Header.css"
+
+// const Header = () => {
+//   return (
+//     <div>
+//       <header className="navbar">
+//         <div className="links">
+//           <Link href="/LandingPage" legacyBehavior>
+//             <a id="homeLink" className="navLink">
+//               Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//             </a>
+//           </Link>
+//           <Link href="/plant-log" legacyBehavior>
+//             <a id="myPlantsLink" className="navLink">
+//               My Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//             </a>
+//           </Link>
+//           <Link href="/search" legacyBehavior>
+//             <a id="searchLink" className="navLink">
+//               Discover Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//             </a>
+//           </Link>
+
+//           <Link href="/profile" legacyBehavior>
+//             <a id="profileLink" className="navLink">
+//               Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//             </a>
+//           </Link>
+//           <Link href="/" legacyBehavior>
+//             <a id="logoutLink" className="navLink">
+//               Log Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//             </a>
+//           </Link>
+//           <Link href="/tos" legacyBehavior>
+//             <a id="tosLink" className="navLink">
+//               Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//             </a>
+//           </Link>
+//         </div>
+//       </header>
+//     </div>
+//   );
+// };
+
+// export default Header;
 import Link from "next/link";
 import React from "react";
-import "./Header.css"
+import "./Header.css";
+import Cookies from 'js-cookie';
+import Router from 'next/router';
 
 const Header = () => {
+  // Function to handle logout
+  const handleLogout = () => {
+    // Remove the token cookie
+    Cookies.remove('token');
+    // Redirect to the login page
+    Router.push('/login');
+  };
+
   return (
     <div>
       <header className="navbar">
@@ -28,11 +85,10 @@ const Header = () => {
               Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
-          <Link href="/" legacyBehavior>
-            <a id="logoutLink" className="navLink">
-              Log Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </a>
-          </Link>
+          {/* Logout link triggers handleLogout function */}
+          <a id="logoutLink" className="navLink" onClick={handleLogout}>
+            Log Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </a>
           <Link href="/tos" legacyBehavior>
             <a id="tosLink" className="navLink">
               Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
