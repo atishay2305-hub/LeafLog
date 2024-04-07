@@ -1,9 +1,11 @@
-import { useEffect, useState, FormEvent, ChangeEvent } from 'react'; // Import FormEvent and ChangeEvent
+import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import axios from 'axios';
 import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styles from './search.module.css';
+import Cookies from 'js-cookie';
+import Router from 'next/router';
 
 interface Plant {
   _id: string;
@@ -20,26 +22,31 @@ export default function Search() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchAllPlants = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get('/api/plantdata');
-        setAllPlants(response.data);
-      } catch (error) {
-        setError('An error occurred while fetching plant data.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAllPlants();
+    const token = Cookies.get('token');
+    if (!token) {
+      Router.push('/login');
+    } else {
+      const fetchAllPlants = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get('/api/plantdata');
+          setAllPlants(response.data);
+        } catch (error) {
+          setError('An error occurred while fetching plant data.');
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchAllPlants();
+    }
   }, []);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlantQuery(event.target.value);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => { // Use FormEvent<HTMLFormElement> for the handleSubmit function
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
     setLoading(true);

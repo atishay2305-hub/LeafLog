@@ -1,9 +1,22 @@
+import { useEffect } from 'react';
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "./tos.module.css";
+import Cookies from 'js-cookie';
+import Router from 'next/router';
 
 export default function TosPage() {
+  // Check authentication status
+  const isAuthenticated = !!Cookies.get('token');
+
+  useEffect(() => {
+    // Redirect to login if not authenticated
+    if (!isAuthenticated) {
+      Router.push('/login');
+    }
+  }, []);
+
   return (
     <>
       <Head>

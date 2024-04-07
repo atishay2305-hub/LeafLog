@@ -1,8 +1,10 @@
-import Head from "next/head";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import React, { useState, FormEvent } from "react";
-import './plant-log.css'; // Assuming it's a regular CSS file
+import React, { useState, FormEvent, useEffect } from 'react'; // Import useState, FormEvent, and ChangeEvent
+import Cookies from 'js-cookie';
+import Router from 'next/router';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Head from 'next/head'; // Import Head from Next.js
+import './plant-log.css';
 
 interface SubmittedData {
   plantSpecies: string;
@@ -24,10 +26,10 @@ interface PlantLogItem {
 
 const PlantLogForm: React.FC<{ items: PlantLogItem[] }> = ({ items }) => (
   <div className="bg-white p-6 rounded-lg shadow-lg">
-    <form className="form"> {/* Removed `styles.` prefix */}
+    <form className="form">
       {items.map((item, index) => (
         <div key={index} className="flex flex-col">
-          <label htmlFor={item.label} className="label"> {/* Removed `styles.` prefix */}
+          <label htmlFor={item.label} className="label">
             {item.label}
           </label>
           {item.type === "text" && (
@@ -65,13 +67,18 @@ const PlantLogForm: React.FC<{ items: PlantLogItem[] }> = ({ items }) => (
   </div>
 );
 
-export default function PlantLog() {
+const PlantLog = () => {
   const [plantSpecies, setPlantSpecies] = useState("");
   const [petName, setPetName] = useState("");
   const [otherNotes, setOtherNotes] = useState("");
-  const [submittedDataList, setSubmittedDataList] = useState<SubmittedData[]>(
-    []
-  );
+  const [submittedDataList, setSubmittedDataList] = useState<SubmittedData[]>([]);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (!token) {
+      Router.push('/login'); // Redirect to login page if not authenticated
+    }
+  }, []);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -89,14 +96,13 @@ export default function PlantLog() {
   return (
     <>
       <Header />
+      <Head>
+        <title>Log Your Plant</title>
+        <meta name="description" content="Create a new plant log entry" />
+      </Head>
       <div className="home">
         <div className="top-level">
           <div className="container"> 
-            {" "}
-            <Head>
-              <title>Log Your Plant</title>
-              <meta name="description" content="Create a new plant log entry" />
-            </Head>
             <h1 className="title">Create Plant Log Entry</h1> 
             <br />
             <form onSubmit={handleSubmit} className="form"> 
@@ -127,7 +133,7 @@ export default function PlantLog() {
                 placeholder="What do you call your plant?"
               />
 
-              <label htmlFor="otherNotes" className="label"> {/* Removed `styles.` prefix */}
+              <label htmlFor="otherNotes" className="label">
                 Other Notes
               </label>
               <textarea
@@ -135,11 +141,11 @@ export default function PlantLog() {
                 name="otherNotes"
                 value={otherNotes}
                 onChange={(e) => setOtherNotes(e.target.value)}
-                className="inputField" // Changed class for textarea to use inputField for better spacing
+                className="inputField"
                 placeholder="Any special care instructions or notes?"
               />
 
-              <button type="submit" className="button"> {/* Removed `styles.` prefix */}
+              <button type="submit" className="button">
                 Submit Log Entry
               </button>
             </form>
@@ -147,7 +153,7 @@ export default function PlantLog() {
         </div>
       </div>
       {submittedDataList.map((data, index) => (
-        <div key={index} className="submittedBox"> {/* Removed `styles.` prefix */}
+        <div key={index} className="submittedBox">
           <h2>Submitted Information:</h2>
           <p>Plant Species: {data.plantSpecies}</p>
           <p>Pet Name: {data.petName}</p>
@@ -158,3 +164,5 @@ export default function PlantLog() {
     </>
   );
 }
+
+export default PlantLog;
