@@ -1,41 +1,46 @@
 import Link from "next/link";
-import React from "react";
-import "./Header.css"
+import React, { useState } from "react";
+import "./Header.css";
 
 const Header = () => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
     <div>
       <header className="navbar">
-        <div className="links">
+        <div className="menu-toggle" onClick={toggleMenu}>
+          <div className="icon"></div>
+          <div className="icon"></div>
+          <div className="icon"></div>
+        </div>
+        <div className={`links ${showMenu ? 'show' : ''}`}>
           <Link href="/LandingPage" legacyBehavior>
             <a id="homeLink" className="navLink">
-              Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Home
             </a>
           </Link>
           <Link href="/plant-log" legacyBehavior>
             <a id="myPlantsLink" className="navLink">
-              My Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              My Plants
             </a>
           </Link>
           <Link href="/search" legacyBehavior>
             <a id="searchLink" className="navLink">
-              Discover Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </a>
-          </Link>
-
-          <Link href="/profile" legacyBehavior>
-            <a id="profileLink" className="navLink">
-              Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </a>
-          </Link>
-          <Link href="/" legacyBehavior>
-            <a id="logoutLink" className="navLink">
-              Log Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Discover Plants
             </a>
           </Link>
           <Link href="/tos" legacyBehavior>
             <a id="tosLink" className="navLink">
-              Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Terms of Service
+            </a>
+          </Link>
+          <Link href="/" legacyBehavior>
+            <a id="logoutLink" className="navLink">
+              Log Out
             </a>
           </Link>
         </div>

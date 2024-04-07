@@ -1,11 +1,8 @@
-// pages/plant-log.tsx
-
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import React, { useState, FormEvent } from "react";
-import "../styles/style.css";
-import styles from "../styles/plant-log.module.css";
+import './plant-log.css'; // Assuming it's a regular CSS file
 
 interface SubmittedData {
   plantSpecies: string;
@@ -27,10 +24,10 @@ interface PlantLogItem {
 
 const PlantLogForm: React.FC<{ items: PlantLogItem[] }> = ({ items }) => (
   <div className="bg-white p-6 rounded-lg shadow-lg">
-    <form className={styles.form}>
+    <form className="form"> {/* Removed `styles.` prefix */}
       {items.map((item, index) => (
         <div key={index} className="flex flex-col">
-          <label htmlFor={item.label} className={styles.label}>
+          <label htmlFor={item.label} className="label"> {/* Removed `styles.` prefix */}
             {item.label}
           </label>
           {item.type === "text" && (
@@ -39,11 +36,10 @@ const PlantLogForm: React.FC<{ items: PlantLogItem[] }> = ({ items }) => (
               id={item.label}
               name={item.label}
               value={item.value}
-              // Use the input event type here
               onChange={
                 item.onChange as React.ChangeEventHandler<HTMLInputElement>
               }
-              className={styles.input}
+              className="input"
               placeholder={item.placeholder}
             />
           )}
@@ -52,18 +48,17 @@ const PlantLogForm: React.FC<{ items: PlantLogItem[] }> = ({ items }) => (
               id={item.label}
               name={item.label}
               value={item.value}
-              // Use the textarea event type here
               onChange={
                 item.onChange as React.ChangeEventHandler<HTMLTextAreaElement>
               }
-              className={styles.input}
+              className="input" 
               placeholder={item.placeholder}
             />
           )}
         </div>
       ))}
       <br />
-      <button type="submit" className={styles.button}>
+      <button type="submit" className="button"> 
         Submit Log Entry
       </button>
     </form>
@@ -96,16 +91,16 @@ export default function PlantLog() {
       <Header />
       <div className="home">
         <div className="top-level">
-          <div className={styles.container}>
+          <div className="container"> 
             {" "}
             <Head>
               <title>Log Your Plant</title>
               <meta name="description" content="Create a new plant log entry" />
             </Head>
-            <h1 className={styles.title}>Create Plant Log Entry</h1>
+            <h1 className="title">Create Plant Log Entry</h1> 
             <br />
-            <form onSubmit={handleSubmit} className={styles.form}>
-              <label htmlFor="plantSpecies" className={styles.label}>
+            <form onSubmit={handleSubmit} className="form"> 
+              <label htmlFor="plantSpecies" className="label"> 
                 Plant Species
               </label>
               <input
@@ -114,12 +109,12 @@ export default function PlantLog() {
                 name="plantSpecies"
                 value={plantSpecies}
                 onChange={(e) => setPlantSpecies(e.target.value)}
-                className={styles.input}
+                className="input" 
                 placeholder="Type and search for a plant species"
                 required
               />
 
-              <label htmlFor="petName" className={styles.label}>
+              <label htmlFor="petName" className="label">
                 Pet Name
               </label>
               <input
@@ -128,11 +123,11 @@ export default function PlantLog() {
                 name="petName"
                 value={petName}
                 onChange={(e) => setPetName(e.target.value)}
-                className={styles.input}
+                className="input" 
                 placeholder="What do you call your plant?"
               />
 
-              <label htmlFor="otherNotes" className={styles.label}>
+              <label htmlFor="otherNotes" className="label"> {/* Removed `styles.` prefix */}
                 Other Notes
               </label>
               <textarea
@@ -140,11 +135,11 @@ export default function PlantLog() {
                 name="otherNotes"
                 value={otherNotes}
                 onChange={(e) => setOtherNotes(e.target.value)}
-                className={styles.inputField} // Changed class for textarea to use inputField for better spacing
+                className="inputField" // Changed class for textarea to use inputField for better spacing
                 placeholder="Any special care instructions or notes?"
               />
 
-              <button type="submit" className={styles.button}>
+              <button type="submit" className="button"> {/* Removed `styles.` prefix */}
                 Submit Log Entry
               </button>
             </form>
@@ -152,7 +147,7 @@ export default function PlantLog() {
         </div>
       </div>
       {submittedDataList.map((data, index) => (
-        <div key={index} className={styles.submittedBox}>
+        <div key={index} className="submittedBox"> {/* Removed `styles.` prefix */}
           <h2>Submitted Information:</h2>
           <p>Plant Species: {data.plantSpecies}</p>
           <p>Pet Name: {data.petName}</p>
