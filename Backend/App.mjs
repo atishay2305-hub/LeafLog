@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv"; 
-import { dbConnection as connectDB } from "./config/mongoConnection.js"; // Fix import path
+import { dbConnection as connectDB } from "./config/mongoConnection.mjs"; // Fix import path
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();

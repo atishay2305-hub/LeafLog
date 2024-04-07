@@ -1,57 +1,61 @@
-// search.tsx
-
-import Head from "next/head";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useEffect, useState, FormEvent, ChangeEvent } from 'react'; // Import FormEvent and ChangeEvent
+import axios from 'axios';
+import Head from 'next/head';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import styles from './search.module.css';
 
 interface Plant {
+  _id: string;
   common_name: string;
   scientific_name: string;
   other_name?: string;
-  cycle?: string;
-  watering?: string;
-  sunlight?: string;
-  description?: string;
 }
 
 export default function Search() {
   const [plantQuery, setPlantQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
+  const [allPlants, setAllPlants] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAllPlants = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get('/api/plantdata');
+        setAllPlants(response.data);
+      } catch (error) {
+        setError('An error occurred while fetching plant data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllPlants();
+  }, []);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlantQuery(event.target.value);
   };
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => { // Use FormEvent<HTMLFormElement> for the handleSubmit function
     event.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/plantdata/search?name=${encodeURIComponent(
-          plantQuery
-        )}`
+      const response = await axios.get(
+        `/api/plantdata/search?name=${encodeURIComponent(plantQuery)}`
       );
 
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("No plants found matching your query.");
-        }
-        throw new Error("An error occurred while searching.");
-      }
-
-      const results = await response.json();
+      const results = response.data;
       setSearchResults(results);
-    } catch (e) {
-      if (e instanceof Error) {
-        setError(e.message);
+    } catch (e: any) {
+      if (e.response && e.response.status === 404) {
+        setError("No plants found matching your query.");
       } else {
-        setError("An unexpected error occurred.");
+        setError("An error occurred while searching.");
       }
     } finally {
       setLoading(false);
@@ -80,12 +84,26 @@ export default function Search() {
           </button>
         </form>
         <div className={styles.resultsContainer}>
+          <h2>Search Results</h2>
+          {loading && <p>Loading...</p>}
+          {error && <p>{error}</p>}
           {searchResults.map((plant, index) => (
             <div key={index} className={styles.resultItem}>
-              <h2>{plant.common_name}</h2>
+              <h3>{plant.common_name}</h3>
               <p>Scientific Name: {plant.scientific_name}</p>
-              <p>Other Name: {plant.other_name}</p>
-              {/* Additional plant details can be displayed here */}
+              {plant.other_name && <p>Other Name: {plant.other_name}</p>}
+            </div>
+          ))}
+        </div>
+        <div className={styles.resultsContainer}>
+          <h2>All Plants</h2>
+          {loading && <p>Loading...</p>}
+          {error && <p>{error}</p>}
+          {allPlants.map((plant, index) => (
+            <div key={index} className={styles.resultItem}>
+              <h3>{plant.common_name}</h3>
+              <p>Scientific Name: {plant.scientific_name}</p>
+              {plant.other_name && <p>Other Name: {plant.other_name}</p>}
             </div>
           ))}
         </div>
