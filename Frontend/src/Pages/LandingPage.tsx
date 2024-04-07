@@ -108,6 +108,14 @@ export default function LandingPage() {
     Router.push('/');
   };
 
+  // Additional useEffect to prevent accessing landing page after logout
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (!token) {
+      Router.push('/');
+    }
+  }, []);
+
   return (
     <>
       <Header />

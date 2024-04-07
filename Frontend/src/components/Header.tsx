@@ -1,46 +1,41 @@
 import Link from "next/link";
-import React, { useState } from "react";
-import "./Header.css";
+import React from "react";
+import "./Header.css"
 
 const Header = () => {
-  const [showMenu, setShowMenu] = useState(false);
-
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
-
   return (
     <div>
       <header className="navbar">
-        <div className="menu-toggle" onClick={toggleMenu}>
-          <div className="icon"></div>
-          <div className="icon"></div>
-          <div className="icon"></div>
-        </div>
-        <div className={`links ${showMenu ? 'show' : ''}`}>
+        <div className="links">
           <Link href="/LandingPage" legacyBehavior>
             <a id="homeLink" className="navLink">
-              Home
+              Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
           <Link href="/plant-log" legacyBehavior>
             <a id="myPlantsLink" className="navLink">
-              My Plants
+              My Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
           <Link href="/search" legacyBehavior>
             <a id="searchLink" className="navLink">
-              Discover Plants
+              Discover Plants &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
-          <Link href="/tos" legacyBehavior>
-            <a id="tosLink" className="navLink">
-              Terms of Service
+
+          <Link href="/profile" legacyBehavior>
+            <a id="profileLink" className="navLink">
+              Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
           <Link href="/" legacyBehavior>
             <a id="logoutLink" className="navLink">
-              Log Out
+              Log Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+          </Link>
+          <Link href="/tos" legacyBehavior>
+            <a id="tosLink" className="navLink">
+              Terms of Service &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
           </Link>
         </div>
