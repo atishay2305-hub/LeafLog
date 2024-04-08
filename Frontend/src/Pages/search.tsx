@@ -16,7 +16,7 @@ interface Plant {
 
 export default function Search() {
   const [plantQuery, setPlantQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<Plant[]>([]);
+  const [searchResults, setSearchResults] = useState<Plant[] | null>(null);
   const [allPlants, setAllPlants] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +29,7 @@ export default function Search() {
       const fetchAllPlants = async () => {
         setLoading(true);
         try {
-          const response = await axios.get('/api/plantdata');
+          const response = await axios.get('http://localhost:5002/api/plantdata');
           setAllPlants(response.data);
         } catch (error) {
           setError('An error occurred while fetching plant data.');
@@ -53,7 +53,7 @@ export default function Search() {
 
     try {
       const response = await axios.get(
-        `/api/plantdata/search?name=${encodeURIComponent(plantQuery)}`
+        `http://localhost:5002/api/plantdata/search/common_name?name=${encodeURIComponent(plantQuery)}`
       );
 
       const results = response.data;
@@ -67,6 +67,14 @@ export default function Search() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddToLog = (plant: Plant) => {
+    // Navigate to the PlantLog page with plant data
+    Router.push({
+      pathname: '/plant-log',
+      query: { plantId: plant._id, commonName: plant.common_name, scientificName: plant.scientific_name }
+    });
   };
 
   return (
@@ -94,11 +102,12 @@ export default function Search() {
           <h2>Search Results</h2>
           {loading && <p>Loading...</p>}
           {error && <p>{error}</p>}
-          {searchResults.map((plant, index) => (
+          {Array.isArray(searchResults) && searchResults.map((plant, index) => (
             <div key={index} className={styles.resultItem}>
               <h3>{plant.common_name}</h3>
               <p>Scientific Name: {plant.scientific_name}</p>
               {plant.other_name && <p>Other Name: {plant.other_name}</p>}
+              <button onClick={() => handleAddToLog(plant)}>Add to Log</button>
             </div>
           ))}
         </div>
@@ -111,6 +120,7 @@ export default function Search() {
               <h3>{plant.common_name}</h3>
               <p>Scientific Name: {plant.scientific_name}</p>
               {plant.other_name && <p>Other Name: {plant.other_name}</p>}
+              <button onClick={() => handleAddToLog(plant)}>Add to Log</button>
             </div>
           ))}
         </div>

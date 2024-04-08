@@ -59,6 +59,7 @@ router.get("/api/plantdata/:id", async (req, res, next) => {
 });
 
 // Route to search plant by common name
+
 router.get("/api/plantdata/search/common_name", async (req, res, next) => {
   try {
     const commonName = req.query.name;
