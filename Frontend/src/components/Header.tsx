@@ -18,21 +18,12 @@ const Header = () => {
       <div className="container mx-auto flex justify-between items-center">
         <a href="/LandingPage" className="text-white text-2xl font-bold">LeafLog</a>
         <nav className="hidden md:block">
-          <ul className="flex space-x-4">
-            <NavItem href="/LandingPage">Home</NavItem>
+          <ul className="flex space-x-4 divide-x divide-white">
             <NavItem href="/plant-log">My Plants</NavItem>
             <NavItem href="/search">Discover Plants</NavItem>
             <NavItem href="/profile">Profile</NavItem>
             <NavItem href="/tos">Terms of Service</NavItem>
-            <li>
-              <a
-                href="#"
-                className="text-white hover:text-gray-200 transition duration-300"
-                onClick={handleLogout}
-              >
-                Log Out
-              </a>
-            </li>
+            <NavItem href="#" onClick={handleLogout}>Log Out</NavItem>
           </ul>
         </nav>
         <button className="md:hidden text-white">
@@ -56,15 +47,20 @@ const Header = () => {
     </header>
   );
 };
-
-const NavItem = ({ href, children }) => {
+const NavItem = ({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) => {
   return (
-    <li>
-      <a href={href} className="text-white hover:text-gray-200 transition duration-300">
+    <li className="text-white">
+      <a
+        href={href}
+        className="hover:text-gray-200 transition duration-300"
+        onClick={onClick}
+        style={{ padding: "0 8px", borderRight: "1px solid white" }}
+      >
         {children}
       </a>
     </li>
   );
 };
+
 
 export default Header;
