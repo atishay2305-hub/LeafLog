@@ -1,21 +1,50 @@
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import styles from "./tos.module.css";
 import Cookies from 'js-cookie';
 import Router from 'next/router';
 
 const Profile = () => {
-  // Check authentication status
-  const isAuthenticated = !!Cookies.get('token');
+  const [user, setUser] = useState({ name: "", email: "" });
+  const [loading, setLoading] = useState(true); // Added loading state
+  const [error, setError] = useState(null); // Added error state
 
   useEffect(() => {
-    // Redirect to login if not authenticated
-    if (!isAuthenticated) {
+    // Check authentication status
+    const token = Cookies.get('token');
+
+    if (!token) {
       Router.push('/login');
+    } else {
+      try {
+        // Decode the token to get user information
+        const decodedToken = decodeToken(token);
+        setUser(decodedToken);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
     }
   }, []);
+
+  // Function to decode the JWT token
+  const decodeToken = (token) => {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading state
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Show error state
+  }
 
   return (
     <>
@@ -32,16 +61,8 @@ const Profile = () => {
               alt="Profile Picture"
               className="rounded-full mx-auto w-24 h-24 mb-4"
             />
-            <h2 className="text-xl font-bold mb-2">John Doe</h2>
-            <p className="text-gray-600">Software Engineer</p>
-          </div>
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-2">About Me</h3>
-            <p className="text-gray-700">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor orci eu nisi
-              fermentum, ut varius tortor vestibulum. Donec sit amet viverra ex. Proin ut efficitur
-              turpis, non interdum est.
-            </p>
+            <h2 className="text-xl font-bold mb-2">{user.name}</h2>
+            <p className="text-gray-600">{user.email}</p>
           </div>
           <div className="mt-6">
             <h3 className="text-lg font-semibold mb-2">Contact Information</h3>
@@ -64,27 +85,7 @@ const Profile = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                john.doe@example.com
-              </li>
-              <li className="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2 text-gray-700"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm2-2a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V4a1 1 0 00-1-1H5z"
-                    clipRule="evenodd"
-                  />
-                  <path
-                    fillRule="evenodd"
-                    d="M9.707 13.707a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414zM5 7a1 1 0 011-1h2a1 1 0 110 2H7a1 1 0 01-1-1zm0 4a1 1 0 100-2h2a1 1 0 100-2H5a1 1 0 100 2zm4-1a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                +1 123 456 7890
+                {user.email}
               </li>
             </ul>
           </div>
