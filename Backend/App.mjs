@@ -4,6 +4,8 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv"; 
 import { dbConnection as connectDB } from "./config/mongoConnection.mjs"; // Fix import path
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import plantRoutes from './routes/plantRoutes.mjs';
+import diseaseRoutes from './routes/diseaseRoutes.mjs';
 
 dotenv.config();
 
@@ -12,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 const mongoURI = "mongodb://localhost:27017/leaflog";
-connectDB(mongoURI); // Call connectDB with the correct argument
+connectDB(mongoURI); 
 
 app.get("/", (req, res) => {
   res.send("API is running");
@@ -45,8 +47,11 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
-app.use(notFound);
-app.use(errorHandler);
+// app.use(notFound);
+// app.use(errorHandler);
+app.use(plantRoutes);
+app.use(diseaseRoutes);
+
 
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

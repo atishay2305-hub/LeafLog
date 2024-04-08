@@ -17,7 +17,7 @@ const Register = () => {
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
-      Router.push('/landingpage');
+      Router.push('/LandingPage');
     }
   }, []);
 
