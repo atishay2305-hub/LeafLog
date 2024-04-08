@@ -26,10 +26,13 @@ const Register = () => {
     const res = await register_user(formData);
     if (res.success) {
       toast.success(res.message);
+      // Redirect to the login page
+      Router.push('/login');
     } else {
       toast.error(res.message);
     }
   };
+  
 
   return (
     <>
