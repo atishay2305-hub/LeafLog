@@ -13,7 +13,6 @@ export default function Home() {
       <section className="bg-green-200 min-h-screen flex items-center justify-center">
         <div className="max-w-lg p-8 bg-white shadow-lg rounded-lg text-center">
           <h1 className="text-3xl font-bold text-green-600 mb-4">LeafLog</h1>
-          <p className="text-green-700 text-lg mb-8">Login or Register</p>
           <div className="space-x-4">
             <Link href="/login">
               <button className="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg font-medium transition duration-300">
