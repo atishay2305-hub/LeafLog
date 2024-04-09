@@ -1,7 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
+import DBConnection from "../../../Backend/utils/DBConnection.js";
 
 export default function Home() {
+  DBConnection();
   return (
     <>
       <Head>
