@@ -4,21 +4,27 @@ import { diseases as diseasesCollection } from '../config/mongoCollections.mjs';
 const apiKey = "sk-1cDo65c5314199c384079";
 const apiURL = 'https://perenual.com/api/pest-disease-list?key=sk-1cDo65c5314199c384079';
 
+
+
+
 export const diseaseData = async () => {
     try {
         const response = await axios.get(apiURL, {
-            params: {key: apiKey},
+            params: { key: apiKey },
         });
 
-        const diseaseData = response.data;
-        const collection = await diseasesCollection(); 
-        await collection.insertOne(diseaseData);
+        let diseaseData = response.data.data; // Extracting the 'data' property
 
-        console.log('Disease Data has been stored in MongoDB');
+        const collection = await diseasesCollection();
+        await collection.insertMany(diseaseData);
+
+        console.log(`${diseaseData.length} documents have been stored in MongoDB`);
     } catch (error) {
         console.error('Error: ', error.message || (error.response && error.response.data));
     }
 };
+
+
 
 export const getAllCommonNames = async () => {
     try {

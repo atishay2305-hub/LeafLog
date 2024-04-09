@@ -1,4 +1,4 @@
-/* src/app/signup/tos.module.css */
+/* tos.css */
 
 .tosContainer {
   background: linear-gradient(135deg, #467061 0%, #5a897a 100%);
@@ -14,6 +14,7 @@
   position: relative;
   /* Needed for z-index to work */
   z-index: 0;
+  text-align: justify; /* Justified text alignment */
 }
 
 .title {

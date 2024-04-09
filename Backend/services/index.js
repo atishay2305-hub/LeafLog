@@ -1,5 +1,4 @@
-
-
+// services/index.js
 export const register_user = async (formData) => {
     try {
         const res = await fetch('http://localhost:3000/api/Auth/register', {
@@ -9,14 +8,13 @@ export const register_user = async (formData) => {
             method: 'POST',
             body: JSON.stringify(formData),
         });
-        const data = res.json();
+        const data = await res.json();
         return data;
     } catch (error) {
         console.log('Error in register_user (service) => ', error);
-        return error.message
+        return { success: false, message: error.message };
     }
 };
-
 
 export const login_user = async (formData) => {
     try {
@@ -27,10 +25,11 @@ export const login_user = async (formData) => {
             method: 'POST',
             body: JSON.stringify(formData),
         });
-        const data = res.json();
+        const data = await res.json();
         return data;
     } catch (error) {
         console.log('Error in login_user (service) => ', error);
-        return error.message
+        return { success: false, message: error.message };
     }
 };
+
