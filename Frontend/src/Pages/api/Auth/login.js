@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 // Define your secret
-const SECRET = "your_secret_here";
+const SECRET = "leafloglogin";
 
 const schema = Joi.object({
     email: Joi.string().email().required(),
@@ -26,18 +26,18 @@ export default async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(401).json({ success: false, message: "Account not Found , Please Sign Up" });
+            return res.status(401).json({ success: false, message: "Account not found, please sign up" });
         }
 
         bcrypt.compare(password, user.password, (err, result) => {
             if (err) {
-                return res.status(401).json({ success: false, message: "Something went wrong" });
+                return res.status(500).json({ success: false, message: "Something went wrong" });
             }
             if (result) {
                 const token = jwt.sign({ email: user.email, id: user._id, name: user.name }, SECRET, { expiresIn: "1h" });
-                return res.status(200).json({ success: true, message: "Login Successfull", token });
+                return res.status(200).json({ success: true, message: "Login successful", token });
             } else {
-                return res.status(401).json({ success: false, message: "Password is Incorrect" });
+                return res.status(401).json({ success: false, message: "Password is incorrect" });
             }
         });
     } catch (error) {
