@@ -1,10 +1,14 @@
-import React, { useState, FormEvent, useEffect } from 'react'; // Import useState, FormEvent, and ChangeEvent
-import Cookies from 'js-cookie';
-import Router from 'next/router';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Head from 'next/head'; // Import Head from Next.js
-import './plant-log.css';
+// pages/plant-log.tsx
+
+import Head from "next/head";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
+import styles from "./getting-started.module.css";
+import React, { useState, FormEvent, useEffect } from "react"; // Import useState, FormEvent, and ChangeEvent
+import Cookies from "js-cookie";
+import Router from "next/router";
+import "./plant-log.css";
 
 interface SubmittedData {
   plantSpecies: string;
@@ -53,14 +57,14 @@ const PlantLogForm: React.FC<{ items: PlantLogItem[] }> = ({ items }) => (
               onChange={
                 item.onChange as React.ChangeEventHandler<HTMLTextAreaElement>
               }
-              className="input" 
+              className="input"
               placeholder={item.placeholder}
             />
           )}
         </div>
       ))}
       <br />
-      <button type="submit" className="button"> 
+      <button type="submit" className="button">
         Submit Log Entry
       </button>
     </form>
@@ -71,12 +75,14 @@ const PlantLog = () => {
   const [plantSpecies, setPlantSpecies] = useState("");
   const [petName, setPetName] = useState("");
   const [otherNotes, setOtherNotes] = useState("");
-  const [submittedDataList, setSubmittedDataList] = useState<SubmittedData[]>([]);
+  const [submittedDataList, setSubmittedDataList] = useState<SubmittedData[]>(
+    []
+  );
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    const token = Cookies.get("token");
     if (!token) {
-      Router.push('/login'); // Redirect to login page if not authenticated
+      Router.push("/login"); // Redirect to login page if not authenticated
     }
   }, []);
 
@@ -102,11 +108,11 @@ const PlantLog = () => {
       </Head>
       <div className="home">
         <div className="top-level">
-          <div className="container"> 
-            <h1 className="title">Create Plant Log Entry</h1> 
+          <div className="container">
+            <h1 className="title">Create Plant Log Entry</h1>
             <br />
-            <form onSubmit={handleSubmit} className="form"> 
-              <label htmlFor="plantSpecies" className="label"> 
+            <form onSubmit={handleSubmit} className="form">
+              <label htmlFor="plantSpecies" className="label">
                 Plant Species
               </label>
               <input
@@ -115,7 +121,7 @@ const PlantLog = () => {
                 name="plantSpecies"
                 value={plantSpecies}
                 onChange={(e) => setPlantSpecies(e.target.value)}
-                className="input" 
+                className="input"
                 placeholder="Type and search for a plant species"
                 required
               />
@@ -129,7 +135,7 @@ const PlantLog = () => {
                 name="petName"
                 value={petName}
                 onChange={(e) => setPetName(e.target.value)}
-                className="input" 
+                className="input"
                 placeholder="What do you call your plant?"
               />
 
@@ -163,6 +169,6 @@ const PlantLog = () => {
       <Footer />
     </>
   );
-}
+};
 
 export default PlantLog;
