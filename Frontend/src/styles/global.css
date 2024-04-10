@@ -15,11 +15,10 @@ body {
   background-size: cover;
   background-position: center;
   width: 100%;
-  height: 100%;
+  height: 300px;
   margin: 2px auto;
   text-align: center;
   box-sizing: border-box;
-  color: #fff;
   position: relative;
   z-index: 0;
 }
@@ -41,4 +40,20 @@ body {
   background-position: center;
   opacity: 0.08;
   z-index: -1;
+}
+
+.submittedBox {
+  background-color: #fff;
+  /* White background */
+  border-radius: 0.5rem;
+  /* Rounded corners */
+  box-shadow: 2px 4px 6px -1px rgba(0, 0, 0, 0.6),
+    0 2px 4px -1px rgba(0, 0, 0, 0.6);
+  /* Soft shadow */
+  padding: 2rem;
+  /* Spacing inside the box */
+  margin: 1rem;
+  /* Spacing outside the box */
+  max-width: 2xl;
+  /* Maximum width of the box */
 }

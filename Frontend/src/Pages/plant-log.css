@@ -14,22 +14,8 @@
   position: relative;
   /* Needed for z-index to work */
   z-index: 0;
-  text-align: justify; /* Justified text alignment */
-}
-
-.top-level {
-  display: block;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  padding: 50px;
-  margin-top: 10px;
-  border: 1px solid #ffffff;
-  border-radius: 8px;
-  background-color: #467061;
-  width: 100%;
-  max-width: 1200px;
-  /* Adjust the width of the form container */
+  text-align: justify;
+  /* Justified text alignment */
 }
 
 .title {
