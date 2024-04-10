@@ -1,8 +1,7 @@
 import React from "react";
-import Link from "next/link";
 import "./Footer.css";
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <footer className="footerNavbar">
       <div

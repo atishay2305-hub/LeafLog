@@ -13,10 +13,10 @@ export const plant_data = async () => {
             params: { key: plantApiKey },
         });
 
-        const plantData = plantResponse.data;
-        const plantCollectionRef = await plantCollection();
+        const plantData = plantResponse.data.data;
 
         if (Array.isArray(plantData)) {
+            const plantCollectionRef = await plantCollection();
             await plantCollectionRef.insertMany(plantData);
             console.log(`${plantData.length} documents have been stored in MongoDB`);
         } else {
@@ -26,6 +26,7 @@ export const plant_data = async () => {
         console.error('Error: ', error.message || (error.response && error.response.data));
     }
 };
+
 
 export const getPlantCommonNames = async () => {
     try {
@@ -38,6 +39,7 @@ export const getPlantCommonNames = async () => {
         return [];
     }
 };
+
 
 
 export const getScientificNames = async () => {
