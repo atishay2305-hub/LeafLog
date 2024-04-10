@@ -3,7 +3,7 @@ import Head from "next/head";
 import Header from "../../components/Header";
 import Footer from '../../components/Footer';
 import { useState, FormEvent } from "react";
-import styles from "./feedback.module.css";
+import styles from "./plant-log.css";
 import '../../style.css';
 
 export default function PlantLog() {
