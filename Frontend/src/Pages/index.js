@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Link from "next/link";
-import DBConnection from "../../../Backend/utils/DBConnection.js";
 import "../styles/global.css";
 
 export default function Home() {
@@ -14,17 +13,17 @@ export default function Home() {
       </Head>
       <section className="bg-green-300 min-h-screen flex items-center justify-center top-level">
         <div className="max-w-lg p-8 bg-white shadow-lg rounded-lg text-center">
-          <h1 className="text-5xl font-bold text-green-600 mb-6">LeafLog</h1>
+          <h1 className="text-5xl font-bold text-green-600 mb-10">LeafLog</h1>
           <div className="space-x-6">
-            <Link href="/login">
-              <button className="bg-green-600 hover:bg-green-700 text-white py-2 px-12 rounded-lg font-medium transition duration-300">
+            <Link href="/login" legacyBehavior>
+              <a className="bg-green-600 hover:bg-green-700 text-white py-2 px-12 rounded-lg font-medium transition duration-300 text-lg">
                 Login
-              </button>
+              </a>
             </Link>
-            <Link href="/register">
-              <button className="bg-green-600 hover:bg-green-700 text-white py-2 px-12 rounded-lg font-medium transition duration-300">
+            <Link href="/register" legacyBehavior>
+              <a className="bg-green-600 hover:bg-green-700 text-white py-2 px-12 rounded-lg font-medium transition duration-300 text-lg">
                 Register
-              </button>
+              </a>
             </Link>
           </div>
         </div>
