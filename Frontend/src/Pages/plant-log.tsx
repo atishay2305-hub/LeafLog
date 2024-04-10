@@ -1,75 +1,19 @@
 // pages/plant-log.tsx
 
+import React, { useState, useEffect, FormEvent } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-
-import styles from "./getting-started.module.css";
-import React, { useState, FormEvent, useEffect } from "react"; // Import useState, FormEvent, and ChangeEvent
 import Cookies from "js-cookie";
 import Router from "next/router";
-import "../styles/global.css";
+
+// Remove the import for services if you're not using an API to fetch and post data
 
 interface SubmittedData {
   plantSpecies: string;
   petName: string;
   otherNotes: string;
 }
-
-interface PlantLogItem {
-  label: string;
-  placeholder: string;
-  type: "text" | "textarea";
-  value: string;
-  onChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => void;
-}
-
-const PlantLogForm: React.FC<{ items: PlantLogItem[] }> = ({ items }) => (
-  <div className="bg-white p-6 rounded-lg shadow-lg">
-    <form className="form">
-      {items.map((item, index) => (
-        <div key={index} className="flex flex-col">
-          <label htmlFor={item.label} className="label">
-            {item.label}
-          </label>
-          {item.type === "text" && (
-            <input
-              type="text"
-              id={item.label}
-              name={item.label}
-              value={item.value}
-              onChange={
-                item.onChange as React.ChangeEventHandler<HTMLInputElement>
-              }
-              className="input"
-              placeholder={item.placeholder}
-            />
-          )}
-          {item.type === "textarea" && (
-            <textarea
-              id={item.label}
-              name={item.label}
-              value={item.value}
-              onChange={
-                item.onChange as React.ChangeEventHandler<HTMLTextAreaElement>
-              }
-              className="input"
-              placeholder={item.placeholder}
-            />
-          )}
-        </div>
-      ))}
-      <br />
-      <button type="submit" className="button">
-        Submit Log Entry
-      </button>
-    </form>
-  </div>
-);
 
 const PlantLog = () => {
   const [plantSpecies, setPlantSpecies] = useState("");
@@ -79,21 +23,25 @@ const PlantLog = () => {
     []
   );
 
+  // This useEffect can be removed if you're not fetching plant log entries from an API
   useEffect(() => {
-    const token = Cookies.get("token");
-    if (!token) {
-      Router.push("/login"); // Redirect to login page if not authenticated
-    }
+    // ... fetch logic here (if using an API)
   }, []);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    // Append the new entry to the submitted data list
-    setSubmittedDataList((prevList) => [
-      ...prevList,
-      { plantSpecies, petName, otherNotes },
-    ]);
-    // Reset the form fields
+
+    // Create a new plant log entry object
+    const newEntry: SubmittedData = {
+      plantSpecies,
+      petName,
+      otherNotes,
+    };
+
+    // Update state to include the new plant log entry
+    setSubmittedDataList([...submittedDataList, newEntry]);
+
+    // Clear the form fields
     setPlantSpecies("");
     setPetName("");
     setOtherNotes("");
