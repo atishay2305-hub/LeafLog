@@ -8,7 +8,7 @@ import styles from "./getting-started.module.css";
 import React, { useState, FormEvent, useEffect } from "react"; // Import useState, FormEvent, and ChangeEvent
 import Cookies from "js-cookie";
 import Router from "next/router";
-import "./plant-log.css";
+import "../styles/global.css";
 
 interface SubmittedData {
   plantSpecies: string;
@@ -103,16 +103,21 @@ const PlantLog = () => {
     <>
       <Header />
       <Head>
-        <title>Log Your Plant</title>
+        <title>Log Your Plant | LeafLog</title>
         <meta name="description" content="Create a new plant log entry" />
       </Head>
-      <div className="home">
-        <div className="top-level">
-          <div className="container">
-            <h1 className="title">Create Plant Log Entry</h1>
-            <br />
-            <form onSubmit={handleSubmit} className="form">
-              <label htmlFor="plantSpecies" className="label">
+
+      <div className=" top-level bg-green-300 min-h-screen flex items-center justify-center">
+        <div className=" w-full max-w-5xl p-10 bg-white shadow-lg rounded-lg text-center">
+          <h1 className="text-5xl font-bold text-green-600 mb-8">
+            Create Plant Log Entry
+          </h1>
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="text-left">
+              <label
+                htmlFor="plantSpecies"
+                className="block mb-4 text-lg font-medium text-gray-900"
+              >
                 Plant Species
               </label>
               <input
@@ -121,12 +126,16 @@ const PlantLog = () => {
                 name="plantSpecies"
                 value={plantSpecies}
                 onChange={(e) => setPlantSpecies(e.target.value)}
-                className="input"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                 placeholder="Type and search for a plant species"
                 required
               />
-
-              <label htmlFor="petName" className="label">
+            </div>
+            <div className="text-left">
+              <label
+                htmlFor="petName"
+                className="block mb-4 text-lg font-medium text-gray-900"
+              >
                 Pet Name
               </label>
               <input
@@ -135,11 +144,15 @@ const PlantLog = () => {
                 name="petName"
                 value={petName}
                 onChange={(e) => setPetName(e.target.value)}
-                className="input"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                 placeholder="What do you call your plant?"
               />
-
-              <label htmlFor="otherNotes" className="label">
+            </div>
+            <div className="text-left">
+              <label
+                htmlFor="otherNotes"
+                className="block mb-4 text-lg font-medium text-gray-900"
+              >
                 Other Notes
               </label>
               <textarea
@@ -147,25 +160,45 @@ const PlantLog = () => {
                 name="otherNotes"
                 value={otherNotes}
                 onChange={(e) => setOtherNotes(e.target.value)}
-                className="inputField"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                 placeholder="Any special care instructions or notes?"
               />
-
-              <button type="submit" className="button">
-                Submit Log Entry
-              </button>
-            </form>
-          </div>
+            </div>
+            <button
+              type="submit"
+              className="bg-green-600 hover:bg-green-700 text-white py-3 px-16 text-lg rounded-lg font-medium transition duration-300"
+            >
+              Submit Log Entry
+            </button>
+          </form>
         </div>
       </div>
-      {submittedDataList.map((data, index) => (
-        <div key={index} className="submittedBox">
-          <h2>Submitted Information:</h2>
-          <p>Plant Species: {data.plantSpecies}</p>
-          <p>Pet Name: {data.petName}</p>
-          <p>Other Notes: {data.otherNotes}</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {submittedDataList.map((data, index) => (
+            <div
+              key={index}
+              className="submittedBox bg-white rounded-lg shadow-md p-4"
+            >
+              <h2 className="text-xl font-bold text-green-600 mb-2">
+                Submitted Information:
+              </h2>
+              <p className="text-lg text-gray-700">
+                Plant Species:{" "}
+                <span className="font-medium">{data.plantSpecies}</span>
+              </p>
+              <p className="text-lg text-gray-700">
+                Pet Name: <span className="font-medium">{data.petName}</span>
+              </p>
+              <p className="text-lg text-gray-700">
+                Other Notes:{" "}
+                <span className="font-medium">{data.otherNotes}</span>
+              </p>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
+
       <Footer />
     </>
   );
