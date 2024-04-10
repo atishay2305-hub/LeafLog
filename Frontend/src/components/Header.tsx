@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 
 const Header = () => {
   const router = useRouter();
-
   // Function to handle logout
   const handleLogout = () => {
     // Remove the token cookie
@@ -22,7 +21,6 @@ const Header = () => {
             <NavItem href="/plant-log">My Plants</NavItem>
             <NavItem href="/search">Discover Plants</NavItem>
             <NavItem href="/profile">Profile</NavItem>
-            <NavItem href="/tos">Terms of Service</NavItem>
             <NavItem href="#" onClick={handleLogout}>Log Out</NavItem>
           </ul>
         </nav>
