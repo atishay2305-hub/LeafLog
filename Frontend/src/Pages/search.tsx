@@ -1,50 +1,28 @@
 import { useEffect, useState, FormEvent, ChangeEvent } from "react";
-import axios from "axios";
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "./search.module.css";
-import Cookies from "js-cookie";
-import Router from "next/router";
-import Link from "next/link";
 import "../styles/global.css";
+import plantData from "../../../Backend/config/plants.json";
 
 interface Plant {
-  _id: string;
+  _id: {
+    $oid: string;
+  };
+  plantId: number;
   common_name: string;
   scientific_name: string;
-  other_name?: string;
+  other_name?: string | null;
+  cycle: string;
+  watering: string;
+  sunlight: string;
 }
 
 export default function Search() {
   const [plantQuery, setPlantQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<Plant[] | null>(null);
-  const [allPlants, setAllPlants] = useState<Plant[]>([]);
+  const [searchResults, setSearchResults] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (!token) {
-      Router.push("/login");
-    } else {
-      const fetchAllPlants = async () => {
-        setLoading(true);
-        try {
-          const response = await axios.get(
-            "http://localhost:5002/api/plantdata"
-          );
-          setAllPlants(response.data);
-        } catch (error) {
-          setError("An error occurred while fetching plant data.");
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchAllPlants();
-    }
-  }, []);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlantQuery(event.target.value);
@@ -52,41 +30,37 @@ export default function Search() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError(null);
     setLoading(true);
 
-    try {
-      const response = await axios.get(
-        `http://localhost:5002/api/plantdata/search/common_name?name=${encodeURIComponent(
-          plantQuery
-        )}`
-      );
+    console.log("Query:", plantQuery);
+    console.log("Data:", plantData);
 
-      const results = response.data;
-      setSearchResults(results);
-    } catch (e: any) {
-      if (e.response && e.response.status === 404) {
-        setError("No plants found matching your query.");
-      } else {
-        setError("An error occurred while searching.");
-      }
-    } finally {
-      setLoading(false);
-    }
+    // Filter the plant data based on the search query
+    const data = plantData as Plant[];
+
+    const searchQuery = plantQuery.trim().toLowerCase();
+
+    const results = data
+      .filter(
+        (plant) =>
+          plant.common_name
+            .toLowerCase()
+            .includes(plantQuery.trim().toLowerCase()) ||
+          plant.scientific_name
+            .toLowerCase()
+            .includes(plantQuery.trim().toLowerCase()) ||
+          (plant.other_name &&
+            plant.other_name.toLowerCase().includes(searchQuery))
+      )
+      .slice(0, 5);
+
+    console.log("Filtered Results:", results);
+
+    setSearchResults(results);
+    setLoading(false);
   };
 
-  const handleAddToLog = (plant: Plant) => {
-    // Navigate to the PlantLog page with plant data
-    Router.push({
-      pathname: "/plant-log",
-      query: {
-        plantId: plant._id,
-        commonName: plant.common_name,
-        scientificName: plant.scientific_name,
-      },
-    });
-  };
-
+  // Render the UI with search functionality
   return (
     <>
       <Head>
@@ -95,9 +69,7 @@ export default function Search() {
       <Header />
       <section className="top-level bg-green-300 min-h-screen flex flex-col items-center justify-center">
         <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full p-12 text-center mb-8">
-          <h1 className="text-5xl font-bold text-green-600 mb-8">
-            Discover Plants
-          </h1>
+          {/* Search form */}{" "}
           <form onSubmit={handleSubmit} className="space-y-8">
             <input
               type="text"
@@ -114,34 +86,43 @@ export default function Search() {
               Search
             </button>
           </form>
-        </div>{" "}
+        </div>
+        {/* Results section */}
         <section className="container mx-auto px-2 py-2 submittedBox max-w-4xl w-full">
           <div className="space-y-1">
             <h2 className="text-2xl font-semibold text-center">
               Search Results
             </h2>
             {loading && <p className="text-center">Loading...</p>}
-            {error && <p className="text-center text-red-500">{error}</p>}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Array.isArray(searchResults) &&
-                searchResults.map((plant, index) => (
-                  <div key={index} className="bg-gray-50 p-6 rounded-lg shadow">
-                    <h3 className="text-lg font-bold">{plant.common_name}</h3>
-                    <p>Scientific Name: {plant.scientific_name}</p>
-                    {plant.other_name && <p>Other Name: {plant.other_name}</p>}
-                    <button
-                      onClick={() => handleAddToLog(plant)}
-                      className="mt-4 text-green-600 hover:underline"
-                    >
-                      Add to Log
-                    </button>
-                  </div>
-                ))}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {searchResults.map((plant) => (
+                <div
+                  key={plant._id.$oid} // Use the unique OID as the key for each element
+                  style={{
+                    border: "1px solid black",
+                    padding: "10px",
+                    margin: "5px",
+                    width: "90%",
+                  }}
+                >
+                  <h3>{plant.common_name}</h3>
+                  <p>Scientific Name: {plant.scientific_name}</p>
+                  {plant.other_name && <p>Other Name: {plant.other_name}</p>}
+                  <p>Cycle: {plant.cycle}</p>
+                  <p>Watering: {plant.watering}</p>
+                  <p>Sunlight: {plant.sunlight}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
       </section>
-
       <Footer />
     </>
   );
