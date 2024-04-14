@@ -23,6 +23,7 @@ export default function Search() {
   const [plantQuery, setPlantQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searchSubmitted, setSearchSubmitted] = useState(false);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlantQuery(event.target.value);
@@ -31,6 +32,7 @@ export default function Search() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+    setSearchSubmitted(true);
 
     console.log("Query:", plantQuery);
     console.log("Data:", plantData);
@@ -94,6 +96,11 @@ export default function Search() {
               Search Results
             </h2>
             {loading && <p className="text-center">Loading...</p>}
+            {!loading && searchSubmitted && searchResults.length === 0 && (
+              <div className="text-center">
+                <p>No Plants Found, Try Again!</p>
+              </div>
+            )}
             <div
               style={{
                 display: "flex",
@@ -104,19 +111,26 @@ export default function Search() {
               {searchResults.map((plant) => (
                 <div
                   key={plant._id.$oid} // Use the unique OID as the key for each element
-                  style={{
-                    border: "1px solid black",
-                    padding: "10px",
-                    margin: "5px",
-                    width: "90%",
-                  }}
+                  className={`${styles.resultItem}`}
                 >
                   <h3>{plant.common_name}</h3>
-                  <p>Scientific Name: {plant.scientific_name}</p>
-                  {plant.other_name && <p>Other Name: {plant.other_name}</p>}
-                  <p>Cycle: {plant.cycle}</p>
-                  <p>Watering: {plant.watering}</p>
-                  <p>Sunlight: {plant.sunlight}</p>
+                  <p className="key">
+                    Scientific Name: <span>{plant.scientific_name}</span>
+                  </p>
+                  {plant.other_name && (
+                    <p className="key">
+                      Other Name: <span>{plant.other_name}</span>
+                    </p>
+                  )}
+                  <p className="key">
+                    Cycle: <span>{plant.cycle}</span>
+                  </p>
+                  <p className="key">
+                    Watering: <span>{plant.watering}</span>
+                  </p>
+                  <p className="key">
+                    Sunlight: <span>{plant.sunlight}</span>
+                  </p>
                 </div>
               ))}
             </div>

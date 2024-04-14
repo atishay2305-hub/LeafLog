@@ -74,3 +74,43 @@
   width: 100%;
   max-width: 600px;
 }
+
+.result-item {
+  border: 1px solid black;
+  padding: 10px;
+  margin: 5px;
+  width: 100%;
+  /* Adjust width to ensure proper containment within parent */
+  box-sizing: border-box;
+  /* Include padding and border in the width */
+}
+
+.result-item h3 {
+  font-size: 1.5em;
+  /* Larger text for common name */
+  font-weight: bold;
+  text-align: center;
+}
+
+.result-item p {
+  text-align: left;
+  margin: 5px 0;
+}
+
+.result-item p.key {
+  font-weight: bold;
+}
+
+/* Adjust the input and button sizes to fit better within their container */
+
+.inputText {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  /* ... other styles ... */
+}
+
+.submitButton {
+  background: #5cb85c;
+  border: none;
+  /* ... other styles ... */
+}
