@@ -19,11 +19,19 @@ interface Plant {
   sunlight: string;
 }
 
+interface SubmittedData {
+  plantSpecies: string;
+  petName: string;
+  otherNotes: string;
+}
+
 export default function Search() {
   const [plantQuery, setPlantQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchSubmitted, setSearchSubmitted] = useState(false);
+  //Plant Log Features
+  const [myPlants, setMyPlants] = useState<SubmittedData[]>([]);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlantQuery(event.target.value);
@@ -62,6 +70,18 @@ export default function Search() {
     setLoading(false);
   };
 
+  const addToMyPlants = (plant: Plant) => {
+    // Assuming you want to use the `common_name` as `plantSpecies`
+    const newPlantEntry: SubmittedData = {
+      plantSpecies: plant.common_name,
+      petName: "", // Since you don't have a pet name from the search results, leaving it empty or prompt user to enter
+      otherNotes: "", // Same as petName, you might need to prompt user or leave it empty
+    };
+
+    // Update state to include the new plant
+    setMyPlants([...myPlants, newPlantEntry]);
+  };
+
   // Render the UI with search functionality
   return (
     <>
@@ -88,7 +108,7 @@ export default function Search() {
               />
               <button
                 type="submit"
-                className="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="add-plant-button w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 Search
               </button>
@@ -113,7 +133,7 @@ export default function Search() {
                   {searchResults.map((plant) => (
                     <div
                       key={plant._id.$oid} // Use the unique OID as the key for each element
-                      className={`${styles.resultItem} ${styles.titleCase}`} // Apply your CSS module classes here
+                      className={`${styles.resultItem} relative  ${styles.titleCase}`} // Apply your CSS module classes here
                     >
                       <h3 className="text-xl font-bold">{plant.common_name}</h3>
                       <p className="font-semibold text-left">
@@ -142,6 +162,13 @@ export default function Search() {
                         Sunlight:{" "}
                         <span className="font-normal">{plant.sunlight}</span>
                       </p>
+                      <button
+                        type="button" // This is a button, not a submit input
+                        onClick={() => addToMyPlants(plant)}
+                        className={`${styles.addButton} bg-green-600 hover:bg-green-700 text-white py-2 px-4 text-sm rounded-md transition duration-300 absolute bottom-0 right-0 mb-2 mr-2`}
+                      >
+                        Add to My Plants
+                      </button>
                     </div>
                   ))}
                 </div>

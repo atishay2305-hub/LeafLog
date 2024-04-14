@@ -118,3 +118,18 @@
 .titleCase {
   text-transform: capitalize;
 }
+
+.resultItem {
+  position: relative;
+  /* This is required to position the button absolutely within the card */
+  /* ...other styles for resultItem... */
+}
+
+.addButton {
+  position: absolute;
+  bottom: 10px;
+  /* Adjust as needed */
+  right: 10px;
+  /* Adjust as needed */
+  /* ...other styles for addButton... */
+}
