@@ -7,7 +7,7 @@
   justify-content: center;
   margin: auto;
   padding: 80px;
-  margin-top: 10px;
+  margin-top: 30px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   background-color: #467061;
@@ -113,4 +113,8 @@
   background: #5cb85c;
   border: none;
   /* ... other styles ... */
+}
+
+.titleCase {
+  text-transform: capitalize;
 }

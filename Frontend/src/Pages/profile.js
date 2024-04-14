@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Cookies from 'js-cookie';
-import Router from 'next/router';
+import Cookies from "js-cookie";
+import Router from "next/router";
+import "../styles/global.css";
 
 const Profile = () => {
   const [user, setUser] = useState({ name: "", email: "" });
@@ -12,10 +13,10 @@ const Profile = () => {
 
   useEffect(() => {
     // Check authentication status
-    const token = Cookies.get('token');
+    const token = Cookies.get("token");
 
     if (!token) {
-      Router.push('/login');
+      Router.push("/login");
     } else {
       try {
         // Decode the token to get user information
@@ -31,9 +32,14 @@ const Profile = () => {
 
   // Function to decode the JWT token
   const decodeToken = (token) => {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
 
     return JSON.parse(jsonPayload);
   };
@@ -53,7 +59,7 @@ const Profile = () => {
         <meta name="description" content="User Profile" />
       </Head>
       <Header />
-      <div className="bg-green-200 min-h-screen flex justify-center items-center">
+      <div className="top-level bg-green-200 min-h-screen flex justify-center items-center">
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
           <div className="text-center">
             <img

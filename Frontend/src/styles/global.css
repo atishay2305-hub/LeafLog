@@ -16,8 +16,8 @@ body {
   background-position: center;
   width: 100%;
   padding: 0 20px;
-  height: 300px;
-  margin: 2px auto;
+  height: auto;
+  margin: 0px auto;
   text-align: center;
   box-sizing: border-box;
   position: relative;
