@@ -21,6 +21,11 @@ interface Plant {
 
 interface SubmittedData {
   plantSpecies: string;
+  scientificName: string;
+  otherName: string | null;
+  cycle: string;
+  watering: string;
+  sunlight: string;
   petName: string;
   otherNotes: string;
 }
@@ -71,11 +76,15 @@ export default function Search() {
   };
 
   const addToMyPlants = (plant: Plant) => {
-    // Assuming you want to use the `common_name` as `plantSpecies`
     const newPlantEntry: SubmittedData = {
-      plantSpecies: plant.common_name,
-      petName: "", // Since you don't have a pet name from the search results, leaving it empty or prompt user to enter
-      otherNotes: "", // Same as petName, you might need to prompt user or leave it empty
+      plantSpecies: plant.common_name, // or plantSpecies if you want to change the variable name to match plant-log.tsx
+      scientificName: plant.scientific_name,
+      otherName: plant.other_name ?? "", // Provide an empty string if other_name is null or undefined
+      cycle: plant.cycle,
+      watering: plant.watering,
+      sunlight: plant.sunlight,
+      petName: "", // Assuming you want to prompt the user for this later or leave it empty for now
+      otherNotes: "", // Assuming you want to prompt the user for this later or leave it empty for now
     };
 
     // Update state to include the new plant
@@ -162,6 +171,13 @@ export default function Search() {
                         Sunlight:{" "}
                         <span className="font-normal">{plant.sunlight}</span>
                       </p>
+                      <button
+                        type="button" // This is a button, not a submit input
+                        onClick={() => addToMyPlants(plant)}
+                        className={`${styles.addButton} bg-green-600 hover:bg-green-700 text-white py-2 px-4 text-sm rounded-md transition duration-300 absolute bottom-0 right-0 mb-2 mr-2`}
+                      >
+                        Add to My Plants
+                      </button>
                     </div>
                   ))}
                 </div>
