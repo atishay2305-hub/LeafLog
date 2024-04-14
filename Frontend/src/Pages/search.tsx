@@ -133,7 +133,7 @@ export default function Search() {
                   {searchResults.map((plant) => (
                     <div
                       key={plant._id.$oid} // Use the unique OID as the key for each element
-                      className={`${styles.resultItem} relative  ${styles.titleCase}`} // Apply your CSS module classes here
+                      className={`${styles.resultItem} ${styles.titleCase}`} // Apply your CSS module classes here
                     >
                       <h3 className="text-xl font-bold">{plant.common_name}</h3>
                       <p className="font-semibold text-left">
@@ -162,13 +162,6 @@ export default function Search() {
                         Sunlight:{" "}
                         <span className="font-normal">{plant.sunlight}</span>
                       </p>
-                      <button
-                        type="button" // This is a button, not a submit input
-                        onClick={() => addToMyPlants(plant)}
-                        className={`${styles.addButton} bg-green-600 hover:bg-green-700 text-white py-2 px-4 text-sm rounded-md transition duration-300 absolute bottom-0 right-0 mb-2 mr-2`}
-                      >
-                        Add to My Plants
-                      </button>
                     </div>
                   ))}
                 </div>

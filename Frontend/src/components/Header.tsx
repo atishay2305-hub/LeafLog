@@ -1,27 +1,32 @@
 import React from "react";
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const router = useRouter();
   // Function to handle logout
   const handleLogout = () => {
     // Remove the token cookie
-    Cookies.remove('token');
+    Cookies.remove("token");
     // Redirect to the login page
-    router.push('/login');
+    router.push("/login");
   };
 
   return (
     <header className="bg-green-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <a href="/LandingPage" className="text-white text-2xl font-bold">LeafLog</a>
+        <a href="/LandingPage" className="text-white text-2xl font-bold">
+          LeafLog
+        </a>
         <nav className="hidden md:block">
           <ul className="flex space-x-4 divide-x divide-white">
-            <NavItem href="/plant-log">My Plants</NavItem>
+            <NavItem href="/my-plants">My Plants</NavItem>
             <NavItem href="/search">Discover Plants</NavItem>
+            <NavItem href="/plant-log">Log New Plant</NavItem>
             <NavItem href="/profile">Profile</NavItem>
-            <NavItem href="#" onClick={handleLogout}>Log Out</NavItem>
+            <NavItem href="#" onClick={handleLogout}>
+              Log Out
+            </NavItem>
           </ul>
         </nav>
         <button className="md:hidden text-white">
@@ -45,7 +50,15 @@ const Header = () => {
     </header>
   );
 };
-const NavItem = ({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) => {
+const NavItem = ({
+  href,
+  children,
+  onClick,
+}: {
+  href: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}) => {
   return (
     <li className="text-white">
       <a
@@ -59,6 +72,5 @@ const NavItem = ({ href, children, onClick }: { href: string; children: React.Re
     </li>
   );
 };
-
 
 export default Header;
