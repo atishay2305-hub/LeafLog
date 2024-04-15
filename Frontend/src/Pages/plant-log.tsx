@@ -69,9 +69,32 @@ const PlantLog = () => {
     setShowDropdown(false); // Hide the dropdown once a selection is made
   };
 
-  const handleBlur = () => {
-    setTimeout(() => setShowDropdown(false), 100);
+  const handleBlur = (event: React.FocusEvent) => {
+    // Check if the new focus target is not within the dropdown
+    setTimeout(() => setShowDropdown(false), 8);
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      setShowDropdown(false);
+    }
   };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        showDropdown &&
+        event.target &&
+        (event.target as Element).id !== "plantSpecies" &&
+        !(event.target as Element).classList.contains("dropdown-content") &&
+        !(event.target as Element).classList.contains("dropdown-item")
+      ) {
+        setShowDropdown(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -117,32 +140,33 @@ const PlantLog = () => {
               >
                 Plant Species
               </label>
-              <input
-                type="text"
-                id="plantSpecies"
-                name="plantSpecies"
-                value={plantSpecies}
-                onChange={handleSearchChange}
-                onFocus={() => setShowDropdown(true)}
-                onBlur={handleBlur}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                placeholder="Type and search for a plant species"
-                autoComplete="off" // Disable browser's autocomplete
-                required
-              />
-              {searchResults.length > 0 && (
-                <div className="dropdown-content">
-                  {searchResults.map((plant, index) => (
-                    <div
-                      key={plant.common_name} // Make sure to use a unique key, common_name could be duplicated, consider using an ID
-                      onClick={() => handleSelectPlant(plant.common_name)}
-                      className="dropdown-item"
-                    >
-                      {plant.common_name} ({plant.scientific_name})
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div onBlur={handleBlur}>
+                <input
+                  type="text"
+                  id="plantSpecies"
+                  name="plantSpecies"
+                  value={plantSpecies}
+                  onChange={handleSearchChange}
+                  onFocus={() => setShowDropdown(false)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
+                  placeholder="Type and search for a plant species"
+                  autoComplete="off" // Disable browser's autocomplete
+                  required
+                />
+                {searchResults.length > 0 && (
+                  <div className="dropdown-content bg-white border border-gray-300 rounded-lg shadow-lg">
+                    {searchResults.map((plant, index) => (
+                      <div
+                        key={plant.common_name} // Make sure to use a unique key, common_name could be duplicated, consider using an ID
+                        onClick={() => handleSelectPlant(plant.common_name)}
+                        className="dropdown-item"
+                      >
+                        {plant.common_name} ({plant.scientific_name})
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
               <div className="text-left">
                 <label
                   htmlFor="cycle"
@@ -155,6 +179,7 @@ const PlantLog = () => {
                   name="cycle"
                   value={cycle}
                   onChange={(e) => setCycle(e.target.value)}
+                  onFocus={() => setShowDropdown(false)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                 >
                   <option value="">Select a growth cycle</option>
@@ -176,6 +201,7 @@ const PlantLog = () => {
                   name="watering"
                   value={watering}
                   onChange={(e) => setWatering(e.target.value)}
+                  onFocus={() => setShowDropdown(false)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                   required
                 >
@@ -199,6 +225,7 @@ const PlantLog = () => {
                   name="sunlight"
                   value={sunlight}
                   onChange={(e) => setSunlight(e.target.value)}
+                  onFocus={() => setShowDropdown(false)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                 >
                   <option value="">Select sunlight requirement</option>
