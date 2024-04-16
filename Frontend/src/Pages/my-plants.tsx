@@ -8,6 +8,8 @@ import {
   sendWateringReminder,
 } from "../../../Backend/services/plantService.js"; // Replace with your actual import paths
 import { usePlants } from "../context/PlantContext";
+import Cookies from "js-cookie"; // Import Cookies library
+import Router from "next/router"; // Import Router from next.js
 
 interface Plant {
   _id: {
@@ -47,6 +49,11 @@ const MyPlants = () => {
     };
 
     fetchUserPlants();
+
+    // Check if authentication token exists, if not, redirect to login page
+    if (!Cookies.get("token")) {
+      Router.push("/login");
+    }
   }, []);
 
   const handleSendReminder = async (plantId: string) => {

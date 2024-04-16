@@ -62,11 +62,7 @@ const Profile = () => {
       <div className="top-level bg-green-200 min-h-screen flex justify-center items-center">
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
           <div className="text-center">
-            <img
-              src="/profile-pic.jpg" // Replace with your actual profile picture URL
-              alt="Profile Picture"
-              className="rounded-full mx-auto w-24 h-24 mb-4"
-            />
+            {/* Removed profile picture */}
             <h2 className="text-xl font-bold mb-2">{user.name}</h2>
             <p className="text-gray-600">{user.email}</p>
           </div>

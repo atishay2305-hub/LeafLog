@@ -138,3 +138,4 @@ router.get("/api/plantdata/scientific_names", async (req, res, next) => {
 });
 
 export default router;
+
