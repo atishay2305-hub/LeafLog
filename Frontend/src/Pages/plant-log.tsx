@@ -140,9 +140,10 @@ const PlantLog = () => {
   };
 
   const sendReminder = async (plantData: SubmittedData) => {
-    // You need to ensure that `user` is not null and has an email.
     // Since `user` can be null, the optional chaining `?.` will prevent runtime errors.
-    if (!user?.email) {
+    const userEmail = user?.email;
+
+    if (!userEmail) {
       alert("User email is not available.");
       return;
     }
