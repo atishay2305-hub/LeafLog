@@ -3,6 +3,7 @@ import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import plantData from "../../../Backend/config/plants.json";
+import { usePlants } from "../context/PlantContext";
 
 interface Plant {
   _id: {
@@ -24,8 +25,6 @@ interface SubmittedData {
   cycle: string;
   watering: string;
   sunlight: string;
-  petName: string;
-  otherNotes: string;
 }
 
 const PlantLog = () => {
@@ -35,11 +34,7 @@ const PlantLog = () => {
   const [cycle, setCycle] = useState("");
   const [watering, setWatering] = useState("");
   const [sunlight, setSunlight] = useState("");
-  const [petName, setPetName] = useState("");
-  const [otherNotes, setOtherNotes] = useState("");
-  const [submittedDataList, setSubmittedDataList] = useState<SubmittedData[]>(
-    []
-  );
+  const { submittedDataList, setSubmittedDataList } = usePlants();
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -94,10 +89,12 @@ const PlantLog = () => {
       cycle,
       watering,
       sunlight,
-      petName,
-      otherNotes,
     };
-    setSubmittedDataList([...submittedDataList, newEntry]);
+    setSubmittedDataList((prevList: SubmittedData[]) => [
+      ...prevList,
+      newEntry,
+    ]);
+    alert("Plant log entry submitted successfully!");
     // Clear form fields
     setPlantSpecies("");
     setScientificName("");
@@ -105,8 +102,36 @@ const PlantLog = () => {
     setCycle("");
     setWatering("");
     setSunlight("");
-    setPetName("");
-    setOtherNotes("");
+  };
+
+  const sendInitialReminder = async (
+    plantData: SubmittedData,
+    userEmail: string
+  ) => {
+    // Define the logic to send an email immediately.
+    // This will likely involve calling an API endpoint on your backend.
+    try {
+      // The API endpoint would handle sending an email to the user's email address.
+      const response = await fetch("/api/send-reminder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          plantData,
+        }),
+      });
+      const responseData = await response.json();
+      if (responseData.success) {
+        alert("A reminder has been sent to your email.");
+      } else {
+        alert("Failed to send reminder.");
+      }
+    } catch (error) {
+      console.error("Failed to send reminder:", error);
+      alert("There was an error sending the reminder.");
+    }
   };
 
   return (
@@ -227,39 +252,6 @@ const PlantLog = () => {
                   <option value="full_shade">Full Shade</option>
                 </select>
               </div>
-              <div className="text-left">
-                <label
-                  htmlFor="petName"
-                  className="block mb-4 text-lg font-medium text-gray-900"
-                >
-                  Pet Name
-                </label>
-                <input
-                  type="text"
-                  id="petName"
-                  name="petName"
-                  value={petName}
-                  onChange={(e) => setPetName(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                  placeholder="What do you call your plant?"
-                />
-              </div>
-              <div className="text-left">
-                <label
-                  htmlFor="otherNotes"
-                  className="block mb-4 text-lg font-medium text-gray-900"
-                >
-                  Other Notes
-                </label>
-                <textarea
-                  id="otherNotes"
-                  name="otherNotes"
-                  value={otherNotes}
-                  onChange={(e) => setOtherNotes(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-                  placeholder="Any special care instructions or notes?"
-                />
-              </div>
             </div>
             <button
               type="submit"
@@ -271,8 +263,8 @@ const PlantLog = () => {
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {submittedDataList.map((data, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {submittedDataList.map((data: SubmittedData, index: number) => (
             <div
               key={index}
               className="submittedBox bg-white rounded-lg shadow-md p-4"
@@ -285,12 +277,33 @@ const PlantLog = () => {
                 <span className="font-medium">{data.plantSpecies}</span>
               </p>
               <p className="text-lg text-gray-700">
-                Pet Name: <span className="font-medium">{data.petName}</span>
+                Scientific Name:{" "}
+                <span className="font-medium">{data.scientificName}</span>
               </p>
               <p className="text-lg text-gray-700">
-                Other Notes:{" "}
-                <span className="font-medium">{data.otherNotes}</span>
+                Other Name:{" "}
+                <span className="font-medium">{data.otherName}</span>
               </p>
+              <p className="text-lg text-gray-700">
+                Growth Cycle: <span className="font-medium">{data.cycle}</span>
+              </p>
+              <p className="text-lg text-gray-700">
+                Watering Frequency:{" "}
+                <span className="font-medium">{data.watering}</span>
+              </p>
+              <p className="text-lg text-gray-700">
+                Sunlight Requirement:
+                <span className="font-medium">
+                  {data.sunlight.replace(/_/g, " ")}
+                </span>
+              </p>
+              <button
+                onClick={() => sendInitialReminder(data, user.email)} // Assuming you have access to the user's email
+                className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                style={{ float: "right" }} // Position the button to the bottom right
+              >
+                Send Watering Reminder
+              </button>
             </div>
           ))}
         </div>
