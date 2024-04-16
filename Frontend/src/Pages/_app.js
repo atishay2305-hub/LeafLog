@@ -1,10 +1,13 @@
 import "../styles/global.css";
 import { PlantProvider } from "../context/PlantContext";
+import { AuthProvider } from "../context/AuthContext";
 
 export default function App({ Component, pageProps }) {
   return (
-    <PlantProvider>
-      <Component {...pageProps} />{" "}
-    </PlantProvider>
+    <AuthProvider>
+      <PlantProvider>
+        <Component {...pageProps} />{" "}
+      </PlantProvider>
+    </AuthProvider>
   );
 }

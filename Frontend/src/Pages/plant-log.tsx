@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import plantData from "../../../Backend/config/plants.json";
 import { usePlants } from "../context/PlantContext";
+import { useAuth } from "../context/AuthContext";
 
 interface Plant {
   _id: {
@@ -19,6 +20,9 @@ interface Plant {
 }
 
 interface SubmittedData {
+  _id?: {
+    $oid: string;
+  };
   plantSpecies: string;
   scientificName: string;
   otherName: string | null;
@@ -37,6 +41,7 @@ const PlantLog = () => {
   const { submittedDataList, setSubmittedDataList } = usePlants();
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const { user } = useAuth();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = e.target.value.toLowerCase();
@@ -127,6 +132,36 @@ const PlantLog = () => {
         alert("A reminder has been sent to your email.");
       } else {
         alert("Failed to send reminder.");
+      }
+    } catch (error) {
+      console.error("Failed to send reminder:", error);
+      alert("There was an error sending the reminder.");
+    }
+  };
+
+  const sendReminder = async (plantData: SubmittedData) => {
+    // You need to ensure that `user` is not null and has an email.
+    // Since `user` can be null, the optional chaining `?.` will prevent runtime errors.
+    if (!user?.email) {
+      alert("User email is not available.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/plant-logs/send-watering-reminder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          plantLogId: plantData._id, // Make sure _id exists in your SubmittedData
+          userEmail: user.email,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.message) {
+        alert(data.message);
       }
     } catch (error) {
       console.error("Failed to send reminder:", error);
@@ -298,7 +333,7 @@ const PlantLog = () => {
                 </span>
               </p>
               <button
-                onClick={() => sendInitialReminder(data, user.email)} // Assuming you have access to the user's email
+                onClick={() => sendReminder(data)} // Assuming you have access to the user's email
                 className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
                 style={{ float: "right" }} // Position the button to the bottom right
               >
