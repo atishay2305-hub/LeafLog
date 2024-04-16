@@ -1,11 +1,8 @@
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Cookies from "js-cookie";
-import Router from "next/router";
 import plantData from "../../../Backend/config/plants.json";
-import Plant from "./search";
 
 interface Plant {
   _id: {
@@ -32,19 +29,19 @@ interface SubmittedData {
 }
 
 const PlantLog = () => {
-  const [plantSpecies, setPlantSpecies] = useState<string>("");
-  const [scientificName, setScientificName] = useState<string>("");
+  const [plantSpecies, setPlantSpecies] = useState("");
+  const [scientificName, setScientificName] = useState("");
   const [otherName, setOtherName] = useState<string | null>(null);
-  const [cycle, setCycle] = useState<string>("");
-  const [watering, setWatering] = useState<string>("");
-  const [sunlight, setSunlight] = useState<string>("");
-  const [petName, setPetName] = useState<string>("");
-  const [otherNotes, setOtherNotes] = useState<string>("");
+  const [cycle, setCycle] = useState("");
+  const [watering, setWatering] = useState("");
+  const [sunlight, setSunlight] = useState("");
+  const [petName, setPetName] = useState("");
+  const [otherNotes, setOtherNotes] = useState("");
   const [submittedDataList, setSubmittedDataList] = useState<SubmittedData[]>(
     []
   );
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = e.target.value.toLowerCase();
@@ -66,37 +63,29 @@ const PlantLog = () => {
 
   const handleSelectPlant = (plantName: string) => {
     setPlantSpecies(plantName);
-    setShowDropdown(false); // Hide the dropdown once a selection is made
-  };
-
-  const handleBlur = (event: React.FocusEvent) => {
-    // Check if the new focus target is not within the dropdown
-    setTimeout(() => setShowDropdown(false), 8);
-    if (!event.currentTarget.contains(event.relatedTarget)) {
-      setShowDropdown(false);
-    }
+    setShowDropdown(false);
   };
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    const handleOutsideClick = (event: MouseEvent) => {
+      // We cast event.target to Node here because contains expects a Node type.
       if (
         showDropdown &&
-        event.target &&
-        (event.target as Element).id !== "plantSpecies" &&
-        !(event.target as Element).classList.contains("dropdown-content") &&
-        !(event.target as Element).classList.contains("dropdown-item")
+        !document
+          .getElementById("plantSpeciesContainer")
+          ?.contains(event.target as Node)
       ) {
         setShowDropdown(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [showDropdown]);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newEntry: SubmittedData = {
       plantSpecies,
@@ -109,6 +98,7 @@ const PlantLog = () => {
       otherNotes,
     };
     setSubmittedDataList([...submittedDataList, newEntry]);
+    // Clear form fields
     setPlantSpecies("");
     setScientificName("");
     setOtherName(null);
@@ -127,8 +117,8 @@ const PlantLog = () => {
         <meta name="description" content="Create a new plant log entry" />
       </Head>
 
-      <div className=" top-level bg-green-300 min-h-screen flex items-center justify-center">
-        <div className=" w-full max-w-5xl p-10 bg-white shadow-lg rounded-lg text-center">
+      <div className="top-level bg-green-300 min-h-screen flex items-center justify-center">
+        <div className="w-full max-w-5xl p-10 bg-white shadow-lg rounded-lg text-center">
           <h1 className="text-5xl font-bold text-green-600 mb-8">
             Create a Plant Log Entry
           </h1>
@@ -140,30 +130,33 @@ const PlantLog = () => {
               >
                 Plant Species
               </label>
-              <div onBlur={handleBlur}>
+              <div id="plantSpeciesContainer">
                 <input
                   type="text"
                   id="plantSpecies"
-                  name="plantSpecies"
                   value={plantSpecies}
                   onChange={handleSearchChange}
-                  onFocus={() => setShowDropdown(false)}
+                  onFocus={() => setShowDropdown(true)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                   placeholder="Type and search for a plant species"
                   autoComplete="off" // Disable browser's autocomplete
                   required
                 />
-                {searchResults.length > 0 && (
-                  <div className="dropdown-content bg-white border border-gray-300 rounded-lg shadow-lg">
-                    {searchResults.map((plant, index) => (
-                      <div
-                        key={plant.common_name} // Make sure to use a unique key, common_name could be duplicated, consider using an ID
-                        onClick={() => handleSelectPlant(plant.common_name)}
-                        className="dropdown-item"
-                      >
-                        {plant.common_name} ({plant.scientific_name})
+                {showDropdown && (
+                  <div className="dropdown-content">
+                    {searchResults.length > 0 && (
+                      <div className="dropdown-content bg-white border border-gray-300 rounded-lg shadow-lg">
+                        {searchResults.map((plant, index) => (
+                          <div
+                            key={plant.common_name} // Make sure to use a unique key, common_name could be duplicated, consider using an ID
+                            onClick={() => handleSelectPlant(plant.common_name)}
+                            className="dropdown-item"
+                          >
+                            {plant.common_name} ({plant.scientific_name})
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
                   </div>
                 )}
               </div>
