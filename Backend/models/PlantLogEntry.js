@@ -1,6 +1,3 @@
-// models/PlantLogEntry.js
-const mongoose = require("mongoose");
-
 import mongoose from "mongoose";
 
 const plantLogEntrySchema = new mongoose.Schema({
@@ -13,9 +10,7 @@ const plantLogEntrySchema = new mongoose.Schema({
     // Add any other fields you need for a plant log entry
 }, { timestamps: true });
 
-const PlantLogEntry =
-    mongoose.models.PlantLogEntry ||
-    mongoose.model("PlantLogEntry", plantLogEntrySchema);
+const PlantLogEntry = mongoose.models.PlantLogEntry || mongoose.model("PlantLogEntry", plantLogEntrySchema);
 
 
 // API endpoint to handle POST requests
@@ -29,4 +24,5 @@ router.post("/plant-logs", async(req, res) => {
     }
 });
 
-module.exports = PlantLogEntry;
+export default PlantLogEntry;
+

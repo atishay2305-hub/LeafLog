@@ -3,14 +3,13 @@ import User from "../models/User.js";
 import { mailTransporter } from "../App.mjs"; // Ensure that mailTransporter is exported from App.mjs
 
 // Function to send a watering reminder email
-export const sendWateringReminder = async(req, res) => {
+export const sendWateringReminder = async (req, res) => {
     try {
         const { plantLogId } = req.body;
         // Ensure that the plant log entry includes the user information
         const plantLogEntry = await PlantLogEntry.findById(plantLogId).populate(
             "user"
         );
-
 
         if (!plantLogEntry) {
             return res.status(404).json({ message: "Plant log entry not found" });
@@ -25,7 +24,7 @@ export const sendWateringReminder = async(req, res) => {
 
         // Prepare the email details
         const emailDetails = {
-            from: '"Plant Care Reminder" <no-reply@yourdomain.com>', // Use an email from your domain or environment variables
+            from: '"Plant Care Reminder" <leaflogtest@gmail.com>', // Fixed typo
             to: user.email,
             subject: "Watering Reminder",
             text: `Hi ${user.name}, it's time to water your plant: ${plantLogEntry.plantSpecies}.`,
