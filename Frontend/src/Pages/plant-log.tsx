@@ -73,9 +73,9 @@ const PlantLog = () => {
     const token = Cookies.get("token");
     if (token) {
       try {
-        const user = decodeToken(token);
-        console.log("User email from token:", user.email);
-        setUserEmail(user.email); // Updates state only when token changes
+        const decodedUser = decodeToken(token);
+        console.log("User email from token:", decodedUser.email);
+        setUserEmail(decodedUser.email); // Updates state only when token changes
       } catch (error) {
         console.error("Error decoding token:", error);
       }
@@ -139,7 +139,7 @@ const PlantLog = () => {
 
     try {
       const response = await fetch(
-        "api/plant-log/plant-logs/sendWateringReminder",
+        "api/plant-log/plant-logs/send-watering-reminder",
         {
           method: "POST",
           headers: {
