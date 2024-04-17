@@ -35,13 +35,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // Your login logic here
-    // setUser({ email: 'retrieved email' });
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
   const login = (newUser: User) => {
     setUser(newUser);
-    // persist login state
+    localStorage.setItem("user", JSON.stringify(newUser));
   };
 
   const logout = () => {
