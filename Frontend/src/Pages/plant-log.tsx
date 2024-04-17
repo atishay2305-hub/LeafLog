@@ -44,6 +44,7 @@ const PlantLog = () => {
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const { user } = useAuth();
+  const [userEmail, setUserEmail] = useState(null);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = e.target.value.toLowerCase();
@@ -69,6 +70,16 @@ const PlantLog = () => {
   };
 
   useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      try {
+        const user = decodeToken(token);
+        console.log("User email from token:", user.email);
+        setUserEmail(user.email); // Updates state only when token changes
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
     const handleOutsideClick = (event: MouseEvent) => {
       // We cast event.target to Node here because contains expects a Node type.
       if (
@@ -111,56 +122,43 @@ const PlantLog = () => {
     setSunlight("");
   };
 
-  const token = Cookies.get("token");
-  if (token) {
-    try {
-      const user = decodeToken(token);
-      console.log("User email from token:", user.email);
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
-  }
-
   const sendReminder = async (plantData: SubmittedData) => {
     console.log("Attempting to send reminder...");
     // Since `user` can be null, the optional chaining `?.` will prevent runtime errors.
 
-    // Check if the user object exists and log its content.
-    if (!user) {
-      console.log("No user object is available in context.");
-      alert("User is not logged in.");
-      return;
-    }
-    console.log("User state:", user);
-    const userEmail = user.email;
-
     if (!userEmail) {
-      console.log("User email is not available:", user);
+      console.log("User email is not available.");
       alert("User email is not available.");
       return;
     } else {
-      console.log("User email is available:", user.email);
+      console.log("User email is available:", userEmail);
     }
 
-    // Log the plant data being used for the reminder.
+    console.log("User email for reminder:", userEmail);
     console.log("Plant data for reminder:", plantData);
 
     try {
-      const response = await fetch("/api/plant-logs/send-watering-reminder", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          plantLogId: plantData._id, // Make sure _id exists in your SubmittedData
-          userEmail: user.email,
-        }),
-      });
+      const response = await fetch(
+        "api/plant-log/plant-logs/sendWateringReminder",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            plantLogId: plantData._id, // Make sure _id exists in your SubmittedData
+            userEmail: userEmail, // Use userEmail from state
+          }),
+        }
+      );
 
       const data = await response.json();
-      console.log("Response from the reminder API:", data);
       if (data.message) {
-        alert(data.message);
+        console.log("Reminder sent successfully:", data.message);
+        alert("Reminder sent successfully!");
+      } else {
+        console.log("Failed to send reminder:", data);
+        alert("Failed to send reminder.");
       }
     } catch (error) {
       console.error("Failed to send reminder:", error);
