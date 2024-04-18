@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
-const User = require("../models/userModel.js");
-const generateToken = require("../utils/generateToken.js");
+const User = require("../models/User.js");
+const generateToken = require("../services/authService.js");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
@@ -55,6 +55,26 @@ const authUser = asyncHandler(async (req, res) => {
   
 });
 
+const addLoggedPlant = async (req, res) => {
+  const { plantId } = req.body; // Assuming the plant ID is provided as "plantId"
+  const userId = req.user.id; // Assuming you're using the authenticated user's ID from the token
+  
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Add the plantId to the user's loggedPlants array
+    user.loggedPlants.push(plantId);
+    await user.save();
+
+    res.status(200).json({ message: "Plant logged successfully for the user" });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 
-module.exports = { registerUser, authUser };
+module.exports = { registerUser, authUser, addLoggedPlant };

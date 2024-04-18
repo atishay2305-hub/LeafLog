@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3000/api"; // Set the base URL for your API
+const API_BASE_URL = "http://localhost:5002/api"; // Set the base URL for your API
 
 // Function to get all plant logs for the current user
 export const getUserPlants = async() => {
@@ -56,7 +56,7 @@ export const createPlantLog = async(plantData, token) => {
 
 export const getPlantLogEntries = async(token) => {
     try {
-        const res = await fetch("http://localhost:3000/api/plantlogs", {
+        const res = await fetch("http://localhost:5002/api/plantlogs", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -92,5 +92,36 @@ export const sendWateringReminder = async(plantLogId) => {
     } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
         throw error;
+    }
+};
+
+export const logPlant = async (plantData, token) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/log-plant`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                // Include the Authorization header if a token is provided
+                ...(token && { Authorization: `Bearer ${token}` }),
+            },
+            // Include credentials if your API uses session-based authentication
+            credentials: token ? "omit" : "include",
+            body: JSON.stringify(plantData),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            // Log the error and throw or return an error object based on your error handling strategy
+            console.error("Error in logPlant (service) => ", data);
+            throw new Error(data.message || "An error occurred");
+        }
+
+        return { success: true, data };
+    } catch (error) {
+        console.error("Error in logPlant (service) => ", error);
+        // Depending on your front-end error handling, either throw the error or return an object indicating failure
+        throw error;
+        // or
+        // return { success: false, message: error.message };
     }
 };

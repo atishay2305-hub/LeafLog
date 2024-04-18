@@ -4,7 +4,7 @@ import {
     getPlantLogs,
     sendWateringReminder,
 } from "../controllers/plantLogController.js";
-import { authMiddleware } from "../middleware/authMiddleware.js";
+import authMiddleware from '../middleware/authMiddleware.js';
 
 
 const router = express.Router();

@@ -1,11 +1,10 @@
-// authService.js
-import jwt from "jsonwebtoken";
-import User from "../models/User";
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 const SECRET_KEY = "leafloglogin"; // Ideally, this should be in your environment variables
 
 // Function to generate a new JWT token
-export const generateToken = (user) => {
+exports.generateToken = function(user) {
     return jwt.sign({
             id: user._id,
             name: user.name,
@@ -16,7 +15,7 @@ export const generateToken = (user) => {
 };
 
 // Function to verify a token and return the decoded data
-export const verifyToken = (token) => {
+exports.verifyToken = function(token) {
     try {
         return jwt.verify(token, SECRET_KEY);
     } catch (error) {
@@ -26,8 +25,8 @@ export const verifyToken = (token) => {
 };
 
 // Function to get a user from the token
-export const getUserFromToken = async(token) => {
-    const decoded = verifyToken(token);
+exports.getUserFromToken = async function(token) {
+    const decoded = exports.verifyToken(token);
     if (!decoded) {
         throw new Error("Invalid Token");
     }
