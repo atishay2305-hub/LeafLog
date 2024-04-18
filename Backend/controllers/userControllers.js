@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
-const User = require("../models/userModel.js");
-const generateToken = require("../utils/generateToken.js");
+const User = require("../models/User.js");
+const generateToken = require("../services/authService.js");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
@@ -55,6 +55,25 @@ const authUser = asyncHandler(async (req, res) => {
   
 });
 
+const myPlants = asyncHandler(async (req, res) => {
+  const userId = req.user.id; // Assuming you're using the authenticated user's ID from the token
+  
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Retrieve the logged plants array from the user object
+    const loggedPlants = user.loggedPlants;
+
+    res.status(200).json({ success: true, loggedPlants });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
 
 
-module.exports = { registerUser, authUser };
+module.exports = { registerUser, authUser, myPlants};
