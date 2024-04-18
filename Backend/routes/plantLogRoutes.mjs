@@ -1,19 +1,15 @@
-import express from "express";
-import {
-    createPlantLog,
-    getPlantLogs,
-    sendWateringReminder,
-} from "../controllers/plantLogController.js";
+import express from 'express';
 import authMiddleware from '../middleware/authMiddleware.js';
-
+import { createPlantLog, getPlantLogs, logPlant } from '../controllers/plantLogController.js';
 
 const router = express.Router();
+const SECRET = 'leafloglogin'; // Set your secret here
 
 router
-    .route("/")
-    .post(authMiddleware, createPlantLog)
-    .get(authMiddleware, getPlantLogs)
-    .post("/send-watering-reminder", sendWateringReminder); // Define the route using router.post
+    .route('/')
+    .post(authMiddleware(SECRET), createPlantLog)
+    .get(authMiddleware(SECRET), getPlantLogs);
 
+router.post('/log-plant', authMiddleware(SECRET), logPlant);
 
 export default router;

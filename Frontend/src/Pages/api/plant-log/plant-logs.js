@@ -1,7 +1,8 @@
 import DBconnection from "../../../../../Backend/utils/DBConnection";
 import PlantLogEntry from "../../../../../Backend/models/PlantLogEntry";
-import { sendWateringReminder } from "../../../../../Backend/controllers/plantLogController";
+import { logPlant } from "../../../../../Backend/controllers/plantLogController";
 import Joi from "joi";
+import User from "../../../../../Backend/models/User"; 
 
 const plantLogSchema = Joi.object({
     common_name: Joi.string().required(),
@@ -34,7 +35,7 @@ export default async(req, res) => {
 
             // After successfully creating a new plant log entry, send a watering reminder email
             // and then update the user's logged plants with the new log ID.
-            await handleReminderAndAddLoggedPlant(req, res, plantLogId);
+            await logPlant(req, res, plantLogId);
         } catch (error) {
             res
                 .status(500)
@@ -47,12 +48,9 @@ export default async(req, res) => {
 };
 
 // Function to handle sending the watering reminder email and adding the logged plant ID to the user's array
-const handleReminderAndAddLoggedPlant = async (req, res, plantLogId) => {
+const logPlant = async (req, res, plantLogId) => {
     try {
-        // Handle sending the watering reminder email
-        // You can implement this part as per your requirements
-
-        // After sending the reminder, add the plantLogId to the user's array
+        // After adding the plantLogId to the user's array
         const userId = req.user.id; // Assuming you're using the authenticated user's ID from the token
         const user = await User.findById(userId);
 
@@ -64,7 +62,8 @@ const handleReminderAndAddLoggedPlant = async (req, res, plantLogId) => {
         user.loggedPlants.push(plantLogId);
         await user.save();
 
-        res.status(200).json({ success: true, message: "Plant logged successfully for the user" });
+        // Send the response indicating that the plantLogId has been added to the user's array
+        res.status(200).json({ success: true, message: "Plant log ID added successfully to the user's array" });
     } catch (error) {
         console.error('Error:', error.message);
         res.status(500).json({ success: false, message: "Internal Server Error" });

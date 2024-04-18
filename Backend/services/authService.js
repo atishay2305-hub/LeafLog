@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-const SECRET_KEY = "leafloglogin"; // Ideally, this should be in your environment variables
+const SECRET = "leafloglogin"; // Ideally, this should be in your environment variables
 
 // Function to generate a new JWT token
 exports.generateToken = function(user) {
@@ -10,14 +10,14 @@ exports.generateToken = function(user) {
             name: user.name,
             email: user.email,
         },
-        SECRET_KEY, { expiresIn: "1h" } // Token expires in 1 hour
+        SECRET, { expiresIn: "1h" } // Token expires in 1 hour
     );
 };
 
 // Function to verify a token and return the decoded data
 exports.verifyToken = function(token) {
     try {
-        return jwt.verify(token, SECRET_KEY);
+        return jwt.verify(token, SECRET);
     } catch (error) {
         console.error("Error verifying token:", error);
         return null;

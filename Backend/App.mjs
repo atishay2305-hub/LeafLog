@@ -6,9 +6,10 @@ import { dbConnection as connectDB } from "./config/mongoConnection.mjs";
 import plantRoutes from './routes/plantRoutes.mjs';
 import diseaseRoutes from './routes/diseaseRoutes.mjs';
 import authMiddleware from './middleware/authMiddleware.js';
+import plantLogRoutes from './routes/plantLogRoutes.mjs';
+const SECRET = 'leafloglogin';
 
-// Import the addLoggedPlant function
-import { addLoggedPlant } from "./controllers/userControllers.js";
+import { myPlants } from "./controllers/userControllers.js";
 
 dotenv.config();
 
@@ -72,22 +73,13 @@ app.post("/send-watering-reminder", async (req, res) => {
   }
 });
 
-
-app.post("/api/log-plant", async (req, res) => {
-  try {
-    // Handle the request here
-    res.status(200).json({ message: "Plant logged successfully" });
-  } catch (error) {
-    console.error("Error logging plant:", error);
-    res.status(500).json({ error: "Error logging plant" });
-  }
-});
-
-
 // Route to add logged plants
-app.post("/user/logged-plants", authMiddleware, addLoggedPlant); // Import addLoggedPlant function and use it here
+app.post('/user/my-plants', authMiddleware(SECRET), myPlants);
 
-// Use plant and disease routes
+// Use plantLogRoutes for the '/api' namespace
+app.use('/api', plantLogRoutes);
+
+// Use the other routes
 app.use(plantRoutes);
 app.use(diseaseRoutes);
 

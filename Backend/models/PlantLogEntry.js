@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+const express = require('express');
+const router = express.Router(); // Create a router instance
 
 const plantLogEntrySchema = new mongoose.Schema({
     common_name: { type: String, required: true, trim: true },
@@ -12,8 +14,7 @@ const plantLogEntrySchema = new mongoose.Schema({
 
 const PlantLogEntry = mongoose.models.PlantLogEntry || mongoose.model("PlantLogEntry", plantLogEntrySchema);
 
-
-// API endpoint to handle POST requests
+// Assuming `router` is defined somewhere else in your code
 router.post("/plant-logs", async(req, res) => {
     try {
         const newPlantLogEntry = new PlantLogEntry(req.body);
@@ -24,5 +25,4 @@ router.post("/plant-logs", async(req, res) => {
     }
 });
 
-export default PlantLogEntry;
-
+module.exports = PlantLogEntry;

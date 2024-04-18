@@ -104,8 +104,6 @@ export const logPlant = async (plantData, token) => {
                 // Include the Authorization header if a token is provided
                 ...(token && { Authorization: `Bearer ${token}` }),
             },
-            // Include credentials if your API uses session-based authentication
-            credentials: token ? "omit" : "include",
             body: JSON.stringify(plantData),
         });
 

@@ -1,6 +1,4 @@
-// tokenUtils.js
-
-export const decodeToken = (token) => {
+const decodeToken = (token) => {
     if (!token) {
         throw new Error("No token provided");
     }
@@ -15,3 +13,5 @@ export const decodeToken = (token) => {
 
     return JSON.parse(jsonPayload);
 };
+
+module.exports = { decodeToken }; // Export the function
