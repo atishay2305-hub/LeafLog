@@ -8,6 +8,7 @@ import diseaseRoutes from './routes/diseaseRoutes.mjs';
 import { registerUser, authUser, myPlants } from "./controllers/userControllers.js";
 import nodemailer from "nodemailer"; // Import nodemailer
 import {notFound, errorHandler} from '../Backend/middleware/errorMiddleware.js';
+import sendEmail from "./email.js";
 
 dotenv.config();
 
@@ -100,6 +101,8 @@ app.use(diseaseRoutes);
 // Use the notFound and errorHandler middleware functions
 app.use(notFound);
 app.use(errorHandler);
+
+app.use('/send-email', sendEmail);
 
 // Start the server
 const PORT = process.env.PORT || 5002;

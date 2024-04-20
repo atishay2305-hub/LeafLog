@@ -1,15 +1,21 @@
-import { login_user } from "../../../Backend/services/index";
-import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import Link from "next/link";
+import { login_user } from "../../../Backend/services/index";
 import "../styles/global.css";
 
-export default function Login() {
+const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      Router.replace("/LandingPage");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,12 +33,6 @@ export default function Login() {
 
   return (
     <>
-      <Head>
-        <title>Login | LeafLog</title>
-        <meta name="description" content="Login to LeafLog" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <section className="top-level bg-green-300 min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-xl p-10 bg-white shadow-lg rounded-lg text-center">
           <h1 className="text-6xl font-bold text-green-600 mb-8">Login</h1>
@@ -96,4 +96,6 @@ export default function Login() {
       <ToastContainer />
     </>
   );
-}
+};
+
+export default Login;
