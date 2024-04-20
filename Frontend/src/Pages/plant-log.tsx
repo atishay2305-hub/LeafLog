@@ -2,25 +2,11 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import plantData from "../../../Backend/config/plants.json";
-import Cookies from "js-cookie";
 import { usePlants } from "../context/PlantContext";
 import { useAuth } from "../context/AuthContext";
 import Router from "next/router";
 import { logPlant } from "../../../Backend/services/plantService";
-
-interface Plant {
-  _id: {
-    $oid: string;
-  };
-  plantId?: number;
-  common_name: string;
-  scientific_name: string;
-  other_name?: string | null;
-  cycle: string;
-  watering: string;
-  sunlight: string;
-}
+import Cookies from 'js-cookie';
 
 interface SubmittedData {
   _id?: {
@@ -44,11 +30,11 @@ const PlantLog = () => {
   const [watering, setWatering] = useState("");
   const [sunlight, setSunlight] = useState("");
   const { submittedDataList, setSubmittedDataList } = usePlants();
-  const [searchResults, setSearchResults] = useState<Plant[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const { user } = useAuth();
   const [token, setToken] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [searchResults, setSearchResults] = useState<SubmittedData[]>([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -93,25 +79,18 @@ const PlantLog = () => {
     };
 
     try {
-      await logPlant(newEntry, token!);
-      setSubmittedDataList((prevList: SubmittedData[]) => [
-        ...prevList,
-        newEntry,
-      ]);
-      alert("Plant log entry submitted successfully!");
+      const response = await fetch(`http://localhost:5002/api/plantdata/search?common_name=${plantSpecies}&scientific_name=${scientificName}&cycle=${cycle}&watering=${watering}&other_name=${otherName}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch search results');
+      }
+      const searchData = await response.json();
+      setSearchResults(searchData);
     } catch (error) {
-      console.error("Error logging plant:", error);
-      alert("Failed to submit plant log entry.");
+      console.error("Error searching plants:", error);
+      setSearchResults([]);
     }
-
-    // Clear form fields
-    setPlantSpecies("");
-    setScientificName("");
-    setOtherName(null);
-    setCycle("");
-    setWatering("");
-    setSunlight("");
   };
+
 
   const sendReminder = async (plantData: SubmittedData) => {
     console.log("Attempting to send reminder...");
@@ -120,8 +99,6 @@ const PlantLog = () => {
       console.log("User email is not available.");
       alert("User email is not available.");
       return;
-    } else {
-      console.log("User email is available:", userEmail);
     }
 
     console.log("User email for reminder:", userEmail);
@@ -153,23 +130,25 @@ const PlantLog = () => {
     }
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = e.target.value.toLowerCase();
     setPlantSpecies(searchQuery);
-
-    const results = plantData
-      .filter(
-        (plant) =>
-          plant.common_name.toLowerCase().includes(searchQuery) ||
-          plant.scientific_name.toLowerCase().includes(searchQuery) ||
-          (plant.other_name &&
-            plant.other_name.toLowerCase().includes(searchQuery))
-      )
-      .slice(0, 6); // Take the first 6 results
-
-    setSearchResults(results);
-    setShowDropdown(true);
+  
+    try {
+      const response = await fetch(`http://localhost:5002/api/plantdata?searchQuery=${searchQuery}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch plant data');
+      }
+      const searchData = await response.json();
+      const top20Results = searchData.slice(0, 20); // Slice the array to include only the first 20 items
+      setSearchResults(top20Results);
+    } catch (error) {
+      console.error("Error searching plants:", error);
+      setSearchResults([]);
+    }
   };
+  
+
 
   const handleSelectPlant = (plantName: string) => {
     setPlantSpecies(plantName);
@@ -223,7 +202,7 @@ const PlantLog = () => {
                       <div className="dropdown-content bg-white border border-gray-300 rounded-lg shadow-lg">
                         {searchResults.map((plant, index) => (
                           <div
-                            key={plant.common_name} // Make sure to use a unique key, common_name could be duplicated, consider using an ID
+                            key={index} // Changed key to index, as the array index is unique
                             onClick={() => handleSelectPlant(plant.common_name)}
                             className="dropdown-item"
                           >

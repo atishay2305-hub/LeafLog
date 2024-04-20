@@ -1,8 +1,7 @@
-// pages/FeedbackForm.tsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie'; // Import Cookies from 'js-cookie' library
+import Cookies from 'js-cookie';
+import Router from 'next/router';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -12,18 +11,19 @@ const FeedbackForm: React.FC = () => {
     description: '',
   });
 
-  const [userEmail, setUserEmail] = useState<string | undefined>(undefined); // Initialize userEmail as undefined
+  const [userEmail, setUserEmail] = useState<string | undefined>(undefined);
 
-  // Function to retrieve the logged-in user's email
   const fetchUserEmail = () => {
-    // Add your logic to fetch the user's email here
-    // For example, if you're using cookies:
     const userEmailFromCookie = Cookies.get('userEmail');
-    setUserEmail(userEmailFromCookie || ''); // Set userEmail to empty string if userEmailFromCookie is undefined
+    setUserEmail(userEmailFromCookie || '');
   };
 
   useEffect(() => {
     fetchUserEmail();
+    const token = Cookies.get('token');
+    if (!token) {
+      Router.push('/');
+    }
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -35,9 +35,17 @@ const FeedbackForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      // Send form data and user's email to backend server
-      await axios.post('http://localhost:5002/send-email', { userEmail, ...formData });
-      // Reset form after successful submission
+      const token = Cookies.get('token');
+      if (!token) {
+        throw new Error('User not authenticated');
+      }
+
+await axios.post('http://localhost:5002/send-email', { userEmail, ...formData }, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+
       setFormData({ title: '', description: '' });
       alert('Feedback submitted successfully!');
     } catch (error) {
