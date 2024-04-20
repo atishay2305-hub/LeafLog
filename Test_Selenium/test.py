@@ -72,4 +72,22 @@ scroll_top_script = "arguments[0].scrollIntoView({behavior: 'smooth', block: 'st
 driver.execute_script(scroll_top_script, driver.find_element(By.XPATH, '//*[@id="__next"]'))
 time.sleep(2)  # Wait for a few seconds
 
+# search a plant
+
+# TODO: COMPLETE SEARCH A PLANT
+
+# log a plant manually
+
+# TODO: COMPLETE FIRST THE FEATURE 401 UNAUTHORIZED ERROR AND THEN COMPLETE THE TESTING
+
+# see my-plants page
+
+# TODO: COMPLETE MY-PLANTS PAGE 
+
+# logout 
+
+# TODO: LOGOUT SESSION
+
+
+
 driver.close()

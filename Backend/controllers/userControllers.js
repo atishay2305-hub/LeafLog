@@ -56,10 +56,12 @@ const authUser = asyncHandler(async (req, res) => {
 });
 
 const myPlants = asyncHandler(async (req, res) => {
-  const userId = req.user.id; // Assuming you're using the authenticated user's ID from the token
+  const userId = req.user.id; 
+  console.log(userId);// Assuming you're using the authenticated user's ID from the token
   
   try {
     const user = await User.findById(userId);
+    
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

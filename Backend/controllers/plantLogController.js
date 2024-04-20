@@ -14,6 +14,7 @@ const sendWateringReminder = async (req, res) => {
 
 // Function to handle logging a plant and sending the watering reminder email if needed
 const logPlant = async (req, res, plantId) => {
+  console.log("here")
   try {
     const userId = req.user.id; // Assuming you're using the authenticated user's ID from the token
     const user = await User.findById(userId);
@@ -30,7 +31,7 @@ const logPlant = async (req, res, plantId) => {
 
     // Send the response indicating that the plantId has been added to the user's array
     res.status(200).json({ success: true, message: "Plant ID added successfully to the user's array" });
-  } catch (error) {
+  } catch (error) {                                              
     console.error('Error:', error.message);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }

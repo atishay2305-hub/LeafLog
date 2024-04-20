@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
-import Footer from "../components/Footer"; 
+import Footer from "../components/Footer";
 import plantData from "../../../Backend/config/plants.json";
 import Cookies from "js-cookie";
 import { usePlants } from "../context/PlantContext";
 import { useAuth } from "../context/AuthContext";
-import { decodeToken } from "../../../Backend/utils/tokenUtils";
-import { logPlant } from "../../../Backend/services/plantService"; // Import the logPlant function
+import Router from "next/router";
+import { logPlant } from "../../../Backend/services/plantService";
 
 interface Plant {
   _id: {
@@ -45,44 +45,38 @@ const PlantLog = () => {
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const { user } = useAuth();
-  // const [userEmail, setUserEmail] = useState(null);
-  // const [token, setToken] = useState(null); // State to hold the authentication token
   const [token, setToken] = useState<string | null>(null);
-const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // const authToken = Cookies.get("token"); // Get the authentication token from cookies
-    // setToken(authToken);
-    const authToken = Cookies.get("token");
-    setToken(authToken !== undefined ? authToken : null);
-
     const token = Cookies.get("token");
-    if (token) {
+
+    if (!token) {
+      Router.push("/login");
+    } else {
       try {
-        const decodedUser = decodeToken(token);
-        console.log("User email from token:", decodedUser.email);
-        setUserEmail(decodedUser.email); // Updates state only when token changes
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split("")
+            .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+            .join("")
+        );
+
+        const decodedToken = JSON.parse(jsonPayload);
+
+        setUserEmail(decodedToken.email);
+        setToken(token);
+        setLoading(false);
       } catch (error) {
-        console.error("Error decoding token:", error);
+        setError(error.message);
+        setLoading(false);
       }
     }
-    const handleOutsideClick = (event: MouseEvent) => {
-      // We cast event.target to Node here because contains expects a Node type.
-      if (
-        showDropdown &&
-        !document
-          .getElementById("plantSpeciesContainer")
-          ?.contains(event.target as Node)
-      ) {
-        setShowDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [showDropdown]);
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -96,7 +90,7 @@ const [userEmail, setUserEmail] = useState<string | null>(null);
     };
 
     try {
-      await logPlant(newEntry, token); // Log the new plant entry with token
+      await logPlant(newEntry, token!);
       setSubmittedDataList((prevList: SubmittedData[]) => [
         ...prevList,
         newEntry,
@@ -131,19 +125,16 @@ const [userEmail, setUserEmail] = useState<string | null>(null);
     console.log("Plant data for reminder:", plantData);
 
     try {
-      const response = await fetch(
-        "/send-watering-reminder",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            plantLogId: plantData._id, // Make sure _id exists in your SubmittedData
-            userEmail: userEmail, // Use userEmail from state
-          }),
-        }
-      );
+      const response = await fetch("/send-watering-reminder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          plantLogId: plantData._id,
+          userEmail: userEmail,
+        }),
+      });
 
       const data = await response.json();
       if (data.message) {
@@ -181,6 +172,14 @@ const [userEmail, setUserEmail] = useState<string | null>(null);
     setPlantSpecies(plantName);
     setShowDropdown(false);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <>

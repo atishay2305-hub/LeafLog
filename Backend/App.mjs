@@ -1,15 +1,12 @@
 import express from "express";
 import cors from "cors";
-import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { dbConnection as connectDB } from "./config/mongoConnection.mjs";
 import plantRoutes from './routes/plantRoutes.mjs';
 import diseaseRoutes from './routes/diseaseRoutes.mjs';
-import authMiddleware from './middleware/authMiddleware.js';
-import plantLogRoutes from './routes/plantLogRoutes.mjs';
-const SECRET = 'leafloglogin';
-
-import { myPlants } from "./controllers/userControllers.js";
+import { registerUser, authUser, myPlants } from "./controllers/userControllers.js";
+import nodemailer from "nodemailer"; // Import nodemailer
+import { notFound, errorHandler } from "./middlewares/errorMiddleware.js"; // Import error middleware
 
 dotenv.config();
 
@@ -34,6 +31,25 @@ connectDB(mongoURI);
 // Route to check if API is running
 app.get("/", (req, res) => {
   res.send("API is running");
+});
+
+// Route to register a new user
+app.post("/register", registerUser);
+
+// Route to authenticate a user
+app.post("/login", authUser);
+
+// Route to get a user's plants
+app.post("/user/my-plants", async (req, res) => {
+  const token = req.cookies.token; // Assuming token is stored in cookies
+  try {
+    const user = await getUserFromToken(token);
+    req.user = user; // Attach user to request object
+    myPlants(req, res);
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(401).json({ success: false, message: "Unauthorized" });
+  }
 });
 
 // Setup nodemailer for sending emails
@@ -73,15 +89,16 @@ app.post("/send-watering-reminder", async (req, res) => {
   }
 });
 
-// Route to add logged plants
-app.post('/user/my-plants', authMiddleware(SECRET), myPlants);
-
-// Use plantLogRoutes for the '/api' namespace
-app.use('/api', plantLogRoutes);
+// Use plantRoutes for the '/api' namespace
+app.use('/api', plantRoutes);
 
 // Use the other routes
 app.use(plantRoutes);
 app.use(diseaseRoutes);
+
+// Use the notFound and errorHandler middleware functions
+app.use(notFound);
+app.use(errorHandler);
 
 // Start the server
 const PORT = process.env.PORT || 5002;
