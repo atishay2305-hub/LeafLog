@@ -35,6 +35,8 @@ interface SubmittedData {
 }
 
 const PlantLog = () => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [plantSpecies, setPlantSpecies] = useState("");
   const [scientificName, setScientificName] = useState("");
   const [otherName, setOtherName] = useState<string | null>(null);
@@ -47,16 +49,15 @@ const PlantLog = () => {
   const { user } = useAuth();
   const [token, setToken] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = Cookies.get("token");
-
-    if (!token) {
-      Router.push("/login");
-    } else {
+    const fetchUserData = async () => {
       try {
+        const token = Cookies.get("token");
+        if (!token) {
+          throw new Error("Token not found.");
+        }
+
         const base64Url = token.split(".")[1];
         const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
         const jsonPayload = decodeURIComponent(
@@ -75,7 +76,9 @@ const PlantLog = () => {
         setError(error.message);
         setLoading(false);
       }
-    }
+    };
+
+    fetchUserData();
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

@@ -3,10 +3,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { dbConnection as connectDB } from "./config/mongoConnection.mjs";
 import plantRoutes from './routes/plantRoutes.mjs';
+import PlantLogRoutes from './routes/plantLogRoutes.mjs';
 import diseaseRoutes from './routes/diseaseRoutes.mjs';
 import { registerUser, authUser, myPlants } from "./controllers/userControllers.js";
 import nodemailer from "nodemailer"; // Import nodemailer
-import { notFound, errorHandler } from "./middlewares/errorMiddleware.js"; // Import error middleware
+import {notFound, errorHandler} from '../Backend/middleware/errorMiddleware.js';
 
 dotenv.config();
 
@@ -89,8 +90,8 @@ app.post("/send-watering-reminder", async (req, res) => {
   }
 });
 
-// Use plantRoutes for the '/api' namespace
-app.use('/api', plantRoutes);
+
+app.use('/api', PlantLogRoutes);
 
 // Use the other routes
 app.use(plantRoutes);
