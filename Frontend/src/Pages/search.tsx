@@ -1,9 +1,8 @@
-import { useEffect, useState, FormEvent, ChangeEvent } from "react";
+import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "./search.module.css";
-import { logPlant } from "../../../Backend/services/plantService.js"; // Import the logPlant function
 
 interface Plant {
   _id: {
@@ -37,8 +36,6 @@ export default function Search() {
         throw new Error('Failed to fetch search results');
       }
       const searchData = await response.json();
-      console.log('Search Query:', plantQuery);
-      console.log('Search Results:', searchData); // Log search results
       setSearchResults(searchData);
     } catch (error) {
       console.error("Error searching plants:", error);
@@ -51,10 +48,18 @@ export default function Search() {
 
   const addToMyPlants = async (plant: Plant) => {
     try {
-      await logPlant(plant); // Log the selected plant
-      setSearchResults([]); // Clear the search results
+      const response = await fetch(`http://localhost:5002/api/log-plant/${plant.plantId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      alert(data.message);
     } catch (error) {
       console.error("Error logging plant:", error);
+      alert('Failed to log plant.');
     }
   };
 

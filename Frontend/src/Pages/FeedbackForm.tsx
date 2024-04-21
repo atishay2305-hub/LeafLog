@@ -1,30 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import Router from 'next/router';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Cookies from 'js-cookie';
 
 const FeedbackForm: React.FC = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    email: '' // Add email field to formData
   });
 
-  const [userEmail, setUserEmail] = useState<string | undefined>(undefined);
-
-  const fetchUserEmail = () => {
-    const userEmailFromCookie = Cookies.get('userEmail');
-    setUserEmail(userEmailFromCookie || '');
-  };
-
   useEffect(() => {
-    fetchUserEmail();
     const token = Cookies.get('token');
     if (!token) {
-      Router.push('/');
+      Router.push('/'); // Redirect to login page if no token is found
+    } else {
+      try {
+        const decodedToken = decodeToken(token);
+        setFormData(prevState => ({
+          ...prevState,
+          email: decodedToken.email // Set email from decoded token
+        }));
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        Router.push('/'); // Redirect to login page if token decoding fails
+      }
     }
   }, []);
+
+  const decodeToken = (token) => {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -35,18 +51,8 @@ const FeedbackForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const token = Cookies.get('token');
-      if (!token) {
-        throw new Error('User not authenticated');
-      }
-
-await axios.post('http://localhost:5002/send-email', { userEmail, ...formData }, {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-
-      setFormData({ title: '', description: '' });
+      await axios.post('http://localhost:5002/send-email', formData);
+      setFormData({ title: '', description: '', email: '' });
       alert('Feedback submitted successfully!');
     } catch (error) {
       console.error('Error submitting feedback:', error);
@@ -88,6 +94,20 @@ await axios.post('http://localhost:5002/send-email', { userEmail, ...formData },
                 maxLength={2000}
                 className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-green-500 resize-none"
                 required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block font-semibold mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-green-500"
+                disabled // Disable email input field as it's read-only
               />
             </div>
             <button

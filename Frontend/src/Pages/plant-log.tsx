@@ -5,7 +5,6 @@ import Footer from "../components/Footer";
 import { usePlants } from "../context/PlantContext";
 import { useAuth } from "../context/AuthContext";
 import Router from "next/router";
-import { logPlant } from "../../../Backend/services/plantService";
 import Cookies from 'js-cookie';
 
 interface SubmittedData {
@@ -133,7 +132,7 @@ const PlantLog = () => {
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = e.target.value.toLowerCase();
     setPlantSpecies(searchQuery);
-  
+
     try {
       const response = await fetch(`http://localhost:5002/api/plantdata?searchQuery=${searchQuery}`);
       if (!response.ok) {
@@ -147,12 +146,28 @@ const PlantLog = () => {
       setSearchResults([]);
     }
   };
-  
-
 
   const handleSelectPlant = (plantName: string) => {
     setPlantSpecies(plantName);
     setShowDropdown(false);
+  };
+
+  const handleLogPlant = async () => {
+    try {
+      const response = await fetch(`http://localhost:5002/api/log-plant/${plantSpecies}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      alert(data.message);
+    } catch (error) {
+      console.error('Error logging plant:', error);
+      alert('Failed to log plant.');
+    }
   };
 
   if (loading) {
@@ -203,10 +218,10 @@ const PlantLog = () => {
                         {searchResults.map((plant, index) => (
                           <div
                             key={index} // Changed key to index, as the array index is unique
-                            onClick={() => handleSelectPlant(plant.common_name)}
+                            onClick={() => handleSelectPlant(plant.plantSpecies)}
                             className="dropdown-item"
                           >
-                            {plant.common_name} ({plant.scientific_name})
+                            {plant.plantSpecies} ({plant.scientificName})
                           </div>
                         ))}
                       </div>
@@ -288,12 +303,18 @@ const PlantLog = () => {
             >
               Submit Log Entry
             </button>
+            <button
+              onClick={handleLogPlant}
+              className="bg-green-600 hover:bg-green-700 text-white py-3 px-16 text-lg rounded-lg font-medium transition duration-300"
+            >
+              Log Plant
+            </button>
           </form>
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-          {submittedDataList.map((data, index) => (
+          {submittedDataList.map((data: SubmittedData, index: number) => (
             <div
               key={data._id ? data._id.$oid : index}
               className="bg-white p-6 rounded-lg shadow-lg"
