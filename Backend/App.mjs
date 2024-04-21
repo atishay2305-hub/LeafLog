@@ -5,7 +5,7 @@ import { dbConnection as connectDB } from "./config/mongoConnection.mjs";
 import plantRoutes from './routes/plantRoutes.mjs';
 import PlantLogRoutes from './routes/plantLogRoutes.mjs';
 import diseaseRoutes from './routes/diseaseRoutes.mjs';
-import { registerUser, authUser, myPlants } from "./controllers/userControllers.js";
+import { registerUser, authUser, getUserPlants } from "./controllers/userControllers.js";
 import { notFound, errorHandler } from '../Backend/middleware/errorMiddleware.js';
 import nodemailer from 'nodemailer';
 
@@ -36,7 +36,7 @@ app.post("/user/my-plants", async (req, res) => {
   try {
     const user = await getUserFromToken(token);
     req.user = user;
-    myPlants(req, res);
+    getUserPlants(req, res);
   } catch (error) {
     console.error("Error:", error.message);
     res.status(401).json({ success: false, message: "Unauthorized" });
