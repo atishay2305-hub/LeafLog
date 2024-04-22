@@ -16,6 +16,7 @@ const NotificationsPage = () => {
     new Map<string, boolean>()
   );
   const [error, setError] = useState<string | null>(null);
+  const [submissionStatus, setSubmissionStatus] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -53,10 +54,39 @@ const NotificationsPage = () => {
     setSelectedPlants((prev) => new Map(prev).set(plantId, isChecked));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // TODO: Implement actual submission logic here.
     setIsSubmitted(true);
+    await sendNotificationEmail(email);
+  };
+
+  // Function to send email via nodemailer
+  const sendNotificationEmail = async (recipientEmail: string) => {
+    const emailData = {
+      email: recipientEmail,
+    };
+    try {
+      const response = await axios.post(
+        "http://localhost:5002/send-notification-email",
+        emailData,
+        {
+          withCredentials: true, // Only if you are using cookies for auth
+        }
+      );
+      if (response.status === 200) {
+        setSubmissionStatus(
+          "Notification set up successfully. An email has been sent."
+        );
+        alert(submissionStatus);
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setSubmissionStatus(
+        "Failed to set up notification. Please try again later."
+      );
+      alert(submissionStatus);
+    }
   };
 
   // TODO: Replace with the actual rendering logic for errors and loading state
@@ -112,8 +142,12 @@ const NotificationsPage = () => {
                           handleCheckboxChange(plant._id, e.target.checked)
                         }
                       />
-                      <label htmlFor={plant._id} className="ml-2">
-                        {plant.otherName || plant.plantSpecies} - Water every{" "}
+                      <label
+                        htmlFor={plant._id}
+                        className="ml-2"
+                        style={{ textAlign: "left" }}
+                      >
+                        {plant.otherName || plant.plantSpecies} - Water{" "}
                         {plant.watering}
                       </label>
                     </div>
