@@ -10,10 +10,7 @@ import feedbackRoutes from "./routes/feedbackRoutes.mjs";
 import { registerUser, authUser } from "./controllers/userControllers.js";
 import nodemailer from "nodemailer";
 import cron from "node-cron";
-import {
-    sendConfirmationEmail,
-    schedulePlantWateringEmails,
-} from "./utils/emailScheduling.mjs"; // Import helper functions
+
 
 dotenv.config();
 
@@ -60,6 +57,35 @@ const scheduleToCron = {
 
 // This array will hold references to the scheduled jobs
 let scheduledJobs = [];
+
+const schedulePlantWateringEmails = (email, plants) => {
+    plants.forEach((plant) => {
+        const cronTime = scheduleToCron[plant.watering.toLowerCase()];
+
+        if (cronTime) {
+            const job = cron.schedule(cronTime, () => {
+                console.log(
+                    `It's time to send a watering reminder for ${plant.common_name} to ${email}.`
+                );
+                sendWateringEmail(email, plant.common_name);
+            });
+
+            scheduledJobs.push({
+                job,
+                email,
+                plantName: plant.common_name,
+            });
+
+            console.log(
+                `Scheduled job to water ${plant.common_name} for ${email} with pattern ${cronTime}`
+            );
+        } else {
+            console.log(
+                `No cron pattern found for watering schedule: ${plant.watering}`
+            );
+        }
+    });
+};
 
 // Endpoint to request notifications
 app.post("/request-notifications", (req, res) => {
