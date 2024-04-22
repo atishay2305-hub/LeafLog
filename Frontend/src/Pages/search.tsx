@@ -1,205 +1,9 @@
-// import { useEffect, useState, FormEvent, ChangeEvent } from "react";
-// import Head from "next/head";
-// import Header from "../components/Header";
-// import Footer from "../components/Footer";
-// import styles from "./search.module.css";
-// import "../styles/global.css";
-// import plantData from "../../../Backend/config/plants.json";
-
-// interface Plant {
-//   _id: {
-//     $oid: string;
-//   };
-//   plantId: number;
-//   common_name: string;
-//   scientific_name: string;
-//   other_name?: string | null;
-//   cycle: string;
-//   watering: string;
-//   sunlight: string;
-// }
-
-// interface SubmittedData {
-//   plantSpecies: string;
-//   scientificName: string;
-//   otherName: string | null;
-//   cycle: string;
-//   watering: string;
-//   sunlight: string;
-//   petName: string;
-//   otherNotes: string;
-// }
-
-// export default function Search() {
-//   const [plantQuery, setPlantQuery] = useState("");
-//   const [searchResults, setSearchResults] = useState<Plant[]>([]);
-//   const [loading, setLoading] = useState(false);
-//   const [searchSubmitted, setSearchSubmitted] = useState(false);
-//   //Plant Log Features
-//   const [myPlants, setMyPlants] = useState<SubmittedData[]>([]);
-
-//   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-//     setPlantQuery(event.target.value);
-//   };
-
-//   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
-//     setLoading(true);
-//     setSearchSubmitted(true);
-
-//     console.log("Query:", plantQuery);
-//     console.log("Data:", plantData);
-
-//     // Filter the plant data based on the search query
-//     const data = plantData as Plant[];
-
-//     const searchQuery = plantQuery.trim().toLowerCase();
-
-//     const results = data
-//       .filter(
-//         (plant) =>
-//           plant.common_name
-//             .toLowerCase()
-//             .includes(plantQuery.trim().toLowerCase()) ||
-//           plant.scientific_name
-//             .toLowerCase()
-//             .includes(plantQuery.trim().toLowerCase()) ||
-//           (plant.other_name &&
-//             plant.other_name.toLowerCase().includes(searchQuery))
-//       )
-//       .slice(0, 6);
-
-//     console.log("Filtered Results:", results);
-
-//     setSearchResults(results);
-//     setLoading(false);
-//   };
-
-//   const addToMyPlants = (plant: Plant) => {
-//     const newPlantEntry: SubmittedData = {
-//       plantSpecies: plant.common_name, // or plantSpecies if you want to change the variable name to match plant-log.tsx
-//       scientificName: plant.scientific_name,
-//       otherName: plant.other_name ?? "", // Provide an empty string if other_name is null or undefined
-//       cycle: plant.cycle,
-//       watering: plant.watering,
-//       sunlight: plant.sunlight,
-//       petName: "", // Assuming you want to prompt the user for this later or leave it empty for now
-//       otherNotes: "", // Assuming you want to prompt the user for this later or leave it empty for now
-//     };
-
-//     // Update state to include the new plant
-//     setMyPlants([...myPlants, newPlantEntry]);
-//   };
-
-//   // Render the UI with search functionality
-//   return (
-//     <>
-//       <Head>
-//         <title>Search Plants</title>
-//       </Head>
-//       <div className="flex flex-col min-h-screen">
-//         <Header />
-//         <section className="top-level search-page bg-green-300 min-h-screen flex flex-col items-center justify-center">
-//           {" "}
-//           <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full p-12 text-center mb-8">
-//             {/* Search form */}{" "}
-//             <form onSubmit={handleSubmit} className="space-y-8">
-//               <h1 className="text-5xl font-bold text-green-600 mb-8">
-//                 Search for Plants
-//               </h1>
-//               <input
-//                 type="text"
-//                 value={plantQuery}
-//                 onChange={handleSearchChange}
-//                 className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
-//                 placeholder="Type and search for a plant species"
-//                 required
-//               />
-//               <button
-//                 type="submit"
-//                 className="add-plant-button w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-//               >
-//                 Search
-//               </button>
-//             </form>
-//           </div>
-//           {/* Results section */}
-//           {searchSubmitted && (
-//             <section className="results-container mx-auto px-2 py-2 submittedBox max-w-5xl w-full">
-//               <div className="space-y-4">
-//                 <h2 className="text-2xl font-semibold text-center">
-//                   Search Results
-//                 </h2>
-//                 {loading && <p className="text-center">Loading...</p>}
-//                 {!loading && searchResults.length === 0 && (
-//                   <div className="text-center">
-//                     <p>No Plants Found, Try Again!</p>
-//                   </div>
-//                 )}
-//                 <div className="grid grid-cols-2 gap-4">
-//                   {" "}
-//                   {/* This is the grid container */}
-//                   {searchResults.map((plant) => (
-//                     <div
-//                       key={plant._id.$oid} // Use the unique OID as the key for each element
-//                       className={`${styles.resultItem} ${styles.titleCase}`} // Apply your CSS module classes here
-//                     >
-//                       <h3 className="text-xl font-bold">{plant.common_name}</h3>
-//                       <p className="font-semibold text-left">
-//                         Scientific Name:{" "}
-//                         <span className="font-normal">
-//                           {plant.scientific_name}
-//                         </span>
-//                       </p>
-//                       {plant.other_name && (
-//                         <p className="font-semibold text-left">
-//                           Other Name:{" "}
-//                           <span className="font-normal">
-//                             {plant.other_name}
-//                           </span>
-//                         </p>
-//                       )}
-//                       <p className="font-semibold text-left">
-//                         Cycle:{" "}
-//                         <span className="font-normal">{plant.cycle}</span>
-//                       </p>
-//                       <p className="font-semibold text-left">
-//                         Watering:{" "}
-//                         <span className="font-normal">{plant.watering}</span>
-//                       </p>
-//                       <p className="font-semibold text-left">
-//                         Sunlight:{" "}
-//                         <span className="font-normal">{plant.sunlight}</span>
-//                       </p>
-//                       <button
-//                         type="button" // This is a button, not a submit input
-//                         onClick={() => addToMyPlants(plant)}
-//                         className={`${styles.addButton} bg-green-600 hover:bg-green-700 text-white py-2 px-4 text-sm rounded-md transition duration-300 absolute bottom-0 right-0 mb-2 mr-2`}
-//                       >
-//                         Add to My Plants
-//                       </button>
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//             </section>
-//           )}
-//         </section>
-//         <Footer />
-//       </div>
-//     </>
-//   );
-// }
-// search.tsx
-
-import { useEffect, useState, FormEvent, ChangeEvent } from "react";
+import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "./search.module.css";
-import plantData from "../../../Backend/config/plants.json";
-import { logPlant } from "../../../Backend/services/plantService.js"; // Import the logPlant function
-import { usePlants } from "../context/PlantContext";
+import Cookies from 'js-cookie';
 
 interface Plant {
   _id: {
@@ -208,8 +12,6 @@ interface Plant {
   plantId: number;
   common_name: string;
   scientific_name: string;
-  other_name?: string | null;
-  cycle: string;
   watering: string;
   sunlight: string;
 }
@@ -219,7 +21,6 @@ export default function Search() {
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchSubmitted, setSearchSubmitted] = useState(false);
-  const { submittedDataList } = usePlants();
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlantQuery(event.target.value);
@@ -229,33 +30,57 @@ export default function Search() {
     event.preventDefault();
     setLoading(true);
     setSearchSubmitted(true);
-
-    const data = plantData as Plant[];
-
-    const searchQuery = plantQuery.trim().toLowerCase();
-
-    const results = data
-      .filter(
-        (plant) =>
-          plant.common_name.toLowerCase().includes(searchQuery) ||
-          plant.scientific_name.toLowerCase().includes(searchQuery) ||
-          (plant.other_name &&
-            plant.other_name.toLowerCase().includes(searchQuery))
-      )
-      .slice(0, 6);
-
-    setSearchResults(results);
-    setLoading(false);
+  
+    try {
+      const response = await fetch(`http://localhost:5002/api/plantdata/search?common_name=${plantQuery}&scientific_name=${plantQuery}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch search results');
+      }
+      const searchData = await response.json();
+      setSearchResults(searchData);
+    } catch (error) {
+      console.error("Error searching plants:", error);
+      setSearchResults([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const addToMyPlants = async (plant: Plant) => {
     try {
-      await logPlant(plant); // Log the selected plant
-      setSearchResults([]); // Clear the search results
+      const tokenFromCookie = Cookies.get('token'); // Retrieve the token from the cookie
+      if (!tokenFromCookie) {
+        throw new Error('Token not found in cookie.');
+      }
+  
+      const response = await fetch("http://localhost:5002/logplant", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${tokenFromCookie}` // Include the token in the Authorization header
+        },
+        body: JSON.stringify({
+          plantSpecies: plant.common_name,
+          scientificName: plant.scientific_name,
+          otherName: null, // Adjust as per your requirements
+          cycle: null, // Adjust as per your requirements
+          watering: plant.watering,
+          sunlight: plant.sunlight,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add plant to collection');
+      }
+      const data = await response.json();
+      console.log(data);
+      alert(data.message);
     } catch (error) {
       console.error("Error logging plant:", error);
+      alert('Failed to log plant.');
     }
   };
+  
+  
 
   return (
     <>
@@ -297,9 +122,9 @@ export default function Search() {
                 <p>No results found.</p>
               )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {searchResults.map((plant) => (
+              {searchResults.map((plant: Plant) => (
                 <div
-                  key={plant.plantId}
+                  key={plant._id.$oid} // Change key to use MongoDB ObjectID
                   className={`${styles.resultItem} p-6 bg-white rounded-lg shadow`}
                 >
                   <h3 className="text-xl font-semibold text-green-600">

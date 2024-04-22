@@ -34,5 +34,3 @@ exports.getUserFromToken = async function(token) {
     return user;
 };
 
-// You can also include other functions as needed, such as refreshing tokens,
-// handling logout, etc.

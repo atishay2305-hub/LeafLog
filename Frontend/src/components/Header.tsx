@@ -24,6 +24,7 @@ const Header = () => {
             <NavItem href="/search">Discover Plants</NavItem>
             <NavItem href="/plant-log">Log New Plant</NavItem>
             <NavItem href="/profile">Profile</NavItem>
+            <NavItem href="/FeedbackForm">Feedback</NavItem>
             <NavItem href="#" onClick={handleLogout}>
               Log Out
             </NavItem>

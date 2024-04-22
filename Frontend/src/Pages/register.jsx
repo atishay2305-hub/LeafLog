@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { register_user } from "../../../Backend/services/index";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import Router from "next/router";
-import "../styles/global.css"; // Ensure this path is correct
+import "../styles/global.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +17,7 @@ const Register = () => {
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
-      Router.push("/LandingPage");
+      Router.replace("/LandingPage");
     }
   }, []);
 
@@ -35,12 +34,6 @@ const Register = () => {
 
   return (
     <>
-      <Head>
-        <title>Register | LeafLog</title>
-        <meta name="description" content="Register for LeafLog" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <section className="top-level bg-green-300 min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-xl p-10 bg-white shadow-lg rounded-lg text-center">
           <h1 className="text-6xl font-bold text-green-600 mb-8">Register</h1>
@@ -97,8 +90,8 @@ const Register = () => {
                 type="password"
                 name="password"
                 id="password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                 placeholder="••••••••"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
                 required=""
               />
             </div>
@@ -126,3 +119,4 @@ const Register = () => {
 };
 
 export default Register;
+
