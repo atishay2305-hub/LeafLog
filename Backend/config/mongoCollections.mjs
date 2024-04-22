@@ -22,6 +22,7 @@ const getCollection = (collectionName) => {
 export const plants = getCollection('plants');
 export const details = getCollection('details');
 export const diseases = getCollection('diseases');
+export const feedback = getCollection('feedback');
 
 
 

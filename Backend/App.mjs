@@ -5,6 +5,7 @@ import { dbConnection as connectDB } from "./config/mongoConnection.mjs";
 import plantRoutes from './routes/plantRoutes.mjs';
 import PlantLogRoutes from './routes/plantLogRoutes.mjs';
 import diseaseRoutes from './routes/diseaseRoutes.mjs';
+import feedbackRoutes from './routes/feedbackRoutes.mjs';
 import { registerUser, authUser, getUserPlants } from "./controllers/userControllers.js";
 import nodemailer from 'nodemailer';
 
@@ -45,6 +46,7 @@ app.post("/user/my-plants", async (req, res) => {
 app.use('/api', PlantLogRoutes);
 app.use(plantRoutes);
 app.use(diseaseRoutes);
+app.use(feedbackRoutes);
 
 // Configure nodemailer with SMTP transport
 const transporter = nodemailer.createTransport({
@@ -79,6 +81,7 @@ app.post('/send-email', async (req, res) => {
     res.status(500).json({ error: 'Failed to submit feedback. Please try again later.' });
   }
 });
+
 
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
