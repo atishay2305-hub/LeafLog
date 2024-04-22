@@ -33,11 +33,11 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password} = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({email});
 
-  if (user && (await user.matchPassword(password))) {
+  if(user && (await user.matchPassword(password))){
     res.json({
       _id: user._id,
       name: user.name,
@@ -45,27 +45,27 @@ const authUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
       pic: user.pic,
       token: generateToken(user._id)
-    });
-  } else {
+    })
+  }
+
+  else{
     res.status(400);
     throw new Error("Invalid Email or Password!");
   }
+  
 });
 
-const getUserPlants = async (req, res) => {
-  const userId = req.user._id; 
+const getUserPlants = async (userId) => {
   try {
-    const user = await User.findById(userId); 
-    if (!user) {
-      console.error('User not found');
-      return res.status(404).json({ message: 'User not found' });
-    }
-    return res.json(user.loggedPlants);
+    const plantCollectionRef = await plantCollection();
+    const userPlants = await plantCollectionRef.find({ userId }).toArray();
+    return userPlants;
   } catch (error) {
     console.error('Error fetching user plants:', error);
-    return res.status(500).json({ message: 'Error fetching user plants' });
+    return [];
   }
 };
 
 
-module.exports = { registerUser, authUser, getUserPlants };
+
+module.exports = { registerUser, authUser, getUserPlants};

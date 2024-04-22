@@ -1,7 +1,7 @@
 import express from 'express';
-import { logPlant } from '../controllers/plantLogController.js';
+import { createPlantLog, getPlantLogs, logPlant } from '../controllers/plantLogController.js';
 import { getUserFromToken } from '../services/authService.js'; // Import getUserFromToken from authService
-import { getUserPlants } from '../controllers/userControllers.js';
+import { getUserPlants } from '../data/plantData.mjs';
 
 const router = express.Router();
 const SECRET = 'leafloglogin'; // Set your secret here
@@ -30,14 +30,10 @@ const fetchUserPlants = async (req, res, next) => {
     }
 };
 
-router.get('/user/myplants', fetchUserFromToken, fetchUserPlants, async (req, res) => {
-    try {
-        return res.json({ plants: req.userPlants });
-    } catch (error) {
-        console.error('Error fetching user plants:', error.message);
-        return res.status(500).json({ message: 'Failed to fetch user plants' });
-    }
-});
+router
+    .route('/')
+    .post(fetchUserFromToken, createPlantLog)
+    .get(fetchUserFromToken, getPlantLogs);
 
 router.post('/log-plant/:plantId', fetchUserFromToken, fetchUserPlants, async (req, res) => {
     const { plantId } = req.params;
