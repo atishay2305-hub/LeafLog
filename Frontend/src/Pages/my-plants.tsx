@@ -1,93 +1,47 @@
-import React, { useState, useEffect } from "react";
-import Head from "next/head";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { usePlants } from "../context/PlantContext";
-import Cookies from 'js-cookie';
+// pages/index.tsx
 
-interface Plant {
-  _id: string;
-  plantSpecies: string;
-  scientificName: string;
-  otherName: string | null;
-  cycle: string;
-  watering: string;
-  sunlight: string;
-}
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const MyPlants = () => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [userPlants, setUserPlants] = useState<Plant[]>([]);
-  const { submittedDataList } = usePlants();
+const IndexPage = () => {
+  const [plants, setPlants] = useState([]);
 
   useEffect(() => {
-    const fetchUserPlants = async () => {
+    const fetchPlants = async () => {
       try {
-        const tokenFromCookie = Cookies.get('token'); // Get JWT token from cookie
-        console.log(tokenFromCookie);
-        if (!tokenFromCookie) {
-          throw new Error("Token not found.");
-        }
-
-        const response = await fetch("http://localhost:5002/userplants", {
+        const token = localStorage.getItem('token'); // Assuming you store the JWT token in local storage after login
+        const response = await axios.get('/api/userplants', {
           headers: {
-            'Authorization': `Bearer ${tokenFromCookie}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
-        if (!response.ok) {
-          throw new Error('Failed to fetch user plants');
-        }
-        const userPlantsData = await response.json();
-        setUserPlants(userPlantsData);
-        setLoading(false);
+        setPlants(response.data);
       } catch (error) {
-        setError(error.message);
-        setLoading(false);
+        console.error('Error fetching plants:', error);
       }
     };
 
-    fetchUserPlants();
+    fetchPlants();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
-    <>
-      <Header />
-      <Head>
-        <title>My Plants | LeafLog</title>
-        <meta name="description" content="View all your logged plants" />
-      </Head>
-
-      <div className="top-level bg-green-300 min-h-screen flex items-center justify-center">
-        <div className="w-full max-w-5xl p-10 bg-white shadow-lg rounded-lg text-center">
-          <h1 className="text-5xl font-bold text-green-600 mb-8">
-            My Plants
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {userPlants.map((plant) => (
-              <div key={plant._id} className="border border-gray-300 p-4 rounded-lg">
-                <h2 className="text-xl font-bold mb-2">{plant.plantSpecies}</h2>
-                <p><span className="font-bold">Scientific Name:</span> {plant.scientificName}</p>
-                {plant.otherName && <p><span className="font-bold">Other Name:</span> {plant.otherName}</p>}
-                <p><span className="font-bold">Growth Cycle:</span> {plant.cycle}</p>
-                <p><span className="font-bold">Watering Frequency:</span> {plant.watering}</p>
-                <p><span className="font-bold">Sunlight Requirement:</span> {plant.sunlight}</p>
-              </div>
-            ))}
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">My Plants</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {plants.map((plant) => (
+          <div key={plant._id} className="bg-green-200 p-4 rounded shadow">
+            <h2 className="text-lg font-bold mb-2">{plant.plantSpecies}</h2>
+            <p>Scientific Name: {plant.scientificName}</p>
+            <p>Other Name: {plant.otherName}</p>
+            <p>Cycle: {plant.cycle}</p>
+            <p>Watering: {plant.watering}</p>
+            <p>Sunlight: {plant.sunlight}</p>
+            <p>User Email: {plant.userEmail}</p>
           </div>
-        </div>
+        ))}
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };
 
-export default MyPlants;
+export default IndexPage;

@@ -58,7 +58,6 @@ router.post("/logplant", verifyToken, async (req, res, next) => {
     }
 });
 
-// Route to get all plants logged by a user
 router.get("/userplants", verifyToken, async (req, res, next) => {
     try {
         // Extract user details from the token
