@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from "react";
-import Head from "next/head";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Router from "next/router";
+import { usePlants } from "../context/PlantContext";
 import { useRouter } from "next/router";
 
 const NotificationsPage = () => {
   const [email, setEmail] = useState("");
   const [userPlants, setUserPlants] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedPlants, setSelectedPlants] = useState(
     new Map<string, boolean>()
   );
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const tokenFromCookie = Cookies.get("token");
     if (!tokenFromCookie) {
-      router.push("/login");
+      // Redirect user to login page if token is not found
+      Router.push("/login");
       return;
     }
 
     const fetchUserPlants = async () => {
       try {
         const response = await axios.get("http://localhost:5002/userplants", {
+          withCredentials: true,
           headers: {
             Authorization: `Bearer ${tokenFromCookie}`,
           },
