@@ -1,13 +1,14 @@
-// pages/feedback.tsx
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
+import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer from react-toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for styling toast notifications
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const FeedbackPage: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [feedbacks, setFeedbacks] = useState<any[]>([]); // Adjusted feedbacks state type
+  const [feedbacks, setFeedbacks] = useState<any[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [title, setTitle] = useState('');
@@ -32,7 +33,7 @@ const FeedbackPage: React.FC = () => {
       const response = await fetch('http://localhost:5002/feedback');
       const data = await response.json();
       setFeedbacks(data);
-      localStorage.setItem('feedbacks', JSON.stringify(data)); // Store feedbacks locally
+      localStorage.setItem('feedbacks', JSON.stringify(data));
     } catch (error) {
       console.error('Error fetching feedbacks:', error.message);
     }
@@ -62,7 +63,11 @@ const FeedbackPage: React.FC = () => {
           setEmail('');
           setTitle('');
           setDescription('');
-          localStorage.setItem('feedbacks', JSON.stringify([...feedbacks, newFeedback])); // Update local storage
+          localStorage.setItem('feedbacks', JSON.stringify([...feedbacks, newFeedback]));
+          toast.success('Feedback submitted successfully'); // Show success toast
+          setTimeout(() => {
+            window.location.reload(); // Refresh the page after a short delay
+          }, 2000);
         } else {
           console.error('Failed to submit feedback:', response.statusText);
         }
@@ -154,6 +159,8 @@ const FeedbackPage: React.FC = () => {
         </div>
       </div>
       <Footer />
+      {/* Toast container */}
+      <ToastContainer />
     </>
   );
 };
