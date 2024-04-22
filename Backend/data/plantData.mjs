@@ -132,18 +132,18 @@ export const getAllOrigins = async () => {
     }
 };
 
-export const getUserPlants = async (userId) => {
-  try {
-    const plantCollectionRef = await plantCollection();
-    const userPlants = await plantCollectionRef.find({ userId }).toArray();
-    return userPlants;
-  } catch (error) {
-    console.error('Error fetching user plants:', error);
-    return [];
-  }
-};
+// export const getUserPlants = async (userId) => {
+//   try {
+//     const plantCollectionRef = await plantCollection();
+//     const userPlants = await plantCollectionRef.find({ userId }).toArray();
+//     return userPlants;
+//   } catch (error) {
+//     console.error('Error fetching user plants:', error);
+//     return [];
+//   }
+// };
 
 
 plant_data();
 detailsData();
-getUserPlants();
+// getUserPlants();

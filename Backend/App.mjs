@@ -3,10 +3,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { dbConnection as connectDB } from "./config/mongoConnection.mjs";
 import plantRoutes from './routes/plantRoutes.mjs';
-import PlantLogRoutes from './routes/plantLogRoutes.mjs';
+import userPlantsRoutes from './routes/userPlantsRoutes.mjs';
+// import PlantLogRoutes from './routes/plantLogRoutes.mjs';
 import diseaseRoutes from './routes/diseaseRoutes.mjs';
 import feedbackRoutes from './routes/feedbackRoutes.mjs';
-import { registerUser, authUser, getUserPlants } from "./controllers/userControllers.js";
+import { registerUser, authUser} from "./controllers/userControllers.js";
 import nodemailer from 'nodemailer';
 
 dotenv.config();
@@ -31,19 +32,7 @@ app.get("/", (req, res) => {
 app.post("/register", registerUser);
 app.post("/login", authUser);
 
-app.post("/user/my-plants", async (req, res) => {
-  const token = req.cookies.token;
-  try {
-    const user = await getUserFromToken(token);
-    req.user = user;
-    getUserPlants(req, res);
-  } catch (error) {
-    console.error("Error:", error.message);
-    res.status(401).json({ success: false, message: "Unauthorized" });
-  }
-});
-
-app.use('/api', PlantLogRoutes);
+app.use(userPlantsRoutes);
 app.use(plantRoutes);
 app.use(diseaseRoutes);
 app.use(feedbackRoutes);

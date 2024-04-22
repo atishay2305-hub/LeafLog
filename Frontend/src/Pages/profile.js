@@ -14,6 +14,7 @@ const Profile = () => {
   useEffect(() => {
     // Check authentication status
     const token = Cookies.get("token");
+    console.log(token)
 
     if (!token) {
       Router.push("/login");

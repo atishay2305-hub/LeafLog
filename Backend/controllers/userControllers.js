@@ -32,6 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+
 const authUser = asyncHandler(async (req, res) => {
   const { email, password} = req.body;
 
@@ -55,17 +56,6 @@ const authUser = asyncHandler(async (req, res) => {
   
 });
 
-const getUserPlants = async (userId) => {
-  try {
-    const plantCollectionRef = await plantCollection();
-    const userPlants = await plantCollectionRef.find({ userId }).toArray();
-    return userPlants;
-  } catch (error) {
-    console.error('Error fetching user plants:', error);
-    return [];
-  }
-};
 
 
-
-module.exports = { registerUser, authUser, getUserPlants};
+module.exports = { registerUser, authUser};

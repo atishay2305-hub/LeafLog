@@ -27,33 +27,23 @@ const PlantLog = () => {
   const [cycle, setCycle] = useState("");
   const [watering, setWatering] = useState("");
   const [sunlight, setSunlight] = useState("");
-  const { submittedDataList } = usePlants();
-  const [showDropdown, setShowDropdown] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const { submittedDataList } = usePlants();
+  const [showDropdown, setShowDropdown] = useState(false);
   const [searchResults, setSearchResults] = useState<SubmittedData[]>([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = Cookies.get("token");
-        if (!token) {
+        const tokenFromCookie = Cookies.get('token'); // Get JWT token from cookie
+        console.log(tokenFromCookie);
+        if (!tokenFromCookie) {
           throw new Error("Token not found.");
         }
 
-        const base64Url = token.split(".")[1];
-        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        const jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split("")
-            .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-            .join("")
-        );
-
-        const decodedToken = JSON.parse(jsonPayload);
-
-        setUserEmail(decodedToken.email);
-        setToken(token);
+        setUserEmail(tokenFromCookie);
+        setToken(tokenFromCookie);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -88,45 +78,6 @@ const PlantLog = () => {
     }
   };
 
-
-  const sendReminder = async (plantData: SubmittedData) => {
-    console.log("Attempting to send reminder...");
-
-    if (!userEmail) {
-      console.log("User email is not available.");
-      alert("User email is not available.");
-      return;
-    }
-
-    console.log("User email for reminder:", userEmail);
-    console.log("Plant data for reminder:", plantData);
-
-    try {
-      const response = await fetch("/send-watering-reminder", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          plantLogId: plantData._id,
-          userEmail: userEmail,
-        }),
-      });
-
-      const data = await response.json();
-      if (data.message) {
-        console.log("Reminder sent successfully:", data.message);
-        alert("Reminder sent successfully!");
-      } else {
-        console.log("Failed to send reminder:", data);
-        alert("Failed to send reminder.");
-      }
-    } catch (error) {
-      console.error("Failed to send reminder:", error);
-      alert("There was an error sending the reminder.");
-    }
-  };
-
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = e.target.value.toLowerCase();
     setPlantSpecies(searchQuery);
@@ -150,13 +101,14 @@ const PlantLog = () => {
     setShowDropdown(false);
   };
 
+  // Code responsible for sending the token from the frontend
   const handleLogPlant = async () => {
     try {
-      const response = await fetch(`http://localhost:5002/api/log-plant/${plantSpecies}`, {
+      const response = await fetch("http://localhost:5002/logplant", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}` // Ensure correct token is sent here
         },
         body: JSON.stringify({
           plantSpecies,
@@ -169,13 +121,13 @@ const PlantLog = () => {
         }),
       });
       const data = await response.json();
-      console.log(data);
       alert(data.message);
     } catch (error) {
       console.error('Error logging plant:', error);
       alert('Failed to log plant.');
     }
   };
+
 
   if (loading) {
     return <div>Loading...</div>;

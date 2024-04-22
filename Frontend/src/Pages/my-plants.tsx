@@ -1,253 +1,90 @@
-// // frontend/pages/myPlants.tsx
-
-// import React, { useState, useEffect } from "react";
-// import Head from "next/head";
-// import Header from "../components/Header";
-// import Footer from "../components/Footer";
-// import styles from "./search.module.css";
-// import { usePlants } from "../context/PlantContext";
-// import Cookies from "js-cookie";
-// import Router from "next/router";
-// import axios from "axios";
-
-// interface Plant {
-//   _id: {
-//     $oid: string;
-//   };
-//   plantId?: number;
-//   common_name: string;
-//   scientific_name: string;
-//   other_name?: string | null;
-//   cycle: string;
-//   watering: string;
-//   sunlight: string;
-// }
-
-// const MyPlants = () => {
-//   const [userPlants, setUserPlants] = useState<Plant[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const { submittedDataList } = usePlants();
-
-//   useEffect(() => {
-//     const fetchUserPlants = async () => {
-//       try {
-//         const plants = await getUserPlants(); // Fetch user plants from backend
-//         setUserPlants(plants);
-//       } catch (error) {
-//         console.error("Error fetching user plants:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchUserPlants();
-
-//     if (!Cookies.get("token")) {
-//       Router.push("/login");
-//     }
-//   }, []);
-
-//   const getUserPlants = async () => {
-//     try {
-//       const response = await axios.get("/api/user/plants");
-//       return response.data; // Assuming the response contains user plants
-//     } catch (error) {
-//       console.error("Error fetching user plants:", error);
-//       return [];
-//     }
-//   };
-
-//   const handleSendReminder = async (plantId: string) => {
-//     try {
-//       // Implement sending watering reminder logic here
-//     } catch (error) {
-//       console.error("Error sending watering reminder:", error);
-//     }
-//   };
-
-//   const handleLogPlant = async (plant: Plant) => {
-//     try {
-//       // Implement logic to log the plant here
-//       setUserPlants([...userPlants, plant]);
-//     } catch (error) {
-//       console.error("Error logging plant:", error);
-//     }
-//   };
-
-//   return (
-//     <>
-//       <Head>
-//         <title>My Plants</title>
-//       </Head>
-//       <Header />
-//       <main className="top-level bg-green-300 min-h-screen flex items-center justify-center">
-//         <div
-//           className={`${styles.container} w-full max-w-5xl p-10 bg-white shadow-lg rounded-lg text-center`}
-//         >
-//           <h1 className="text-4xl font-bold text-center my-10">My Plants</h1>
-//           {loading && <p className="text-center">Loading...</p>}
-//           {!loading && userPlants.length === 0 && submittedDataList.length === 0 && (
-//             <p className="text-center">You have not added any plants yet.</p>
-//           )}
-//           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//             {[...userPlants, ...submittedDataList].map((plant, index) => (
-//               <div
-//                 key={plant._id ? plant._id.$oid : index}
-//                 className={`${styles.resultItem} p-6 bg-white rounded-lg shadow`}
-//               >
-//                 <h2 className="text-2xl font-bold">{plant.common_name}</h2>
-//                 <p>Scientific Name: {plant.scientific_name}</p>
-//                 <p>Watering: Every {plant.watering}</p>
-//                 <p>Sunlight Requirement: {plant.sunlight.replace(/_/g, " ")}</p>
-//                 {plant._id && (
-//                   <button
-//                     className={`${styles.addButton} mt-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded`}
-//                     onClick={() => handleSendReminder(plant._id.$oid)}
-//                   >
-//                     Send Watering Reminder
-//                   </button>
-//                 )}
-//                 {!plant._id && (
-//                   <button
-//                     className={`${styles.addButton} mt-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded`}
-//                     onClick={() => handleLogPlant(plant)}
-//                   >
-//                     Add to My Plants
-//                   </button>
-//                 )}
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </main>
-//       <Footer />
-//     </>
-//   );
-// };
-
-// export default MyPlants;
-// frontend/pages/myPlants.tsx
-
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import styles from "./search.module.css";
 import { usePlants } from "../context/PlantContext";
-import Cookies from "js-cookie";
-import Router from "next/router";
-import axios from "axios";
+import Cookies from 'js-cookie';
 
 interface Plant {
-  _id: {
-    $oid: string;
-  };
-  plantId?: number;
-  common_name: string;
-  scientific_name: string;
-  other_name?: string | null;
+  _id: string;
+  plantSpecies: string;
+  scientificName: string;
+  otherName: string | null;
   cycle: string;
   watering: string;
   sunlight: string;
 }
 
 const MyPlants = () => {
-  const [userPlants, setUserPlants] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userPlants, setUserPlants] = useState<Plant[]>([]);
   const { submittedDataList } = usePlants();
 
   useEffect(() => {
     const fetchUserPlants = async () => {
       try {
-        const plants = await getUserPlants(); // Fetch user plants from backend
-        setUserPlants(plants);
+        const tokenFromCookie = Cookies.get('token'); // Get JWT token from cookie
+        console.log(tokenFromCookie);
+        if (!tokenFromCookie) {
+          throw new Error("Token not found.");
+        }
+
+        const response = await fetch("http://localhost:5002/userplants", {
+          headers: {
+            'Authorization': `Bearer ${tokenFromCookie}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch user plants');
+        }
+        const userPlantsData = await response.json();
+        setUserPlants(userPlantsData);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching user plants:", error);
-      } finally {
+        setError(error.message);
         setLoading(false);
       }
     };
 
     fetchUserPlants();
-
-    if (!Cookies.get("token")) {
-      Router.push("/login");
-    }
   }, []);
 
-  const getUserPlants = async () => {
-    try {
-      const response = await axios.get("/api/user/plants");
-      return response.data; // Assuming the response contains user plants
-    } catch (error) {
-      console.error("Error fetching user plants:", error);
-      return [];
-    }
-  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  const handleSendReminder = async (plantId: string) => {
-    try {
-      // Implement sending watering reminder logic here
-    } catch (error) {
-      console.error("Error sending watering reminder:", error);
-    }
-  };
-
-  const handleLogPlant = async (plant: Plant) => {
-    try {
-      // Implement logic to log the plant here
-      setUserPlants([...userPlants, plant]);
-    } catch (error) {
-      console.error("Error logging plant:", error);
-    }
-  };
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <>
-      <Head>
-        <title>My Plants</title>
-      </Head>
       <Header />
-      <main className="top-level bg-green-300 min-h-screen flex items-center justify-center">
-        <div
-          className={`${styles.container} w-full max-w-5xl p-10 bg-white shadow-lg rounded-lg text-center`}
-        >
-          <h1 className="text-4xl font-bold text-center my-10">My Plants</h1>
-          {loading && <p className="text-center">Loading...</p>}
-          {!loading && userPlants.length === 0 && submittedDataList.length === 0 && (
-            <p className="text-center">You have not added any plants yet.</p>
-          )}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[...userPlants, ...submittedDataList].map((plant, index) => (
-              <div
-                key={plant._id ? plant._id.$oid : index}
-                className={`${styles.resultItem} p-6 bg-white rounded-lg shadow`}
-              >
-                <h2 className="text-2xl font-bold">{plant.common_name}</h2>
-                <p>Scientific Name: {plant.scientific_name}</p>
-                <p>Watering: Every {plant.watering}</p>
-                <p>Sunlight Requirement: {plant.sunlight.replace(/_/g, " ")}</p>
-                {plant._id && (
-                  <button
-                    className={`${styles.addButton} mt-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded`}
-                    onClick={() => handleSendReminder(plant._id.$oid)}
-                  >
-                    Send Watering Reminder
-                  </button>
-                )}
-                {!plant._id && (
-                  <button
-                    className={`${styles.addButton} mt-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded`}
-                    onClick={() => handleLogPlant(plant)}
-                  >
-                    Add to My Plants
-                  </button>
-                )}
+      <Head>
+        <title>My Plants | LeafLog</title>
+        <meta name="description" content="View all your logged plants" />
+      </Head>
+
+      <div className="top-level bg-green-300 min-h-screen flex items-center justify-center">
+        <div className="w-full max-w-5xl p-10 bg-white shadow-lg rounded-lg text-center">
+          <h1 className="text-5xl font-bold text-green-600 mb-8">
+            My Plants
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {userPlants.map((plant) => (
+              <div key={plant._id} className="border border-gray-300 p-4 rounded-lg">
+                <h2 className="text-xl font-bold mb-2">{plant.plantSpecies}</h2>
+                <p><span className="font-bold">Scientific Name:</span> {plant.scientificName}</p>
+                {plant.otherName && <p><span className="font-bold">Other Name:</span> {plant.otherName}</p>}
+                <p><span className="font-bold">Growth Cycle:</span> {plant.cycle}</p>
+                <p><span className="font-bold">Watering Frequency:</span> {plant.watering}</p>
+                <p><span className="font-bold">Sunlight Requirement:</span> {plant.sunlight}</p>
               </div>
             ))}
           </div>
         </div>
-      </main>
+      </div>
       <Footer />
     </>
   );
