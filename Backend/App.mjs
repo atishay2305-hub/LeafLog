@@ -9,6 +9,7 @@ import diseaseRoutes from './routes/diseaseRoutes.mjs';
 import feedbackRoutes from './routes/feedbackRoutes.mjs';
 import { registerUser, authUser } from "./controllers/userControllers.js";
 import nodemailer from 'nodemailer';
+import cron from "node-cron";
 
 dotenv.config();
 
@@ -51,6 +52,28 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+cron.schedule("* * * * *", async() => {
+    // Implement checkDatabaseForNotifications() according to your data structure
+    const notificationsToSend = await checkDatabaseForNotifications();
+    notificationsToSend.forEach((notification) => {
+        const mailOptions = {
+            from: process.env.MAIL_USER,
+            to: notification.email,
+            subject: "Time to water your plant",
+            text: `Reminder to water your ${notification.plantName}.`,
+        };
+        transporter.sendMail(mailOptions);
+    });
+});
+
+const scheduleToCron = {
+    daily: "0 0 * * *", // At midnight every day
+    weekly: "0 0 * * 0", // At midnight on Sunday every week
+    biweekly: "0 0 * * 0/14", // At midnight on every second Sunday
+};
+
+let notificationRequests = [];
+
 // Feedback form submission route
 app.post('/send-email', async(req, res) => {
     const { title, description, email } = req.body;
@@ -72,6 +95,68 @@ app.post('/send-email', async(req, res) => {
         console.error('Error sending feedback email:', error);
         res.status(500).json({ error: 'Failed to submit feedback. Please try again later.' });
     }
+});
+
+// Endpoint to handle user's request for notifications
+app.post("/request-notifications", (req, res) => {
+    const { email, plants } = req.body; // Assuming body contains an email and an array of plant objects
+
+    plants.forEach((plant) => {
+        // For each plant, create a cron job
+        const cronPattern = scheduleToCron[plant.watering]; // Get the cron pattern from the schedule
+
+        if (cronPattern) {
+            const job = cron.schedule(cronPattern, () => {
+                sendWateringEmail(email, plant.common_name); // sendWateringEmail function would send the email
+            });
+
+            // Store the cron job in your database or an array with reference to user
+            notificationRequests.push({
+                email,
+                plantId: plant._id,
+                cronJob: job,
+            });
+        }
+    });
+
+    res.status(200).json({ message: "Notifications set up successfully." });
+});
+
+const sendWateringEmail = (email, plantName) => {
+    const mailOptions = {
+        from: process.env.MAIL_USER,
+        to: email,
+        subject: `Time to water your ${plantName}`,
+        text: `This is a reminder to water your ${plantName}.`,
+    };
+    transporter.sendMail(mailOptions);
+};
+
+app.post("/send-confirmation-email", (req, res) => {
+    const { email, plants } = req.body; // Assuming body contains an email and an array of plant names
+
+    const plantNames = plants.map((plant) => plant.common_name).join(", ");
+    const mailOptions = {
+        from: process.env.MAIL_USER,
+        to: email,
+        subject: "Confirmation for Plant Watering Notifications",
+        text: `You have been signed up for watering notifications for the following plants: ${plantNames}.`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error("Error sending confirmation email:", error);
+            res
+                .status(500)
+                .json({
+                    error: "Failed to send confirmation email. Please try again later.",
+                });
+        } else {
+            res
+                .status(200)
+                .json({ message: "Confirmation email sent successfully!" });
+        }
+    });
 });
 
 // Plant notification email route
