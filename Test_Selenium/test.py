@@ -18,7 +18,7 @@ NAME.send_keys("test id")
 
 EMAIL = driver.find_element(By.XPATH, '//*[@id="email"]')
 EMAIL.click()
-EMAIL.send_keys("test@user.com")
+EMAIL.send_keys("test1@user.com")
 
 PASSWORD = driver.find_element(By.XPATH, '//*[@id="password"]')
 PASSWORD.click()
@@ -36,7 +36,7 @@ driver.maximize_window()
 
 LOGIN_EMAIL = driver.find_element(By.XPATH, '//*[@id="email"]')
 LOGIN_EMAIL.click()
-LOGIN_EMAIL.send_keys("test@user.com")
+LOGIN_EMAIL.send_keys("test1@user.com")
 
 LOGIN_PASSWORD = driver.find_element(By.XPATH, '//*[@id="password"]')
 LOGIN_PASSWORD.click()
@@ -73,21 +73,29 @@ driver.execute_script(scroll_top_script, driver.find_element(By.XPATH, '//*[@id=
 time.sleep(2)  # Wait for a few seconds
 
 # search a plant
+time.sleep(2)
+driver.get("http://localhost:3000/search")
+driver.maximize_window()
 
-# TODO: COMPLETE SEARCH A PLANT
+SEARCH = driver.find_element(By.XPATH, '//*[@id="__next"]/div/section/div[1]/form/input')
+SEARCH.click()
+SEARCH.send_keys("e")
+
+search_button = driver.find_element(By.XPATH, '//*[@id="__next"]/div/section/div[1]/form/button')
+search_button.click()
+
+# Click the first "Add to My Plants" button
+first_add_to_my_plants_button = driver.find_element(By.XPATH, '//*[@id="__next"]/div/section/div[2]/div/div[1]/button')
+first_add_to_my_plants_button.click()
+
+
 
 # log a plant manually
 
-# TODO: COMPLETE FIRST THE FEATURE 401 UNAUTHORIZED ERROR AND THEN COMPLETE THE TESTING
-
 # see my-plants page
-
-# TODO: COMPLETE MY-PLANTS PAGE 
 
 # logout 
 
 # TODO: LOGOUT SESSION
-
-
 
 driver.close()

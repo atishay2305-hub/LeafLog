@@ -58,6 +58,8 @@ router.post("/logplant", verifyToken, async (req, res, next) => {
     }
 });
 
+// Backend code (router.js)
+
 router.get("/userplants", verifyToken, async (req, res, next) => {
     try {
         // Extract user details from the token
@@ -65,12 +67,13 @@ router.get("/userplants", verifyToken, async (req, res, next) => {
 
         const userPlantsCollection = await userPlants();
 
-        const userPlants = await userPlantsCollection.find({ userId: new ObjectId(userId) }).toArray(); // Adjusted to use new ObjectId()
+        const userPlantsData = await userPlantsCollection.find({ userId: new ObjectId(userId) }).toArray(); // Adjusted to use new ObjectId()
 
-        res.json(userPlants);
+        res.json(userPlantsData); // Adjusted variable name to avoid conflict
     } catch (error) {
         next(error);
     }
 });
+
 
 export default router;
