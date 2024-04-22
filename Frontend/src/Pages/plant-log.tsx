@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { usePlants } from "../context/PlantContext";
 import Router from "next/router";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 interface SubmittedData {
   _id?: {
@@ -36,11 +36,11 @@ const PlantLog = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const tokenFromCookie = Cookies.get('token'); // Get JWT token from cookie
+        const tokenFromCookie = Cookies.get("token"); // Get JWT token from cookie
         console.log(tokenFromCookie);
         if (!tokenFromCookie) {
           // Redirect user to login page if token is not found
-          Router.push('/login');
+          Router.push("/login");
           return;
         }
 
@@ -68,9 +68,11 @@ const PlantLog = () => {
     };
 
     try {
-      const response = await fetch(`http://localhost:5002/api/plantdata/search?common_name=${plantSpecies}&scientific_name=${scientificName}&cycle=${cycle}&watering=${watering}&other_name=${otherName}`);
+      const response = await fetch(
+        `http://localhost:5002/api/plantdata/search?common_name=${plantSpecies}&scientific_name=${scientificName}&cycle=${cycle}&watering=${watering}&other_name=${otherName}`
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch search results');
+        throw new Error("Failed to fetch search results");
       }
       const searchData = await response.json();
       setSearchResults(searchData);
@@ -85,9 +87,11 @@ const PlantLog = () => {
     setPlantSpecies(searchQuery);
 
     try {
-      const response = await fetch(`http://localhost:5002/api/plantdata?searchQuery=${searchQuery}`);
+      const response = await fetch(
+        `http://localhost:5002/api/plantdata?searchQuery=${searchQuery}`
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch plant data');
+        throw new Error("Failed to fetch plant data");
       }
       const searchData = await response.json();
       const top20Results = searchData.slice(0, 20); // Slice the array to include only the first 20 items
@@ -107,10 +111,10 @@ const PlantLog = () => {
   const handleLogPlant = async () => {
     try {
       const response = await fetch("http://localhost:5002/logplant", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Ensure correct token is sent here
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Ensure correct token is sent here
         },
         body: JSON.stringify({
           plantSpecies,
@@ -119,14 +123,14 @@ const PlantLog = () => {
           cycle,
           watering,
           sunlight,
-          userEmail: userEmail // Send user's email along with plant data
+          userEmail: userEmail, // Send user's email along with plant data
         }),
       });
       const data = await response.json();
       alert(data.message);
     } catch (error) {
-      console.error('Error logging plant:', error);
-      alert('Failed to log plant.');
+      console.error("Error logging plant:", error);
+      alert("Failed to log plant.");
     }
   };
 
@@ -178,10 +182,12 @@ const PlantLog = () => {
                         {searchResults.map((plant, index) => (
                           <div
                             key={index} // Changed key to index, as the array index is unique
-                            onClick={() => handleSelectPlant(plant.common_name)}
+                            onClick={() =>
+                              handleSelectPlant(plant.plantSpecies)
+                            }
                             className="dropdown-item"
                           >
-                            {plant.common_name} ({plant.scientific_name})
+                            {plant.plantSpecies} ({plant.scientificName})
                           </div>
                         ))}
                       </div>
@@ -231,7 +237,6 @@ const PlantLog = () => {
                   <option value="daily">Daily</option>
                   <option value="weekly">Weekly</option>
                   <option value="biweekly">Biweekly</option>
-                  <option value="monthly">Monthly</option>
                 </select>
               </div>
 
