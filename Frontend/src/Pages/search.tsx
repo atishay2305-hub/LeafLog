@@ -3,6 +3,7 @@ import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "./search.module.css";
+import Cookies from 'js-cookie';
 
 interface Plant {
   _id: {
@@ -44,16 +45,32 @@ export default function Search() {
       setLoading(false);
     }
   };
-  
 
   const addToMyPlants = async (plant: Plant) => {
     try {
-      const response = await fetch(`http://localhost:5002/api/log-plant/${plant.plantId}`, {
+      const tokenFromCookie = Cookies.get('token'); // Retrieve the token from the cookie
+      if (!tokenFromCookie) {
+        throw new Error('Token not found in cookie.');
+      }
+  
+      const response = await fetch("http://localhost:5002/logplant", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${tokenFromCookie}` // Include the token in the Authorization header
         },
+        body: JSON.stringify({
+          plantSpecies: plant.common_name,
+          scientificName: plant.scientific_name,
+          otherName: null, // Adjust as per your requirements
+          cycle: null, // Adjust as per your requirements
+          watering: plant.watering,
+          sunlight: plant.sunlight,
+        }),
       });
+      if (!response.ok) {
+        throw new Error('Failed to add plant to collection');
+      }
       const data = await response.json();
       console.log(data);
       alert(data.message);
@@ -62,6 +79,8 @@ export default function Search() {
       alert('Failed to log plant.');
     }
   };
+  
+  
 
   return (
     <>
