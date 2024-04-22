@@ -10,7 +10,7 @@ import {
   getScientificNames,
 } from "../data/plantData.mjs";
 import { details, plants as plantCollection } from "../config/mongoCollections.mjs";
-import { plant_data } from "../data/plantData.mjs";;
+import { plant_data } from "../data/plantData.mjs";
 
 const router = express.Router();
 
@@ -26,8 +26,30 @@ router.use((req, res, next) => {
   next();
 });
 
+// Route to search plant data by common_name (case-insensitive)
+router.get("/api/plantdata/details", async (req, res, next) => {
+  try {
+    const { common_name } = req.query;
 
+    // Check if common_name is provided
+    if (!common_name) {
+      return res.status(400).json({ error: "Common name is required for search" });
+    }
 
+    // Call the function to get plant details by common name (case-insensitive)
+    const plantDetails = await getPlantDetailsByCommonName(common_name);
+
+    if (plantDetails) {
+      return res.json(plantDetails);
+    } else {
+      return res.status(404).json({ error: "No matching plant details found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Route to search plant data by other criteria (e.g., scientific name, cycle)
 router.get("/api/plantdata/search", async (req, res, next) => {
   try {
     const { common_name, scientific_name, cycle, watering, other_name } = req.query;
@@ -54,7 +76,7 @@ router.get("/api/plantdata/search", async (req, res, next) => {
       await plant_data();
 
       // Retrieve plant data from MongoDB
-      const plantCollectionRef = await plantCollection(); // Assuming plantCollection is defined in the route file
+      const plantCollectionRef = await plantCollection();
       const plantData = await plantCollectionRef.find().toArray();
 
       // Initialize an empty array to store search results
@@ -115,7 +137,6 @@ router.get("/api/plantdata/search", async (req, res, next) => {
     next(error);
   }
 });
-
 
 // Route to get all plant data
 router.get("/api/plantdata", async (req, res, next) => {
