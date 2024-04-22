@@ -6,7 +6,6 @@ import plantRoutes from './routes/plantRoutes.mjs';
 import PlantLogRoutes from './routes/plantLogRoutes.mjs';
 import diseaseRoutes from './routes/diseaseRoutes.mjs';
 import { registerUser, authUser, getUserPlants } from "./controllers/userControllers.js";
-import { notFound, errorHandler } from '../Backend/middleware/errorMiddleware.js';
 import nodemailer from 'nodemailer';
 
 dotenv.config();
@@ -80,9 +79,6 @@ app.post('/send-email', async (req, res) => {
     res.status(500).json({ error: 'Failed to submit feedback. Please try again later.' });
   }
 });
-
-app.use(notFound);
-app.use(errorHandler);
 
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

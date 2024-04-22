@@ -1,5 +1,5 @@
 import express from 'express';
-import { createPlantLog, getPlantLogs, logPlant } from '../controllers/plantLogController.js';
+import { logPlant } from '../controllers/plantLogController.js';
 import { getUserFromToken } from '../services/authService.js'; // Import getUserFromToken from authService
 import { getUserPlants } from '../controllers/userControllers.js';
 
