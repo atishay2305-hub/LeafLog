@@ -1,15 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
+import axios from "axios";
+import Cookies from "js-cookie";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { usePlants } from "../context/PlantContext";
+import { useRouter } from "next/router";
 
 const NotificationsPage = () => {
   const [email, setEmail] = useState("");
-  const [selectedPlants, setSelectedPlants] = useState(new Map());
+  const [userPlants, setUserPlants] = useState([]);
+  const [selectedPlants, setSelectedPlants] = useState(
+    new Map<string, boolean>()
+  );
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const { submittedDataList } = usePlants();
+
+  useEffect(() => {
+    const tokenFromCookie = Cookies.get("token");
+    if (!tokenFromCookie) {
+      router.push("/login");
+      return;
+    }
+
+    const fetchUserPlants = async () => {
+      try {
+        const response = await axios.get("http://localhost:5002/userplants", {
+          headers: {
+            Authorization: `Bearer ${tokenFromCookie}`,
+          },
+        });
+        setUserPlants(response.data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Error fetching user plants:", error.message);
+          setError(error.message);
+        } else {
+          console.error("An unexpected error occurred", error);
+          setError("An unexpected error occurred");
+        }
+      }
+    };
+
+    fetchUserPlants();
+  }, []);
 
   const handleCheckboxChange = (plantId: string, isChecked: boolean) => {
     setSelectedPlants((prev) => new Map(prev).set(plantId, isChecked));
@@ -21,14 +55,10 @@ const NotificationsPage = () => {
     setIsSubmitted(true);
   };
 
-  const subscribedPlantsSummary = Array.from(selectedPlants)
-    .filter(([_, isChecked]) => isChecked)
-    .map(
-      ([plantId]) =>
-        submittedDataList.find((plant) => plant._id?.$oid === plantId)
-          ?.otherName || "Unknown Plant"
-    )
-    .join(", ");
+  // TODO: Replace with the actual rendering logic for errors and loading state
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <>
@@ -58,25 +88,34 @@ const NotificationsPage = () => {
                 required
               />
             </div>
-            <div className="text-left">
+            <div>
               <label className="block mb-4 text-lg font-medium text-gray-900">
-                Which plant would you like notifications for?
+                Select the plants you want to receive notifications for:
               </label>
-              {submittedDataList.map((plant) => (
-                <div key={plant._id?.$oid}>
-                  <input
-                    type="checkbox"
-                    id={plant._id?.$oid}
-                    checked={!!selectedPlants.get(plant._id?.$oid)}
-                    onChange={(e) =>
-                      handleCheckboxChange(plant._id?.$oid, e.target.checked)
-                    }
-                  />
-                  <label htmlFor={plant._id?.$oid} className="ml-2">
-                    {plant.otherName} - Water every {plant.cycle}
-                  </label>
-                </div>
-              ))}
+              {userPlants.length === 0 ? (
+                <p>No plants found. Please log some plants first.</p>
+              ) : (
+                userPlants.map(
+                  (
+                    plant: any // The 'any' type should be replaced with a proper type for the plant
+                  ) => (
+                    <div key={plant._id}>
+                      <input
+                        type="checkbox"
+                        id={plant._id}
+                        checked={selectedPlants.get(plant._id) || false}
+                        onChange={(e) =>
+                          handleCheckboxChange(plant._id, e.target.checked)
+                        }
+                      />
+                      <label htmlFor={plant._id} className="ml-2">
+                        {plant.otherName || plant.plantSpecies} - Water every{" "}
+                        {plant.watering}
+                      </label>
+                    </div>
+                  )
+                )
+              )}
             </div>
             <button
               type="submit"
@@ -84,24 +123,7 @@ const NotificationsPage = () => {
             >
               Submit
             </button>
-            {isSubmitted && !submitError && (
-              <div className="alert-success">
-                Notification settings have been saved.
-              </div>
-            )}
-            {submitError && (
-              <div className="alert-error">Error: {submitError}</div>
-            )}
           </form>
-          <div className="summary-box mt-8 p-5 bg-gray-200 rounded-lg">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
-              Subscribed Notifications:
-            </h3>
-            <p>
-              {subscribedPlantsSummary ||
-                "No plants selected for notifications yet."}
-            </p>
-          </div>
         </div>
       </div>
       <Footer />
