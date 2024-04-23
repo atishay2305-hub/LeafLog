@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import FeedbackForm from './FeedbackForm';
+import FeedbackForm from '../src/Pages/FeedbackForm.tsx';
 import Router from 'next/router';
 
 jest.mock('axios');

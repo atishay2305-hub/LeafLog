@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import MyPlants from './MyPlants';
+import MyPlants from '../src/Pages/my-plants';
 import { getUserPlants, sendWateringReminder, logPlant } from '../../../Backend/services/plantService';
 
 jest.mock('next/router', () => ({

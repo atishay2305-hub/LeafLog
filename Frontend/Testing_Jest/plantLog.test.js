@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
-import PlantLog from './PlantLog';
+import PlantLog from '../src/Pages/plant-log';
 import { usePlants } from '../context/PlantContext';
 import { useAuth } from '../context/AuthContext';
 import Router from 'next/router';
