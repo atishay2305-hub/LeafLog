@@ -9,6 +9,7 @@ import diseaseRoutes from "./routes/diseaseRoutes.mjs";
 import feedbackRoutes from "./routes/feedbackRoutes.mjs";
 import { registerUser, authUser } from "./controllers/userControllers.js";
 import nodemailer from "nodemailer";
+import cron from "node-cron";
 
 dotenv.config();
 
@@ -95,13 +96,115 @@ app.post("/send-notification-email", async(req, res) => {
         res.status(200).json({ message: "Notification email sent successfully!" });
     } catch (error) {
         console.error("Error sending notification email:", error);
-        res
-            .status(500)
-            .json({
-                error: "Failed to send notification email. Please try again later.",
-            });
+        res.status(500).json({
+            error: "Failed to send notification email. Please try again later.",
+        });
     }
 });
+
+// Define schedule to cron string mapping
+const scheduleToCron = {
+    daily: "0 0 * * *", // At midnight every day
+    weekly: "0 0 * * 0", // At midnight on Sunday every week
+    biweekly: "0 0 * * 0/14", // At midnight on every second Sunday
+};
+
+// This array will hold references to the scheduled jobs
+let scheduledJobs = [];
+
+// Function to schedule emails based on plant watering frequency
+const schedulePlantWateringEmails = (email, plants) => {
+    plants.forEach((plant) => {
+        const cronTime = scheduleToCron[plant.watering.toLowerCase()];
+
+        if (cronTime) {
+            const job = cron.schedule(cronTime, () => {
+                sendWateringEmail(email, plant.common_name);
+            });
+
+            scheduledJobs.push({
+                job,
+                email,
+                plantName: plant.common_name,
+            });
+        }
+    });
+};
+
+// Send confirmation email
+const sendConfirmationEmail = async(email, plants) => {
+    let plantNames = ""; // Declare the variable here
+    try {
+        // Check if 'plants' is an array; if it's not, this will throw an error
+        if (!Array.isArray(plants)) {
+            throw new TypeError("Expected 'plants' to be an array");
+        }
+        plantNames = plants.map((plant) => plant.common_name).join(", ");
+        console.log("Plants received in sendConfirmationEmail:", plants);
+    } catch (error) {
+        console.error(`Error processing plants array: ${error}`);
+        return; // Exit the function if there's an error
+    }
+
+    const mailOptions = {
+        from: "leaflogtest@gmail.com",
+        to: email,
+        subject: "Plant Care Notifications Setup",
+        text: `You've set up watering notifications for: ${plantNames}`,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log(`Confirmation email sent to ${email}`);
+    } catch (error) {
+        console.error(`Error sending confirmation email to ${email}: ${error}`);
+    }
+};
+
+
+// Send watering email
+const sendWateringEmail = async(email, plantName) => {
+    const mailOptions = {
+        from: "leaflogtest@gmail.com",
+        to: email,
+        subject: `Watering Reminder for ${plantName}`,
+        text: `This is a friendly reminder to water your ${plantName}.`,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+
+        console.error(`Error sending watering reminder for ${plantName} to ${email}: ${error}`);
+    }
+};
+
+// Endpoint to request notifications
+app.post("/request-notifications", async(req, res) => {
+    const { email, plants } = req.body;
+
+    // Adding this check to see if plants is an array
+    if (!Array.isArray(plants)) {
+        return res.status(400).json({ error: "'plants' must be an array" });
+    }
+
+    try {
+        // You need to await the sending of the confirmation email
+        await sendConfirmationEmail(email, plants);
+
+        // After confirmation, schedule the emails
+        schedulePlantWateringEmails(email, plants);
+
+        res.status(200).json({ message: "Notifications scheduled successfully." });
+    } catch (error) {
+        console.error(error);
+        res
+            .status(500)
+            .json({ error: "An error occurred while setting up notifications." });
+    }
+});
+
+
 
 transporter.verify(function(error, success) {
     if (error) {
