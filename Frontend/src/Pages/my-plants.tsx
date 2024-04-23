@@ -50,6 +50,15 @@ const MyPlants = () => {
     router.push(path);
   };
 
+  const mapWateringSchedule = (apiSchedule: string) => {
+    const scheduleMapping: Record<string, string> = {
+      Frequent: "Daily",
+      Average: "Weekly",
+      // Add more mappings as needed
+    };
+    return scheduleMapping[apiSchedule] || apiSchedule; // Fallback to the original if no mapping is found
+  };
+
   return (
     <>
       {" "}
@@ -73,7 +82,7 @@ const MyPlants = () => {
                   </h2>
                   <p>Scientific Name: {plant.scientificName}</p>
                   <p>Cycle: {plant.cycle}</p>
-                  <p>Watering: {plant.watering}</p>
+                  <p>Watering: {mapWateringSchedule(plant.watering)}</p>
                   <p>
                     Sunlight:{" "}
                     {Array.isArray(plant.sunlight)
