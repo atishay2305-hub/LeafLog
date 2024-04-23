@@ -82,4 +82,11 @@ LeafLog is licensed under the [MIT License](link-to-license).
 
 For any inquiries or support, reach out to us at [leaflog.support@example.com](mailto:leaflog.support@example.com).
 
+
+## Testing
+Circle CI Digital Badge:[![<verdetea22>](https://circleci.com/gh/<verdetea22>/<LeafLog>.svg?style=svg)](https://app.circleci.com/pipelines/github/<verdetea22>/<LeafLog>?branch=main&filter=all)
+
+
+
 Happy Planting! 🌿✨
+
