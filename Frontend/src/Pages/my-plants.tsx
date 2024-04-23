@@ -59,6 +59,13 @@ const MyPlants = () => {
     return scheduleMapping[apiSchedule] || apiSchedule; // Fallback to the original if no mapping is found
   };
 
+  const capitalizeAndReplaceUnderscores = (str: string) => {
+    return str
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
   return (
     <>
       {" "}
@@ -81,29 +88,21 @@ const MyPlants = () => {
                     {plant.plantSpecies}
                   </h2>
                   <p>Scientific Name: {plant.scientificName}</p>
-                  <p>Cycle: {plant.cycle}</p>
-                  <p>Watering: {mapWateringSchedule(plant.watering)}</p>
+                  <p>Cycle: {capitalizeAndReplaceUnderscores(plant.cycle)}</p>
+                  <p>
+                    Watering:{" "}
+                    {capitalizeAndReplaceUnderscores(
+                      mapWateringSchedule(plant.watering)
+                    )}
+                  </p>
+
                   <p>
                     Sunlight:{" "}
                     {Array.isArray(plant.sunlight)
                       ? plant.sunlight
-                          .map((s) =>
-                            s
-                              .split(" ")
-                              .map(
-                                (word: string) =>
-                                  word.charAt(0).toUpperCase() + word.slice(1)
-                              )
-                              .join(" ")
-                          )
+                          .map((s) => capitalizeAndReplaceUnderscores(s))
                           .join(", ")
-                      : plant.sunlight
-                          .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ")}
+                      : capitalizeAndReplaceUnderscores(plant.sunlight)}
                   </p>
                 </div>
               ))

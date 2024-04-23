@@ -74,7 +74,7 @@ const people: Person[] = [
   },
   {
     name: "Mikayla Mount",
-    role: "Project Manager, Full Stack Developer",
+    role: "Project Manager & Full Stack Developer",
   },
   {
     name: "Hiral Makhwana",
@@ -90,7 +90,7 @@ const features: Feature[] = [
   {
     name: "Plant Logging",
     description:
-      "Keep a detailed log of your plant collection. Track watering schedules, soil changes, and any special care your leafy friends need.",
+      "Keep a detailed log of your plant collection. Track watering schedules, growth cycles, and any special care your leafy friends need.",
   },
   {
     name: "Interactive Interface",
@@ -100,7 +100,7 @@ const features: Feature[] = [
   {
     name: "User Profile",
     description:
-      "Create and personalize your user profile. Showcase your green companions and share your plant care achievements with the LeafLog community.",
+      "Create a user profile - Utilize your own directory hub for all a LeafLog user could need.",
   },
   {
     name: "Plant Wiki",
@@ -110,7 +110,7 @@ const features: Feature[] = [
   {
     name: "Notification",
     description:
-      "Receive timely notifications to help you stay on top of your plant care routine. Get reminders for watering, fertilizing, and other essential tasks.",
+      "Receive timely notifications to help you stay on top of your plant care routine. Get personalized reminders for watering and other essential tasks.",
   },
   {
     name: "Secure Authentication",
