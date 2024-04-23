@@ -195,16 +195,26 @@ const MyPlants = () => {
     const scheduleMapping: Record<string, string> = {
       Frequent: "Daily",
       Average: "Weekly",
+      // Add more mappings as needed
     };
     return scheduleMapping[apiSchedule] || apiSchedule; // Fallback to the original if no mapping is found
   };
 
-  const capitalizeAndReplaceUnderscores = (str: string) => {
+  // const capitalizeAndReplaceUnderscores = (str: string) => {
+  //   return str
+  //     .split("_")
+  //     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+  //     .join(" ");
+  // };
+  const capitalizeAndReplaceUnderscores = (str: string | null) => {
+    if (!str) return ""; // Handle null or undefined strings
+    
     return str
       .split("_")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   };
+  
 
   return (
     <>
