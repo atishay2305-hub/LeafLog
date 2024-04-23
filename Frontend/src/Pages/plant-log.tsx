@@ -126,8 +126,26 @@ const PlantLog = () => {
           userEmail: userEmail, // Send user's email along with plant data
         }),
       });
-      const data = await response.json();
-      alert(data.message);
+      if (response.ok) {
+        // Clear the form data
+        setPlantSpecies("");
+        setScientificName("");
+        setOtherName(null);
+        setCycle("");
+        setWatering("");
+        setSunlight("");
+
+        // Show an alert and redirect
+        const userResponse = confirm(
+          "Plant logged successfully. Would you like to go to 'My Plants'?"
+        );
+        if (userResponse) {
+          window.location.href = "http://localhost:3000/my-plants"; // Redirects to the my-plants page
+        }
+      } else {
+        const data = await response.json();
+        alert(`Failed to log plant: ${data.message}`);
+      }
     } catch (error) {
       console.error("Error logging plant:", error);
       alert("Failed to log plant.");
@@ -235,7 +253,6 @@ const PlantLog = () => {
                   <option value="daily">Daily</option>
                   <option value="weekly">Weekly</option>
                   <option value="biweekly">Biweekly</option>
-                  <option value="monthly">Monthly</option>
                 </select>
               </div>
 
