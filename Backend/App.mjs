@@ -78,19 +78,21 @@ app.post("/send-email", async(req, res) => {
 });
 
 // Plant notification email route
-app.post("/send-notification-email", async(req, res) => {
+app.post("/send-notification-email", async(req, res, ) => {
     const { email } = req.body;
 
     // Email content for plant notifications
     const mailOptions = {
         from: "leaflogtest@gmail.com", // Sender address
         to: email, // Recipient address from request body
-        subject: `Plant Watering Notification`,
-        text: "This is a reminder to water your plants according to the schedule you set up.",
+        subject: "Plant Care Notifications Setup Confirmation",
+        text: `You've set up watering notifications on LeafLog !`,
     };
 
     try {
         // Send email
+
+
         await transporter.sendMail(mailOptions);
         console.log("Notification email sent successfully!");
         res.status(200).json({ message: "Notification email sent successfully!" });
@@ -101,6 +103,9 @@ app.post("/send-notification-email", async(req, res) => {
         });
     }
 });
+
+
+
 
 // Define schedule to cron string mapping
 const scheduleToCron = {
@@ -133,26 +138,33 @@ const schedulePlantWateringEmails = (email, plants) => {
 
 // Send confirmation email
 const sendConfirmationEmail = async(email, plants) => {
-    // No need to redeclare plantNames here, since you define it below
+    let plantNames = ""; // Declare the variable here
     try {
-        const plantNames = plants.map((plant) => plant.common_name).join(", ");
+        // Check if 'plants' is an array; if it's not, this will throw an error
+        if (!Array.isArray(plants)) {
+            throw new TypeError("Expected 'plants' to be an array");
+        }
+        plantNames = plants.map((plant) => plant.common_name).join(", ");
         console.log("Plants received in sendConfirmationEmail:", plants);
+    } catch (error) {
+        console.error(`Error processing plants array: ${error}`);
+        return; // Exit the function if there's an error
+    }
 
-        const mailOptions = {
-            from: "leaflogtest@gmail.com",
-            to: email,
-            subject: "Plant Care Notifications Setup",
-            text: `You've set up watering notifications for: ${plantNames}`,
-        };
+    const mailOptions = {
+        from: "leaflogtest@gmail.com",
+        to: email,
+        subject: "Plant Care Notifications Setup",
+        text: `You've set up watering notifications for: ${plantNames}`,
+    };
 
+    try {
         await transporter.sendMail(mailOptions);
         console.log(`Confirmation email sent to ${email}`);
     } catch (error) {
-        console.error(`Error sending confirmation email to ${email}:`, error);
+        console.error(`Error sending confirmation email to ${email}: ${error}`);
     }
 };
-
-
 
 // Send watering email
 const sendWateringEmail = async(email, plantName) => {
@@ -166,27 +178,28 @@ const sendWateringEmail = async(email, plantName) => {
     try {
         await transporter.sendMail(mailOptions);
     } catch (error) {
-
-        console.error(`Error sending watering reminder for ${plantName} to ${email}: ${error}`);
+        console.error(
+            `Error sending watering reminder for ${plantName} to ${email}: ${error}`
+        );
     }
 };
 
 // Endpoint to request notifications
 app.post("/request-notifications", async(req, res) => {
-    const { email, plants } = req.body; // Destructure the email and plants array from the request body
-    console.log("Received email:", email);
-    console.log("Received plants array:", plants);
+    const { email, plants } = req.body;
 
-    // Check if plants is an array and has elements
-    if (!Array.isArray(plants) || plants.length === 0) {
-        return res
-            .status(400)
-            .json({ error: "'plants' must be an array and cannot be empty" });
+    // Adding this check to see if plants is an array
+    if (!Array.isArray(plants)) {
+        return res.status(400).json({ error: "'plants' must be an array" });
     }
 
     try {
-        await sendConfirmationEmail(email, plants); // Pass the array to the function
-        schedulePlantWateringEmails(email, plants); // Pass the array to the function
+        // You need to await the sending of the confirmation email
+        await sendConfirmationEmail(email, plants);
+
+        // After confirmation, schedule the emails
+        schedulePlantWateringEmails(email, plants);
+
         res.status(200).json({ message: "Notifications scheduled successfully." });
     } catch (error) {
         console.error(error);
@@ -195,7 +208,6 @@ app.post("/request-notifications", async(req, res) => {
             .json({ error: "An error occurred while setting up notifications." });
     }
 });
-
 
 transporter.verify(function(error, success) {
     if (error) {
