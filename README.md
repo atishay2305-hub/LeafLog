@@ -84,7 +84,7 @@ For any inquiries or support, reach out to us at [leaflog.support@example.com](m
 
 
 ## Testing
-Circle CI Digital Badge:[![<verdetea22>](https://circleci.com/gh/<verdetea22>/<LeafLog>.svg?style=svg)](https://app.circleci.com/pipelines/github/<verdetea22>/<LeafLog>?branch=main&filter=all)
+Circle CI Digital Badge:[![<verdetea22>](https://app.circleci.com/pipelines/circleci/QzRsufw6pYtwMdv2BkLp31/8SoGqeE27zCz2JRwayZTMa/77)
 
 
 
