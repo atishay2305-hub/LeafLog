@@ -1,4 +1,3 @@
-// services/index.js
 export const register_user = async (formData) => {
     try {
         const res = await fetch('http://localhost:3000/api/Auth/register', {

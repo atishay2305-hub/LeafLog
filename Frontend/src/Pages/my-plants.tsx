@@ -195,7 +195,6 @@ const MyPlants = () => {
     const scheduleMapping: Record<string, string> = {
       Frequent: "Daily",
       Average: "Weekly",
-      // Add more mappings as needed
     };
     return scheduleMapping[apiSchedule] || apiSchedule; // Fallback to the original if no mapping is found
   };

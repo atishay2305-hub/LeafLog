@@ -5,10 +5,13 @@ interface ErrorMessageProps {
   children: ReactNode;
 }
 
-const ErrorMessage: React.FC<ErrorMessageProps> = ({ variant = "info", children }) => {
+const ErrorMessage: React.FC<ErrorMessageProps> = ({
+  variant = "info",
+  children,
+}) => {
   let alertClasses = "px-4 py-3 rounded relative";
   let textClasses = "block sm:inline-block mr-auto";
-  
+
   switch (variant) {
     case "success":
       alertClasses += " bg-green-100 text-green-900";

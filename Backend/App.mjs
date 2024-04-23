@@ -16,10 +16,10 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-    origin: "http://localhost:3000", // This is the domain where your front-end is served
+    origin: "http://localhost:3000", 
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: "Content-Type,Authorization", // Include 'Authorization' and any other custom headers
-    credentials: true, // This is important for cookies or auth headers
+    allowedHeaders: "Content-Type,Authorization", 
+    credentials: true, 
 };
 
 app.use(cors(corsOptions));
@@ -41,7 +41,6 @@ app.use(diseaseRoutes);
 app.use(feedbackRoutes);
 app.use(profilePictureRoute);
 
-// Configure nodemailer with SMTP transport
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com", // SMTP server hostname
     port: 465, // SMTP server port

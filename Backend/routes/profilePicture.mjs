@@ -1,6 +1,6 @@
-import express from 'express';
-import multer from 'multer';
-import path from 'path';
+import express from "express";
+import multer from "multer";
+import path from "path";
 
 const router = express.Router();
 
@@ -9,13 +9,16 @@ const storage = multer.diskStorage({
     cb(null, "./uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
   },
 });
 
 const upload = multer({ storage }).single("file");
 
-router.post('/upload', (req, res) => {
+router.post("/upload", (req, res) => {
   upload(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       return res.status(500).json({ error: err.message });

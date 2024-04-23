@@ -1,6 +1,5 @@
-const API_BASE_URL = "http://localhost:3000/api"; // Set the base URL for your API
+const API_BASE_URL = "http://localhost:3000/api"; 
 
-// Function to get all plant logs for the current user
 export const getUserPlants = async() => {
     try {
         const response = await fetch(`${API_BASE_URL}/plant-logs`, {
@@ -22,24 +21,20 @@ export const getUserPlants = async() => {
     }
 };
 
-// Function to create a new plant log
 export const createPlantLog = async(plantData, token) => {
     try {
         const response = await fetch(`${API_BASE_URL}/plant-logs`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                // Include the Authorization header if a token is provided
                 ...(token && { Authorization: `Bearer ${token}` }),
             },
-            // Include credentials if your API uses session-based authentication
             credentials: token ? "omit" : "include",
             body: JSON.stringify(plantData),
         });
 
         const data = await response.json();
         if (!response.ok) {
-            // Log the error and throw or return an error object based on your error handling strategy
             console.error("Error in createPlantLog (service) => ", data);
             throw new Error(data.message || "An error occurred");
         }
@@ -47,10 +42,7 @@ export const createPlantLog = async(plantData, token) => {
         return { success: true, data };
     } catch (error) {
         console.error("Error in createPlantLog (service) => ", error);
-        // Depending on your front-end error handling, either throw the error or return an object indicating failure
         throw error;
-        // or
-        // return { success: false, message: error.message };
     }
 };
 
@@ -70,9 +62,6 @@ export const getPlantLogEntries = async(token) => {
     }
 };
 
-// plantService.js
-
-// Function to send a watering reminder email for a plant log entry
 export const sendWateringReminder = async(plantLogId) => {
     try {
         const response = await fetch(`${API_BASE_URL}/send-watering-reminder`, {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer from react-toastify
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS for styling toast notifications
+import { toast, ToastContainer } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
 import Header from "../components/Header";
 import Head from "next/head";
 import "../styles/global.css";

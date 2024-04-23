@@ -9,7 +9,10 @@ import {
   getPlantCommonNames,
   getScientificNames,
 } from "../data/plantData.mjs";
-import { details, plants as plantCollection } from "../config/mongoCollections.mjs";
+import {
+  details,
+  plants as plantCollection,
+} from "../config/mongoCollections.mjs";
 import { plant_data } from "../data/plantData.mjs";
 
 const router = express.Router();
@@ -17,7 +20,9 @@ const router = express.Router();
 // Middleware to handle errors
 router.use((err, req, res, next) => {
   console.error("Error:", err.message);
-  res.status(500).json({ error: "Internal Server Error", details: err.message });
+  res
+    .status(500)
+    .json({ error: "Internal Server Error", details: err.message });
 });
 
 // Middleware to ensure JSON responses
@@ -31,9 +36,10 @@ router.get("/api/plantdata/details", async (req, res, next) => {
   try {
     const { common_name } = req.query;
 
-    // Check if common_name is provided
     if (!common_name) {
-      return res.status(400).json({ error: "Common name is required for search" });
+      return res
+        .status(400)
+        .json({ error: "Common name is required for search" });
     }
 
     // Call the function to get plant details by common name (case-insensitive)
@@ -52,7 +58,8 @@ router.get("/api/plantdata/details", async (req, res, next) => {
 // Route to search plant data by other criteria (e.g., scientific name, cycle)
 router.get("/api/plantdata/search", async (req, res, next) => {
   try {
-    const { common_name, scientific_name, cycle, watering, other_name } = req.query;
+    const { common_name, scientific_name, cycle, watering, other_name } =
+      req.query;
 
     // Minimum length requirement for search query
     const minLength = 1; // Adjust as needed

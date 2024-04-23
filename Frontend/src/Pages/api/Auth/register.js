@@ -1,56 +1,55 @@
-import DBconnection from '../../../../../Backend/utils/DBConnection';
-import User from '../../../../../Backend/models/User';
+import DBconnection from "../../../../../Backend/utils/DBConnection";
+import User from "../../../../../Backend/models/User";
 import Joi from "joi";
 import bcrypt from "bcrypt";
 
 const schema = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(8).required(),
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(8).required(),
 });
 
-
-
 export default async (req, res) => {
+  await DBconnection();
 
-    await DBconnection();
+  const { name, email, password } = req.body;
 
-    const { name, email, password } = req.body;
+  const { error } = schema.validate({ name, email, password });
 
-    const { error } = schema.validate({ name, email, password });
+  if (error) {
+    return res
+      .status(401)
+      .json({
+        success: false,
+        message: error.details[0].message.replace(/['"]+/g, ""),
+      });
+  }
 
-    if (error) {
+  try {
+    const findUser = await User.findOne({ email });
 
-        return res.status(401).json({ success: false, message: error.details[0].message.replace(/['"]+/g, '') })
-
+    if (findUser) {
+      return res
+        .status(401)
+        .json({
+          success: false,
+          message: "Email already exists , Please Login",
+        });
     }
 
-    try {
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
 
-        const findUser = await User.findOne({ email });
+    const user = await User.create({ name, email, password: hashPassword });
 
-        if (findUser) {
-            return res.status(401).json({ success: false, message: "Email already exists , Please Login" })
-        }
-
-
-        const salt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(password, salt);
-
-
-        const user = await User.create({ name, email, password : hashPassword });
-
-        if (user) {
-            return res.status(200).json({ success: true, message: "Account created successfully" })
-        }
-
+    if (user) {
+      return res
+        .status(200)
+        .json({ success: true, message: "Account created successfully" });
     }
-    catch (error) 
-    {
+  } catch (error) {
+    console.log("Error in register_user (server) => ", error);
 
-        console.log("Error in register_user (server) => ", error);
-
-        res.status(500).json({ success: false, message: "Something went wrong" })
-
-    }
-}
+    res.status(500).json({ success: false, message: "Something went wrong" });
+  }
+};

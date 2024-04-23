@@ -1,5 +1,3 @@
-// AuthContext.tsx or AuthContext.ts
-
 import React, {
   createContext,
   useContext,
@@ -10,7 +8,6 @@ import React, {
 
 type User = {
   email: string;
-  // other properties
 };
 
 type AuthContextType = {

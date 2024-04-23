@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from "react";
 import "./Screen.css";
 
 interface MainScreenProps {
@@ -24,6 +24,6 @@ const MainScreen: React.FC<MainScreenProps> = ({ title, children }) => {
       </div>
     </div>
   );
-}
+};
 
 export default MainScreen;

@@ -14,7 +14,6 @@ exports.generateToken = function(user) {
     );
 };
 
-// Function to verify a token and return the decoded data
 exports.verifyToken = function(token) {
     try {
         return jwt.verify(token, SECRET);
@@ -24,7 +23,6 @@ exports.verifyToken = function(token) {
     }
 };
 
-// Function to get a user from the token
 exports.getUserFromToken = async function(token) {
     const decoded = exports.verifyToken(token);
     if (!decoded) {

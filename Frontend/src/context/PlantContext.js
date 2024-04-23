@@ -1,4 +1,3 @@
-// plantContext.js
 import React, { createContext, useContext, useState } from "react";
 
 const PlantContext = createContext();

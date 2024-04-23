@@ -12,7 +12,7 @@ import "../styles/global.css";
 
 interface Person {
   name: string;
-  email?: string; // Add email as optional
+  email?: string;
   role: string;
 }
 
