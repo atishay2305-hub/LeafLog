@@ -37,7 +37,7 @@ const FeedbackPage: React.FC = () => {
       setFeedbacks(data);
       localStorage.setItem("feedbacks", JSON.stringify(data));
     } catch (error) {
-      console.error("Error fetching feedbacks:", error.message);
+      console.error("Error fetching feedbacks:");
     }
   };
 
@@ -82,7 +82,7 @@ const FeedbackPage: React.FC = () => {
           console.error("Failed to submit feedback:", response.statusText);
         }
       } catch (error) {
-        console.error("Error submitting feedback:", error.message);
+        console.error("Error submitting feedback:");
       } finally {
         setLoading(false);
       }
