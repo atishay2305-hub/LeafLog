@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Head from "next/head";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Header from "../components/Header";
@@ -50,8 +51,11 @@ const MyPlants = () => {
 
   return (
     <>
+      {" "}
+      <Head>
+        <title>My Plants | LeafLog</title>
+      </Head>
       <Header />
-      <title>My Plants</title>
       <div className="top-level bg-green-300 min-h-screen flex items-center justify-center">
         <div className="container mx-auto p-4 flex-grow">
           <h1 className="text-5xl font-bold text-white mb-8">My Plants</h1>

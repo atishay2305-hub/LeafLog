@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import Router from "next/router";
+import Head from "next/head";
 import Link from "next/link";
 import { login_user } from "../../../Backend/services/index";
 import "../styles/global.css";
@@ -33,6 +34,9 @@ const Login = () => {
 
   return (
     <>
+      <Head>
+        <title> Login | LeafLog </title>{" "}
+      </Head>{" "}
       <section className="top-level bg-green-300 min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-xl p-10 bg-white shadow-lg rounded-lg text-center">
           <h1 className="text-6xl font-bold text-green-600 mb-8">Login</h1>

@@ -45,7 +45,7 @@ const Profile = () => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("file", file);
-  
+
     try {
       const response = await fetch("http://localhost:5002/upload", {
         method: "POST",
@@ -53,7 +53,7 @@ const Profile = () => {
       });
 
       console.log(response);
-  
+
       if (response.ok) {
         const data = await response.json();
         setUser({ ...user, profilePicture: data.filename });
@@ -77,7 +77,7 @@ const Profile = () => {
   return (
     <>
       <Head>
-        <title>User Profile</title>
+        <title>User Profile | LeafLog</title>
         <meta name="description" content="User Profile" />
       </Head>
       <Header />
@@ -86,12 +86,20 @@ const Profile = () => {
           <div className="text-center">
             <label htmlFor="profile-picture">
               <img
-                src={`http://localhost:5002/uploads/${user.profilePicture || 'default.jpg'}`}
+                src={`http://localhost:5002/uploads/${
+                  user.profilePicture || "default.jpg"
+                }`}
                 alt="Profile Picture"
                 className="w-24 h-24 rounded-full mx-auto mb-4 cursor-pointer"
               />
             </label>
-            <input type="file" id="profile-picture" accept="image/*" onChange={handleFileUpload} className="hidden" />
+            <input
+              type="file"
+              id="profile-picture"
+              accept="image/*"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
             <h2 className="text-xl font-bold mb-2">{user.name}</h2>
             <p className="text-gray-600">{user.email}</p>
           </div>

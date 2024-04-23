@@ -108,7 +108,7 @@ export default function Search() {
   return (
     <>
       <Head>
-        <title>Search Plants</title>
+        <title>Discover Plants | LeafLog</title>
       </Head>
       <div className="flex flex-col min-h-screen">
         <Header />
