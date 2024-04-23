@@ -8,9 +8,20 @@ import Router from "next/router";
 import { usePlants } from "../context/PlantContext";
 import { useRouter } from "next/router";
 
+interface Plant {
+  _id: {
+    $oid: string;
+  };
+  plantId: number;
+  common_name: string;
+  scientific_name: string;
+  watering: string;
+  sunlight: string;
+}
+
 const NotificationsPage = () => {
   const [email, setEmail] = useState("");
-  const [userPlants, setUserPlants] = useState([]);
+  const [userPlants, setUserPlants] = useState<Plant[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedPlants, setSelectedPlants] = useState(
     new Map<string, boolean>()
@@ -56,22 +67,27 @@ const NotificationsPage = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // TODO: Implement actual submission logic here.
+    const selectedPlantsArray: Plant[] = Array.from(selectedPlants.entries())
+      .filter(([_, isChecked]) => isChecked)
+      .map(([plantId, _]) => {
+        return userPlants.find((plant) => plant._id.$oid === plantId);
+      })
+      .filter(Boolean) as Plant[]; // This removes any undefined entries from the array
     setIsSubmitted(true);
-    await sendNotificationEmail(email);
+    await sendNotificationEmail(email, selectedPlantsArray);
   };
 
   // Function to send email via nodemailer
-  const sendNotificationEmail = async (recipientEmail: string) => {
-    const emailData = {
-      email: recipientEmail,
-    };
+  const sendNotificationEmail = async (
+    recipientEmail: string,
+    selectedPlantsArray: Plant[]
+  ) => {
     try {
       const response = await axios.post(
-        "http://localhost:5002/send-notification-email",
-        emailData,
+        "http://localhost:5002/request-notifications",
         {
-          withCredentials: true, // Only if you are using cookies for auth
+          email: recipientEmail,
+          plants: selectedPlantsArray, // Pass the array of plant objects
         }
       );
       if (response.status === 200) {
@@ -88,7 +104,6 @@ const NotificationsPage = () => {
       alert(submissionStatus);
     }
   };
-
   // TODO: Replace with the actual rendering logic for errors and loading state
   if (error) {
     return <div>Error: {error}</div>;

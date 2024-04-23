@@ -12,6 +12,7 @@ interface Plant {
   plantId: number;
   common_name: string;
   scientific_name: string;
+  cycle: string;
   watering: string;
   sunlight: string;
 }
@@ -46,7 +47,7 @@ export default function Search() {
           plantSpecies: plant.common_name,
           scientificName: plant.scientific_name,
           otherName: null, // Adjust as per your requirements
-          cycle: null, // Adjust as per your requirements
+          cycle: plant.cycle, // Adjust as per your requirements
           watering: plant.watering,
           sunlight: plant.sunlight,
         }),
@@ -154,6 +155,7 @@ export default function Search() {
                   <p className="text-gray-600">
                     Watering: {mappedSchedules[plant._id.$oid]}
                   </p>
+                  <p className="text-gray-600">Growth Cycle: {plant.cycle}</p>
                   <p className="text-gray-600">
                     Sunlight Requirement:{" "}
                     {Array.isArray(plant.sunlight)
