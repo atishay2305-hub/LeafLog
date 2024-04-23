@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Router, { useRouter } from "next/router";
+import "../styles/global.css";
 
 interface Plant {
   _id: string;
