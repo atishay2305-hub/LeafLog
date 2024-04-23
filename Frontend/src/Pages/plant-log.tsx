@@ -108,7 +108,13 @@ const PlantLog = () => {
   };
 
   // Code responsible for sending the token from the frontend
+  // Code responsible for sending the token from the frontend
   const handleLogPlant = async () => {
+    // Check required fields
+    if (!plantSpecies || !watering) {
+      return; // Exit the function if required fields are not filled out
+    }
+
     try {
       const response = await fetch("http://localhost:5002/logplant", {
         method: "POST",
@@ -118,14 +124,15 @@ const PlantLog = () => {
         },
         body: JSON.stringify({
           plantSpecies,
-          scientificName,
+          scientificName, // This can be optional
           otherName,
-          cycle,
+          cycle, // This can be optional
           watering,
-          sunlight,
+          sunlight, // This can be optional
           userEmail: userEmail, // Send user's email along with plant data
         }),
       });
+
       if (response.ok) {
         // Clear the form data
         setPlantSpecies("");
@@ -135,7 +142,7 @@ const PlantLog = () => {
         setWatering("");
         setSunlight("");
 
-        // Show an alert and redirect
+        // Confirm and redirect
         const userResponse = confirm(
           "Plant logged successfully. Would you like to go to 'My Plants'?"
         );
