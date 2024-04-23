@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 
 interface Plant {
   _id: string;
@@ -17,6 +17,7 @@ interface Plant {
 const MyPlants = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const tokenFromCookie = Cookies.get("token");
@@ -43,9 +44,14 @@ const MyPlants = () => {
     fetchPlants();
   }, []);
 
+  const handleNavigation = (path: string) => {
+    router.push(path);
+  };
+
   return (
     <>
       <Header />
+      <title>My Plants</title>
       <div className="top-level bg-green-300 min-h-screen flex items-center justify-center">
         <div className="container mx-auto p-4 flex-grow">
           <h1 className="text-5xl font-bold text-white mb-8">My Plants</h1>
@@ -93,6 +99,25 @@ const MyPlants = () => {
               </p>
             )}
           </div>
+          <button
+            onClick={() => handleNavigation("/plant-log")}
+            text-white
+            font-semibold
+            py-2
+            px-4
+            mt-4
+            rounded-lg
+            style={{ marginRight: "10px" }}
+            className="bg-green-600 hover:bg-green-800 text-white font-semibold py-4 px-4 mt-4 rounded-lg"
+          >
+            Log New Plant
+          </button>
+          <button
+            onClick={() => handleNavigation("/search")}
+            className="bg-green-600 hover:bg-green-800 text-white font-semibold py-4 px-4 mt-4 rounded-lg"
+          >
+            Discover Plants
+          </button>
         </div>
       </div>
       <Footer />
