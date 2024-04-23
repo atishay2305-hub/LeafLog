@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { plants as plantCollection, details as detailsCollection } from '../config/mongoCollections.mjs';
 
-const plantApiKey = "sk-1cDo65c5314199c384079";
+const plantApiKey = "sk-BKzY66269518b92125220"; // MM's unqiue API key
 const plantApiURL = 'https://perenual.com/api/species-list';
 
-const detailsApiKey = "sk-1cDo65c5314199c384079";
+const detailsApiKey = "sk-BKzY66269518b92125220"; // MM's unqiue API key
 const detailsApiURL = 'https://perenual.com/api/species/details/2';
 
-export const plant_data = async () => {
+export const plant_data = async() => {
     try {
         const plantResponse = await axios.get(plantApiURL, {
             params: { key: plantApiKey },
@@ -28,7 +28,7 @@ export const plant_data = async () => {
 };
 
 
-export const getPlantCommonNames = async () => {
+export const getPlantCommonNames = async() => {
     try {
         const plantCollectionRef = await plantCollection();
         const plants = await plantCollectionRef.find({}, { common_name: 1 }).toArray();
@@ -42,13 +42,13 @@ export const getPlantCommonNames = async () => {
 
 
 
-export const getScientificNames = async () => {
+export const getScientificNames = async() => {
     try {
         const plantCollectionRef = await plantCollection();
-        const plants = await plantCollectionRef.find({}, {scientific_name: 1}).toArray();
+        const plants = await plantCollectionRef.find({}, { scientific_name: 1 }).toArray();
         const scientificNames = plants.map(plant => plant.scientific_name);
         return scientificNames;
-    } catch(error){
+    } catch (error) {
         console.error('Error:', error.message);
         return [];
     }
@@ -57,14 +57,14 @@ export const getScientificNames = async () => {
 
 
 
-export const detailsData = async () => {
+export const detailsData = async() => {
     try {
         const detailsResponse = await axios.get(detailsApiURL, {
             params: { key: detailsApiKey },
         });
 
         const detailsData = detailsResponse.data;
-        const detailsCollectionRef = await detailsCollection(); 
+        const detailsCollectionRef = await detailsCollection();
         await detailsCollectionRef.insertOne(detailsData);
 
         console.log('Plant Details Data has been stored in MongoDB');
@@ -73,7 +73,7 @@ export const detailsData = async () => {
     }
 };
 
-export const getPlantDetailsByCommonName = async (commonName) => {
+export const getPlantDetailsByCommonName = async(commonName) => {
     try {
         const plantCollectionRef = await plantCollection();
         const plantDetails = await plantCollectionRef.findOne({ common_name: commonName });
@@ -84,7 +84,7 @@ export const getPlantDetailsByCommonName = async (commonName) => {
     }
 };
 
-export const getPlantDetailsByScientificName = async (scientificName) => {
+export const getPlantDetailsByScientificName = async(scientificName) => {
     try {
         const plantCollectionRef = await plantCollection();
         const plantDetails = await plantCollectionRef.findOne({ scientific_name: scientificName });
@@ -96,7 +96,7 @@ export const getPlantDetailsByScientificName = async (scientificName) => {
 };
 
 
-export const getAllOtherNames = async () => {
+export const getAllOtherNames = async() => {
     try {
         const detailsCollectionRef = await detailsCollection();
         const details = await detailsCollectionRef.find({}, { other_name: 1 }).toArray();
@@ -108,7 +108,7 @@ export const getAllOtherNames = async () => {
     }
 };
 
-export const getAllFamilies = async () => {
+export const getAllFamilies = async() => {
     try {
         const detailsCollectionRef = await detailsCollection();
         const details = await detailsCollectionRef.find({}, { family: 1 }).toArray();
@@ -120,7 +120,7 @@ export const getAllFamilies = async () => {
     }
 };
 
-export const getAllOrigins = async () => {
+export const getAllOrigins = async() => {
     try {
         const detailsCollectionRef = await detailsCollection();
         const details = await detailsCollectionRef.find({}, { origin: 1 }).toArray();
@@ -135,4 +135,3 @@ export const getAllOrigins = async () => {
 
 plant_data();
 detailsData();
-

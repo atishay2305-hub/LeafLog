@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { register_user } from "../../../Backend/services/index";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import Head from "next/head";
 import Router from "next/router";
 import "../styles/global.css";
 
@@ -34,6 +35,10 @@ const Register = () => {
 
   return (
     <>
+      <Head>
+        <title>Register | LeafLog</title>
+      </Head>
+
       <section className="top-level bg-green-300 min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-xl p-10 bg-white shadow-lg rounded-lg text-center">
           <h1 className="text-6xl font-bold text-green-600 mb-8">Register</h1>
@@ -119,4 +124,3 @@ const Register = () => {
 };
 
 export default Register;
-

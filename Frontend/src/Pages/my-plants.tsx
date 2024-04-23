@@ -1,32 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import React, { useState, useEffect } from "react";
+import Head from "next/head";
+import axios from "axios";
+import Cookies from "js-cookie";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Router from 'next/router';
+import Router, { useRouter } from "next/router";
+import "../styles/global.css";
 
-const IndexPage = () => {
-  const [plants, setPlants] = useState([]);
-  const [error, setError] = useState(null);
+interface Plant {
+  _id: string;
+  plantSpecies: string;
+  scientificName: string;
+  cycle: string;
+  watering: string;
+  sunlight: string[] | string; // If sunlight can be both an array and a string, you need to specify both types
+}
+
+const MyPlants = () => {
+  const [plants, setPlants] = useState<Plant[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const tokenFromCookie = Cookies.get('token');
+    const tokenFromCookie = Cookies.get("token");
     if (!tokenFromCookie) {
       // Redirect user to login page if token is not found
-      Router.push('/login');
+      Router.push("/login");
       return;
     }
 
     const fetchPlants = async () => {
       try {
-        const response = await axios.get('http://localhost:5002/userplants', {
+        const response = await axios.get("http://localhost:5002/userplants", {
           headers: {
             Authorization: `Bearer ${tokenFromCookie}`,
           },
         });
         setPlants(response.data);
       } catch (error) {
-        console.error('Error fetching plants:', error);
+        console.error("Error fetching plants:", error);
         setError(error);
       }
     };
@@ -34,42 +46,88 @@ const IndexPage = () => {
     fetchPlants();
   }, []);
 
-  const viewPlantDetails = async (commonName) => {
-    try {
-      const response = await axios.get(`http://localhost:5002/api/plantdata/details?common_name=${commonName}`);
-      const plantDetails = response.data;
-      // Display plant details here (e.g., show in a modal)
-      console.log("Plant Details:", plantDetails);
-    } catch (error) {
-      console.error('Error fetching plant details:', error);
-      // Show toast message for no matching details
-      alert('No details match for this plant.');
-    }
+  const handleNavigation = (path: string) => {
+    router.push(path);
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <>
+      {" "}
+      <Head>
+        <title>My Plants | LeafLog</title>
+      </Head>
       <Header />
-      <div className="container mx-auto p-4 flex-grow">
-        <h1 className="text-3xl font-bold mb-4">My Plants</h1>
-        <div className="text-green-600 mb-4">To add a plant, go to the Log A Plant or Search page.</div>
-        {error && <div className="text-red-500">Error: {error.message}</div>}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-          {plants.map((plant) => (
-            <div key={plant._id} className="bg-green-300 p-6 rounded-lg shadow-lg cursor-pointer" onClick={() => viewPlantDetails(plant.common_name)}>
-              <h2 className="text-xl font-bold mb-2">{plant.plantSpecies}</h2>
-              <p>Scientific Name: {plant.scientificName}</p>
-              <p>Other Name: {plant.otherName}</p>
-              <p>Cycle: {plant.cycle}</p>
-              <p>Watering: {plant.watering}</p>
-              <p>Sunlight: {plant.sunlight}</p>
-            </div>
-          ))}
+      <div className="top-level bg-green-300 min-h-screen flex items-center justify-center">
+        <div className="container mx-auto p-4 flex-grow">
+          <h1 className="text-5xl font-bold text-white mb-8">My Plants</h1>
+          {error && <div className="text-red-500">Error: {error.message}</div>}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {plants.length > 0 ? (
+              plants.map((plant) => (
+                <div
+                  key={plant._id}
+                  className="p-6 bg-white rounded-lg shadow-lg"
+                >
+                  <h2 className="text-xl font-bold mb-2">
+                    {plant.plantSpecies}
+                  </h2>
+                  <p>Scientific Name: {plant.scientificName}</p>
+                  <p>Cycle: {plant.cycle}</p>
+                  <p>Watering: {plant.watering}</p>
+                  <p>
+                    Sunlight:{" "}
+                    {Array.isArray(plant.sunlight)
+                      ? plant.sunlight
+                          .map((s) =>
+                            s
+                              .split(" ")
+                              .map(
+                                (word: string) =>
+                                  word.charAt(0).toUpperCase() + word.slice(1)
+                              )
+                              .join(" ")
+                          )
+                          .join(", ")
+                      : plant.sunlight
+                          .split(" ")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ")}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-green-600">
+                No plants found. Please log some plants first.
+              </p>
+            )}
+          </div>
+          <button
+            onClick={() => handleNavigation("/plant-log")}
+            text-white
+            font-semibold
+            py-2
+            px-4
+            mt-4
+            rounded-lg
+            style={{ marginRight: "10px" }}
+            className="bg-green-600 hover:bg-green-800 text-white font-semibold py-4 px-4 mt-4 rounded-lg"
+          >
+            Log New Plant
+          </button>
+          <button
+            onClick={() => handleNavigation("/search")}
+            className="bg-green-600 hover:bg-green-800 text-white font-semibold py-4 px-4 mt-4 rounded-lg"
+          >
+            Discover Plants
+          </button>
         </div>
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
-export default IndexPage;
+export default MyPlants;

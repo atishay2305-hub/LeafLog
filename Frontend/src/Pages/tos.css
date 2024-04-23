@@ -10,11 +10,12 @@
   margin: 2px auto;
   padding: 20px;
   box-sizing: border-box;
-  color: #fff;
+  color: #5a897a;
   position: relative;
   /* Needed for z-index to work */
   z-index: 0;
-  text-align: justify; /* Justified text alignment */
+  text-align: justify;
+  /* Justified text alignment */
 }
 
 .title {
