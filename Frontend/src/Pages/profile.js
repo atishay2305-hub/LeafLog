@@ -7,20 +7,17 @@ import Router from "next/router";
 import "../styles/global.css";
 
 const Profile = () => {
-  const [user, setUser] = useState({ name: "", email: "" });
-  const [loading, setLoading] = useState(true); // Added loading state
-  const [error, setError] = useState(null); // Added error state
+  const [user, setUser] = useState({ name: "", email: "", profilePicture: "" });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check authentication status
     const token = Cookies.get("token");
-    console.log(token)
 
     if (!token) {
       Router.push("/login");
     } else {
       try {
-        // Decode the token to get user information
         const decodedToken = decodeToken(token);
         setUser(decodedToken);
         setLoading(false);
@@ -31,7 +28,6 @@ const Profile = () => {
     }
   }, []);
 
-  // Function to decode the JWT token
   const decodeToken = (token) => {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -45,12 +41,37 @@ const Profile = () => {
     return JSON.parse(jsonPayload);
   };
 
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+  
+    try {
+      const response = await fetch("http://localhost:5002/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      console.log(response);
+  
+      if (response.ok) {
+        const data = await response.json();
+        setUser({ ...user, profilePicture: data.filename });
+      } else {
+        throw new Error("Failed to upload file");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      setError(error.message);
+    }
+  };
+
   if (loading) {
-    return <div>Loading...</div>; // Show loading state
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Show error state
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -63,7 +84,14 @@ const Profile = () => {
       <div className="top-level bg-green-200 min-h-screen flex justify-center items-center">
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
           <div className="text-center">
-            {/* Removed profile picture */}
+            <label htmlFor="profile-picture">
+              <img
+                src={`http://localhost:5002/uploads/${user.profilePicture || 'default.jpg'}`}
+                alt="Profile Picture"
+                className="w-24 h-24 rounded-full mx-auto mb-4 cursor-pointer"
+              />
+            </label>
+            <input type="file" id="profile-picture" accept="image/*" onChange={handleFileUpload} className="hidden" />
             <h2 className="text-xl font-bold mb-2">{user.name}</h2>
             <p className="text-gray-600">{user.email}</p>
           </div>

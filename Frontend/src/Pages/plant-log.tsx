@@ -39,7 +39,9 @@ const PlantLog = () => {
         const tokenFromCookie = Cookies.get('token'); // Get JWT token from cookie
         console.log(tokenFromCookie);
         if (!tokenFromCookie) {
-          throw new Error("Token not found.");
+          // Redirect user to login page if token is not found
+          Router.push('/login');
+          return;
         }
 
         setUserEmail(tokenFromCookie);
@@ -127,7 +129,6 @@ const PlantLog = () => {
       alert('Failed to log plant.');
     }
   };
-
 
   if (loading) {
     return <div>Loading...</div>;
