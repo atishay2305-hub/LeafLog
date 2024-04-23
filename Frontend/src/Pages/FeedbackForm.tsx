@@ -97,7 +97,7 @@ const FeedbackPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Send Feednack | LeafLog </title>
+        <title>Send Feedback | LeafLog </title>
       </Head>
 
       <Header />

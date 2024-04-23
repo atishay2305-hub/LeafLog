@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import "../styles/global.css";
+import defaultProfilePicture from "../../public/uploads/default.jpg";
 
 const Profile = () => {
   const [user, setUser] = useState({ name: "", email: "", profilePicture: "" });
@@ -46,6 +47,12 @@ const Profile = () => {
     const formData = new FormData();
     formData.append("file", file);
 
+    // Check if the file is an image or a PNG file
+    if (!file.type.startsWith("image/") && !file.type.includes("png")) {
+      alert("Please upload an image file.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:5002/upload", {
         method: "POST",
@@ -86,9 +93,7 @@ const Profile = () => {
           <div className="text-center">
             <label htmlFor="profile-picture">
               <img
-                src={`http://localhost:5002/uploads/${
-                  user.profilePicture || "default.jpg"
-                }`}
+                src={user.profilePicture || defaultProfilePicture.src}
                 alt="Profile Picture"
                 className="w-24 h-24 rounded-full mx-auto mb-4 cursor-pointer"
               />
@@ -96,7 +101,7 @@ const Profile = () => {
             <input
               type="file"
               id="profile-picture"
-              accept="image/*"
+              accept="image/png,image/jpeg"
               onChange={handleFileUpload}
               className="hidden"
             />
