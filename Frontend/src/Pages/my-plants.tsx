@@ -5,9 +5,18 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Router from "next/router";
 
+interface Plant {
+  _id: string;
+  plantSpecies: string;
+  scientificName: string;
+  cycle: string;
+  watering: string;
+  sunlight: string[] | string; // If sunlight can be both an array and a string, you need to specify both types
+}
+
 const MyPlants = () => {
-  const [plants, setPlants] = useState([]);
-  const [error, setError] = useState(null);
+  const [plants, setPlants] = useState<Plant[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const tokenFromCookie = Cookies.get("token");
@@ -34,21 +43,6 @@ const MyPlants = () => {
     fetchPlants();
   }, []);
 
-  const viewPlantDetails = async (commonName) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5002/api/plantdata/details?common_name=${commonName}`
-      );
-      const plantDetails = response.data;
-      // Display plant details here (e.g., show in a modal)
-      console.log("Plant Details:", plantDetails);
-    } catch (error) {
-      console.error("Error fetching plant details:", error);
-      // Show toast message for no matching details
-      alert("No details match for this plant.");
-    }
-  };
-
   return (
     <>
       <Header />
@@ -62,7 +56,6 @@ const MyPlants = () => {
                 <div
                   key={plant._id}
                   className="p-6 bg-white rounded-lg shadow-lg"
-                  onClick={() => viewPlantDetails(plant.common_name)}
                 >
                   <h2 className="text-xl font-bold mb-2">
                     {plant.plantSpecies}
