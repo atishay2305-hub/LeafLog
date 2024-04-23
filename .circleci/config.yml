@@ -15,8 +15,6 @@ jobs:
           pkg-manager: npm
       - run:
           command: npm run build
-      - store_test_results:
-          path: test-results
       - run:
           name: Create the ~/artifacts directory if it doesn't exist
           command: mkdir -p ~/artifacts
@@ -24,6 +22,8 @@ jobs:
       - run:
           name: Copy artifacts
           command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
+      - store_test_results:
+          path: ~/project/test-results
       - store_artifacts:
           path: ~/artifacts
           destination: node-build
