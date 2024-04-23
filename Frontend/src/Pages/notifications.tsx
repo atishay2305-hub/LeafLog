@@ -7,6 +7,8 @@ import Footer from "../components/Footer";
 import Router from "next/router";
 import { usePlants } from "../context/PlantContext";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NotificationsPage = () => {
   const [email, setEmail] = useState("");
@@ -78,15 +80,23 @@ const NotificationsPage = () => {
         setSubmissionStatus(
           "Notification set up successfully. An email has been sent."
         );
-        alert(submissionStatus);
+        toast.success("Email sent successfully");
       }
     } catch (error) {
       console.error("Error sending email:", error);
       setSubmissionStatus(
         "Failed to set up notification. Please try again later."
       );
-      alert(submissionStatus);
     }
+  };
+
+  const mapWateringSchedule = (apiSchedule: string) => {
+    const scheduleMapping: Record<string, string> = {
+      Frequent: "Daily",
+      Average: "Weekly",
+      // Add more mappings as needed
+    };
+    return scheduleMapping[apiSchedule] || apiSchedule; // Fallback to the original if no mapping is found
   };
 
   // TODO: Replace with the actual rendering logic for errors and loading state
@@ -146,7 +156,7 @@ const NotificationsPage = () => {
                     />
                     <label htmlFor={plant._id} className="ml-2">
                       {plant.otherName || plant.plantSpecies} - Water{" "}
-                      {plant.watering}
+                      {mapWateringSchedule(plant.watering)}
                     </label>
                   </div>
                 ))
@@ -163,6 +173,7 @@ const NotificationsPage = () => {
         </div>
       </div>
       <Footer />
+      <ToastContainer />
     </>
   );
 };

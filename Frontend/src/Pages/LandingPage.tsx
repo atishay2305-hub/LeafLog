@@ -74,7 +74,7 @@ const people: Person[] = [
   },
   {
     name: "Mikayla Mount",
-    role: "Project Manager, Full Stack Developer",
+    role: "Project Manager & Full Stack Developer",
   },
   {
     name: "Hiral Makhwana",
@@ -90,7 +90,7 @@ const features: Feature[] = [
   {
     name: "Plant Logging",
     description:
-      "Keep a detailed log of your plant collection. Track watering schedules, soil changes, and any special care your leafy friends need.",
+      "Keep a detailed log of your plant collection. Track watering schedules, growth cycles, and any special care your leafy friends need.",
   },
   {
     name: "Interactive Interface",
@@ -100,7 +100,7 @@ const features: Feature[] = [
   {
     name: "User Profile",
     description:
-      "Create and personalize your user profile. Showcase your green companions and share your plant care achievements with the LeafLog community.",
+      "Create a user profile - Utilize your own directory hub for all a LeafLog user could need.",
   },
   {
     name: "Plant Wiki",
@@ -110,7 +110,7 @@ const features: Feature[] = [
   {
     name: "Notification",
     description:
-      "Receive timely notifications to help you stay on top of your plant care routine. Get reminders for watering, fertilizing, and other essential tasks.",
+      "Receive timely notifications to help you stay on top of your plant care routine. Get personalized reminders for watering and other essential tasks.",
   },
   {
     name: "Secure Authentication",
@@ -135,12 +135,12 @@ const LandingPage: React.FC = () => {
 
       <Header />
       <section className="top-level bg-green-300 min-h-screen flex items-center justify-center">
-        <div className="w-full max-w-xl p-10 bg-white shadow-lg rounded-lg text-center">
+        <div className="w-full max-w-2xl  p-11 bg-white shadow-lg rounded-lg text-center">
           <h1 className="text-6xl font-bold text-green-600 mb-8">
             Welcome to LeafLog
           </h1>
           <p className="text-lg text-gray-600">
-            Your One Stop place to maintain your plants.
+            Nuture Plants, Find Care Plans, Cultivate Expertise
           </p>
         </div>
       </section>
@@ -184,11 +184,7 @@ const LandingPage: React.FC = () => {
               alt="Walnut card tray with white powder coated steel divider and 3 punchout holes."
               className="rounded-lg bg-gray-100 w-full max-w-md sm:max-w-lg lg:max-w-xl"
             />
-            <img
-              src="https://media1.tenor.com/m/oiwJGJBu1k0AAAAd/plants-window.gif"
-              alt="Top down view of walnut card tray with embedded magnets and card groove."
-              className="rounded-lg bg-gray-100 w-full max-w-md sm:max-w-lg lg:max-w-xl"
-            />
+
             <img
               src="https://64.media.tumblr.com/d6b6ac44147e5dbaac9ef5a208c939e3/tumblr_ojjkxvOlqd1vqs93co6_500.gifv"
               alt="Side of walnut card tray with card groove and recessed card area."
