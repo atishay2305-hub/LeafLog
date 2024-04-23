@@ -48,7 +48,8 @@ const PlantLog = () => {
         setToken(tokenFromCookie);
         setLoading(false);
       } catch (error) {
-        setError(error.message);
+        // setError(error.message);
+        setError("An Error Occurred!");
         setLoading(false);
       }
     };
