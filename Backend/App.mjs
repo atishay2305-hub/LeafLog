@@ -84,8 +84,43 @@ app.post("/send-notification-email", async(req, res, ) => {
     const mailOptions = {
         from: "leaflogtest@gmail.com", // Sender address
         to: email, // Recipient address from request body
-        subject: "Plant Care Notifications Setup Confirmation",
-        text: `You've set up watering notifications on LeafLog !`,
+        subject: "Plant Care Notifications",
+        html: `
+        <html>
+          <head>
+            <style>
+              /* Define your CSS styles here */
+              body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f0f0;
+                margin: 0;
+                padding: 0;
+              }
+              .container {
+                max-width: 600px;
+                margin: 20px auto;
+                background-color: #ffffff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              }
+              h1 {
+                color: #333333;
+              }
+              p {
+                color: #666666;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>Plant Care Notification</h1>
+              <p>You've set up watering notifications on LeafLog!</p>
+              <!-- Add more content here as needed -->
+            </div>
+          </body>
+        </html>
+      `,
     };
 
     try {

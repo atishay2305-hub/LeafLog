@@ -9,8 +9,8 @@
 
 // interface Plant {
 //   _id: string;
-//   plantSpecies: string;
-//   scientificName: string;
+//   common_name: string;
+//   scientific_name: string;
 //   cycle: string;
 //   watering: string;
 //   sunlight: string[] | string; // If sunlight can be both an array and a string, you need to specify both types
@@ -85,9 +85,9 @@
 //                   className="p-6 bg-white rounded-lg shadow-lg"
 //                 >
 //                   <h2 className="text-xl font-bold mb-2">
-//                     {plant.plantSpecies}
+//                     {plant.common_name}
 //                   </h2>
-//                   <p>Scientific Name: {plant.scientificName}</p>
+//                   <p>Scientific Name: {plant.scientific_name}</p>
 //                   <p>Cycle: {capitalizeAndReplaceUnderscores(plant.cycle)}</p>
 //                   <p>
 //                     Watering:{" "}
@@ -150,8 +150,8 @@ import "../styles/global.css";
 
 interface Plant {
   _id: string;
-  plantSpecies: string;
-  scientificName: string;
+  common_name: string;
+  scientific_name: string;
   cycle: string;
   watering: string;
   sunlight: string[] | string; // If sunlight can be both an array and a string, you need to specify both types
@@ -224,9 +224,9 @@ const MyPlants = () => {
                   className="p-6 bg-white rounded-lg shadow-lg"
                 >
                   <h2 className="text-xl font-bold mb-2">
-                    {plant.plantSpecies}
+                    {plant.common_name}
                   </h2>
-                  <p>Scientific Name: {plant.scientificName}</p>
+                  <p>Scientific Name: {plant.scientific_name}</p>
                   <p>Cycle: {capitalizeAndReplaceUnderscores(plant.cycle)}</p>
                   <p>
                     Watering:{" "}
