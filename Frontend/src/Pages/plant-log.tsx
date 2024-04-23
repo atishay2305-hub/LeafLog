@@ -10,8 +10,8 @@ interface SubmittedData {
   _id?: {
     $oid: string;
   };
-  common_name: string;
-  scientific_name: string;
+  plantSpecies: string;
+  scientificName: string;
   otherName: string | null;
   cycle: string;
   watering: string;
@@ -21,8 +21,8 @@ interface SubmittedData {
 const PlantLog = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [common_name, setcommon_name] = useState("");
-  const [scientific_name, setscientific_name] = useState("");
+  const [plantSpecies, setplantSpecies] = useState("");
+  const [scientificName, setscientificName] = useState("");
   const [otherName, setOtherName] = useState<string | null>(null);
   const [cycle, setCycle] = useState("");
   const [watering, setWatering] = useState("");
@@ -60,8 +60,8 @@ const PlantLog = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newEntry: SubmittedData = {
-      common_name,
-      scientific_name,
+      plantSpecies,
+      scientificName,
       otherName,
       cycle,
       watering,
@@ -70,7 +70,7 @@ const PlantLog = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5002/api/plantdata/search?common_name=${common_name}&scientific_name=${scientific_name}&cycle=${cycle}&watering=${watering}&other_name=${otherName}`
+        `http://localhost:5002/api/plantdata/search?plantSpecies=${plantSpecies}&scientificName=${scientificName}&cycle=${cycle}&watering=${watering}&other_name=${otherName}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch search results");
@@ -85,7 +85,7 @@ const PlantLog = () => {
 
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = e.target.value.toLowerCase();
-    setcommon_name(searchQuery);
+    setplantSpecies(searchQuery);
 
     try {
       const response = await fetch(
@@ -104,7 +104,7 @@ const PlantLog = () => {
   };
 
   const handleSelectPlant = (plantName: string) => {
-    setcommon_name(plantName);
+    setplantSpecies(plantName);
     setShowDropdown(false);
   };
 
@@ -112,7 +112,7 @@ const PlantLog = () => {
   // Code responsible for sending the token from the frontend
   const handleLogPlant = async () => {
     // Check required fields
-    if (!common_name || !watering) {
+    if (!plantSpecies || !watering) {
       return; // Exit the function if required fields are not filled out
     }
 
@@ -124,8 +124,8 @@ const PlantLog = () => {
           Authorization: `Bearer ${token}`, // Ensure correct token is sent here
         },
         body: JSON.stringify({
-          common_name,
-          scientific_name, // This can be optional
+          plantSpecies,
+          scientificName, // This can be optional
           otherName,
           cycle, // This can be optional
           watering,
@@ -136,8 +136,8 @@ const PlantLog = () => {
 
       if (response.ok) {
         // Clear the form data
-        setcommon_name("");
-        setscientific_name("");
+        setplantSpecies("");
+        setscientificName("");
         setOtherName(null);
         setCycle("");
         setWatering("");
@@ -184,16 +184,16 @@ const PlantLog = () => {
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="text-left">
               <label
-                htmlFor="common_name"
+                htmlFor="plantSpecies"
                 className="block mb-4 text-lg font-medium text-gray-900"
               >
                 Plant Species
               </label>
-              <div id="common_nameContainer">
+              <div id="plantSpeciesContainer">
                 <input
                   type="text"
-                  id="common_name"
-                  value={common_name}
+                  id="plantSpecies"
+                  value={plantSpecies}
                   onChange={handleSearchChange}
                   onFocus={() => setShowDropdown(true)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-3"
@@ -211,7 +211,7 @@ const PlantLog = () => {
                             onClick={() => handleSelectPlant(plant.common_name)}
                             className="dropdown-item"
                           >
-                            {/* {plant.common_name} ({plant.scientific_name}) */}
+                            {/* {plant.plantSpecies} ({plant.scientificName}) */}
                             {plant.common_name} ({plant.scientific_name})
                           </div>
                         ))}
