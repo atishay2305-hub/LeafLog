@@ -101,12 +101,12 @@ const NotificationsPage = () => {
         <title>Plant Care Notifications | LeafLog</title>
       </Head>
       <div className="top-level bg-green-300 min-h-screen flex items-center justify-center">
-        <div className="w-full max-w-5xl p-10 bg-white shadow-lg rounded-lg text-center">
+        <div className="w-full max-w-4xl p-10 bg-white shadow-lg rounded-lg text-center">
           <h1 className="text-5xl font-bold text-green-600 mb-8">
             Set Up Plant Care Notifications
           </h1>
           <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="text-left">
+            <div className="text-center">
               <label
                 htmlFor="email"
                 className="block mb-4 text-lg font-medium text-gray-900"
@@ -126,35 +126,33 @@ const NotificationsPage = () => {
               <label className="block mb-4 text-lg font-medium text-gray-900">
                 Select the plants you want to receive notifications for:
               </label>
+              {/* Map through user plants */}
               {userPlants.length === 0 ? (
                 <p>No plants found. Please log some plants first.</p>
               ) : (
-                userPlants.map(
-                  (
-                    plant: any // The 'any' type should be replaced with a proper type for the plant
-                  ) => (
-                    <div key={plant._id}>
-                      <input
-                        type="checkbox"
-                        id={plant._id}
-                        checked={selectedPlants.get(plant._id) || false}
-                        onChange={(e) =>
-                          handleCheckboxChange(plant._id, e.target.checked)
-                        }
-                      />
-                      <label
-                        htmlFor={plant._id}
-                        className="ml-2"
-                        style={{ textAlign: "left" }}
-                      >
-                        {plant.otherName || plant.plantSpecies} - Water{" "}
-                        {plant.watering}
-                      </label>
-                    </div>
-                  )
-                )
+                userPlants.map((plant: any) => (
+                  <div
+                    key={plant._id}
+                    className="plant-item text-left text-lg leading-relaxed "
+                  >
+                    <input
+                      type="checkbox"
+                      id={plant._id}
+                      checked={selectedPlants.get(plant._id) || false}
+                      onChange={(e) =>
+                        handleCheckboxChange(plant._id, e.target.checked)
+                      }
+                      className="mr-4"
+                    />
+                    <label htmlFor={plant._id} className="ml-2">
+                      {plant.otherName || plant.plantSpecies} - Water{" "}
+                      {plant.watering}
+                    </label>
+                  </div>
+                ))
               )}
             </div>
+            {/* Submit button */}
             <button
               type="submit"
               className="bg-green-600 hover:bg-green-700 text-white py-3 px-16 text-lg rounded-lg font-medium transition duration-300"
