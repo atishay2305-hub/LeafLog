@@ -196,7 +196,7 @@ const FeedbackPage: React.FC = () => {
                         <p className="font-semibold">
                           Title: {feedback.title}
                         </p>
-                        <p>Description: {feedback.description}</p>
+                        <p className="font-semibold">Description: {feedback.description}</p>
                       </div>
                     ))}
                   </div>
@@ -215,7 +215,6 @@ const FeedbackPage: React.FC = () => {
         </div>
       </div>
       <Footer />
-      {/* Toast container */}
       <ToastContainer />
     </>
   );
