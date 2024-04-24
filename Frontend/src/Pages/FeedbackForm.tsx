@@ -100,7 +100,7 @@ const FeedbackPage: React.FC = () => {
       <Header />
       <div className="top-level min-h-screen bg-green-100 flex flex-col justify-center items-center">
         <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-          <h1 className="text-3xl font-semibold mb-4">Feedback Page</h1>
+          <h1 className="text-3xl font-semibold mb-4">Feedback</h1>
           {loggedIn ? (
             <>
               <form onSubmit={handleSubmit} className="mb-4">
@@ -177,7 +177,7 @@ const FeedbackPage: React.FC = () => {
                 </button>
               </form>
               <div className="mb-4">
-                <h2 className="text-lg font-semibold mb-2">Feedbacks:</h2>
+                <h2 className="text-lg font-semibold mb-2">Community Feedback</h2>
                 {feedbacks.length === 0 ? (
                   <p>No feedback sent yet</p>
                 ) : (
