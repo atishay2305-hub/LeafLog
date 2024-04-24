@@ -4,11 +4,8 @@ import { useRouter } from "next/router";
 
 const Header = () => {
   const router = useRouter();
-  // Function to handle logout
   const handleLogout = () => {
-    // Remove the token cookie
     Cookies.remove("token");
-    // Redirect to the login page
     router.push("/login");
   };
 
@@ -16,7 +13,7 @@ const Header = () => {
     <header className="bg-green-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <a href="/LandingPage" className="text-white text-2xl font-bold">
-          LeafLog
+        ☘️ LeafLog
         </a>
         <nav className="hidden md:block">
           <ul className="flex">
