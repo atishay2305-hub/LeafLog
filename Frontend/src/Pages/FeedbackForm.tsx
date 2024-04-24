@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { toast, ToastContainer } from "react-toastify"; 
-import "react-toastify/dist/ReactToastify.css"; 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
 import Head from "next/head";
 import "../styles/global.css";
@@ -65,7 +65,7 @@ const FeedbackPage: React.FC = () => {
         });
         if (response.ok) {
           const newFeedback = await response.json();
-          setFeedbacks([...feedbacks, newFeedback]);
+          setFeedbacks([...feedbacks, newFeedback]); // Update feedbacks state with new feedback
           setName("");
           setEmail("");
           setTitle("");
@@ -75,9 +75,6 @@ const FeedbackPage: React.FC = () => {
             JSON.stringify([...feedbacks, newFeedback])
           );
           toast.success("Feedback submitted successfully"); // Show success toast
-          setTimeout(() => {
-            window.location.reload(); // Refresh the page after a short delay
-          }, 2000);
         } else {
           console.error("Failed to submit feedback:", response.statusText);
         }
@@ -88,7 +85,7 @@ const FeedbackPage: React.FC = () => {
       }
     }
   };
-
+  
   const handleLogout = () => {
     Cookies.remove("token");
     Router.push("/login");
@@ -184,13 +181,25 @@ const FeedbackPage: React.FC = () => {
                 {feedbacks.length === 0 ? (
                   <p>No feedback sent yet</p>
                 ) : (
-                  <ul>
+                  <div>
                     {feedbacks.map((feedback, index) => (
-                      <li key={index} className="mb-2">
-                        {feedback.title}: {feedback.description}
-                      </li>
+                      <div
+                        key={index}
+                        className="bg-gray-100 p-4 rounded-md mb-2"
+                      >
+                        <p className="font-semibold">
+                          Name: {feedback.name}
+                        </p>
+                        <p className="font-semibold">
+                          Email: {feedback.email}
+                        </p>
+                        <p className="font-semibold">
+                          Title: {feedback.title}
+                        </p>
+                        <p>Description: {feedback.description}</p>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 )}
               </div>
               <button
