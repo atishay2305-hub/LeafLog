@@ -8,7 +8,7 @@ driver = webdriver.Chrome()
 driver.get("http://localhost:3000/")
 driver.maximize_window()
 
-# REGISTER = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div/a[2]')
+REGISTER = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div/a[2]')
 REGISTER.click()
 
 time.sleep(2)  # Added a small delay to ensure the page loads completely
