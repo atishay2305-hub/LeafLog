@@ -80,7 +80,7 @@ LeafLog is licensed under the [MIT License](link-to-license).
 
 ## Contact
 
-For any inquiries or support, reach out to us at [leaflog.support@example.com](mailto:leaflogtest@gmail.com).
+For any inquiries or support, reach out to us at [leaflogtest@gmail.com](mailto:leaflogtest@gmail.com).
 
 
 ## Testing
