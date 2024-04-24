@@ -1,13 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
 import time
 
 driver = webdriver.Chrome()
 driver.get("http://localhost:3000/")
 driver.maximize_window()
 
-REGISTER = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div/a[2]')
+# REGISTER = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div/a[2]')
 REGISTER.click()
 
 time.sleep(2)  # Added a small delay to ensure the page loads completely
@@ -49,7 +50,6 @@ SIGN_IN.click()
 
 
 
-
 # CLICK PROFILE PAGE from navbar
 
 time.sleep(5)
@@ -68,24 +68,7 @@ time.sleep(5)
 scroll_bottom_script = "arguments[0].scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});"
 driver.execute_script(scroll_bottom_script, driver.find_element(By.TAG_NAME, "footer"))
 
-
 time.sleep(5)
-# search a plant
-# time.sleep(5)
-# driver.get("http://localhost:3000/search")
-# driver.maximize_window()
-
-# time.sleep(5)
-# SEARCH = driver.find_element(By.XPATH, '//*[@id="__next"]/div/section/div[1]/form/input')
-# SEARCH.click()
-# SEARCH.send_keys("e")
-
-# search_button = driver.find_element(By.XPATH, '//*[@id="__next"]/div/section/div[1]/form/button')
-# search_button.click()
-
-# # Click the first "Add to My Plants" button
-# first_add_to_my_plants_button = driver.find_element(By.XPATH, '//*[@id="__next"]/div/section/div[2]/div/div[1]/button')
-# first_add_to_my_plants_button.click()
 
 # log a plant manually
 driver.get("http://localhost:3000/plant-log")
@@ -122,7 +105,6 @@ main_background.click()
 
 time.sleep(5)
 
-
 dropdown_2 = driver.find_element(By.XPATH, '//*[@id="watering"]')
 dropdown_2.click()
 
@@ -140,7 +122,6 @@ dropdown_3.click()
 
 time.sleep(4)
 
-
 select3 = Select(dropdown_3)
 
 select3.select_by_visible_text('Full Sun')
@@ -150,42 +131,43 @@ main_background.click()
 
 time.sleep(5)
 
-log_plant_button = driver.find_element(By.XPATH, '/html/body/div[1]/div/div/form/button')
-log_plant_button.click()
-
+# # Press Enter key at a certain position using JavaScript
+driver.execute_script("var event = new KeyboardEvent('keydown', { 'key': 'Enter' }); document.dispatchEvent(event);")
 
 time.sleep(3)
-
 
 alert = driver.switch_to.alert
 alert.dismiss()
 
-time.sleep(4)
+time.sleep(3)
 
 driver.get("http://localhost:3000/my-plants")
-driver.maximize_screen()
+driver.maximize_window()
 
-time.sleep(4)
+time.sleep(3)
 
 # send notification
 
 driver.get("http://localhost:3000/notifications")
+time.sleep(3)
 
 field_element = driver.find_element(By.XPATH, '//*[@id="email"]')
 field_element.click()
 field_element.send_keys("atishay23@gmail.com")
 
-checkbox = driver.find_element(By.XPATH, '//*[@id="66285bd73ff863ad2df39aab"]')
-checkbox.click()
+
+
+# checkbox = driver.find_element(By.TAG_NAME, 'checkbox')
+# checkbox.click()
+
 
 submit_button = driver.find_element(By.XPATH, '//*[@id="__next"]/div[1]/div/form/button')
 submit_button.click()
 
-time.sleep(7)
+time.sleep(5)
 
 # logout
 logout_button = driver.find_element(By.XPATH, '//*[@id="__next"]/header/div/nav/ul/li[7]/a')
 logout_button.click()
-
 
 driver.close()
