@@ -1,5 +1,5 @@
 import express from "express";
-// import cors from "cors";
+import cors from "cors";
 import dotenv from "dotenv";
 import { dbConnection as connectDB } from "./config/mongoConnection.mjs";
 import plantRoutes from "./routes/plantRoutes.mjs";
