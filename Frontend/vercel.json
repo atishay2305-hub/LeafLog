@@ -1,5 +1,5 @@
 {
-   "name": "my-nextjs-app",
+   "name": "Frontend",
    "version": 2,
    "builds": [
      { "src": "LeafLog/Frontend", "use": "@vercel/next" }
