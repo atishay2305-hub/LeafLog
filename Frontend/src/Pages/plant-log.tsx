@@ -147,7 +147,7 @@ const PlantLog = () => {
           "Plant logged successfully. Would you like to go to 'My Plants'?"
         );
         if (userResponse) {
-          window.location.href = "https://leaflogfe.vercel.app/my-plants";
+          window.location.href = "https://leaf-log.vercel.app/my-plants";
         }
       } else {
         const data = await response.json();
