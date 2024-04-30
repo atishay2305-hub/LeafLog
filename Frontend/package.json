@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "start": "next dev",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build": "next build" 
   },
   "dependencies": {
     "@babel/node": "^7.23.9",
