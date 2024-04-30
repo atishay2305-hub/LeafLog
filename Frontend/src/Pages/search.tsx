@@ -45,7 +45,7 @@ export default function Search() {
         throw new Error("Token not found in cookie.");
       }
 
-      const response = await fetch("https://leaflogbe.vercel.app/logplant", {
+      const response = await fetch("https://octopus-app-hworu.ondigitalocean.app/logplant", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export default function Search() {
 
     try {
       const response = await fetch(
-        `https://leaflogbe.vercel.app/api/plantdata/search?common_name=${plantQuery}&scientific_name=${plantQuery}`
+        `https://octopus-app-hworu.ondigitalocean.app/api/plantdata/search?common_name=${plantQuery}&scientific_name=${plantQuery}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch search results");

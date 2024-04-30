@@ -32,7 +32,7 @@ const FeedbackPage: React.FC = () => {
 
   const fetchFeedbacks = async () => {
     try {
-      const response = await fetch("https://leaflogbe.vercel.app/feedback");
+      const response = await fetch("https://octopus-app-hworu.ondigitalocean.app/feedback");
       const data = await response.json();
       setFeedbacks(data);
       localStorage.setItem("feedbacks", JSON.stringify(data));
@@ -51,7 +51,7 @@ const FeedbackPage: React.FC = () => {
     ) {
       setLoading(true);
       try {
-        const response = await fetch("https://leaflogbe.vercel.app/feedback", {
+        const response = await fetch("https://octopus-app-hworu.ondigitalocean.app/feedback", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -31,7 +31,7 @@ const NotificationsPage = () => {
 
     const fetchUserPlants = async () => {
       try {
-        const response = await axios.get("https://leaflogbe.vercel.app/userplants", {
+        const response = await axios.get("https://octopus-app-hworu.ondigitalocean.app/userplants", {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${tokenFromCookie}`,
@@ -70,7 +70,7 @@ const NotificationsPage = () => {
     };
     try {
       const response = await axios.post(
-        "https://leaflogbe.vercel.app/send-notification-email",
+        "https://octopus-app-hworu.ondigitalocean.app/send-notification-email",
         emailData,
         {
           withCredentials: true, // Only if you are using cookies for auth

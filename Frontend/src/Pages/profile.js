@@ -54,7 +54,7 @@ const Profile = () => {
     }
 
     try {
-      const response = await fetch("https://leaflogbe.vercel.app/upload", {
+      const response = await fetch("https://octopus-app-hworu.ondigitalocean.app/upload", {
         method: "POST",
         body: formData,
       });

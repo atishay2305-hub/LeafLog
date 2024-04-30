@@ -70,7 +70,7 @@ const PlantLog = () => {
 
     try {
       const response = await fetch(
-        `https://leaflogbe.vercel.app/api/plantdata/search?plantSpecies=${plantSpecies}&scientificName=${scientificName}&cycle=${cycle}&watering=${watering}&other_name=${otherName}`
+        `https://octopus-app-hworu.ondigitalocean.app/api/plantdata/search?plantSpecies=${plantSpecies}&scientificName=${scientificName}&cycle=${cycle}&watering=${watering}&other_name=${otherName}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch search results");
@@ -89,7 +89,7 @@ const PlantLog = () => {
 
     try {
       const response = await fetch(
-        `https://leaflogbe.vercel.app/api/plantdata?searchQuery=${searchQuery}`
+        `https://octopus-app-hworu.ondigitalocean.app/api/plantdata?searchQuery=${searchQuery}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch plant data");
@@ -117,7 +117,7 @@ const PlantLog = () => {
     }
 
     try {
-      const response = await fetch("https://leaflogbe.vercel.app/logplant", {
+      const response = await fetch("https://octopus-app-hworu.ondigitalocean.app/logplant", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
