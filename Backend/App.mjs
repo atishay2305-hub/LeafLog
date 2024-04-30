@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://leaf-log-4kpa.vercel.app/",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: "Content-Type,Authorization",
   credentials: true,
