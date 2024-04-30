@@ -31,7 +31,7 @@ const MyPlants = () => {
 
     const fetchPlants = async () => {
       try {
-        const response = await axios.get("https://leaf-log.vercel.app/userplants", {
+        const response = await axios.get("https://leaflogbe.vercel.app/userplants", {
           headers: {
             Authorization: `Bearer ${tokenFromCookie}`,
           },

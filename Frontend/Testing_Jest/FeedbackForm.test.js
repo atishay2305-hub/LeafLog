@@ -40,7 +40,7 @@ describe('FeedbackForm component', () => {
 
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith(
-        'https://leaf-log.vercel.app/send-email',
+        'https://leaflogbe.vercel.app/send-email',
         { userEmail: undefined, title: 'Test Title', description: 'Test description' },
         {
           headers: {
