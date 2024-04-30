@@ -1,4 +1,4 @@
-// next.config.js
+// next.config.cjs
 
 const nextConfig = {
     // Specify the custom pages directory
