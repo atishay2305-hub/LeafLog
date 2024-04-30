@@ -1,5 +1,5 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
-import Register from '../src/Pages/register';
+import Register from '../src/pages/register';
 import { register_user } from '../../../Backend/services/index';
 import Router from 'next/router';
 

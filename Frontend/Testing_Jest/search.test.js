@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Search from '../../../LeafLog/Frontend/src/Pages/search';
+import Search from '../src/pages/search';
 
 // Mocking the logPlant function
 jest.mock('../../../Backend/services/plantService', () => ({

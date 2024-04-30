@@ -69,6 +69,6 @@
     ".next/types/**/*.ts",
     "src/**/*.ts",
     "src/**/*.tsx"
-, "next.config.cjs"  ],
+, "next.config.js"  ],
   "exclude": ["node_modules"]
 }

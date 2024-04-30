@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Page404 from '../src/Pages/404.tsx';
+import Page404 from '../src/pages/404.jsx';
 
 describe('Page404 component', () => {
   test('renders the 404 page content', () => {
