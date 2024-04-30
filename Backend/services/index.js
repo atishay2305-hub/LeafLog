@@ -1,6 +1,6 @@
 export const register_user = async (formData) => {
     try {
-        const res = await fetch('https://clownfish-app-dimpj.ondigitalocean.app/api/Auth/register', {
+        const res = await fetch('http://localhost:3000/api/Auth/register', {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -17,7 +17,7 @@ export const register_user = async (formData) => {
 
 export const login_user = async (formData) => {
     try {
-        const res = await fetch('https://clownfish-app-dimpj.ondigitalocean.app/api/Auth/login', {
+        const res = await fetch('http://localhost:3000/api/Auth/login', {
             headers: {
                 'Content-Type': 'application/json',
             },
