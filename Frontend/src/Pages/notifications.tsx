@@ -31,7 +31,7 @@ const NotificationsPage = () => {
 
     const fetchUserPlants = async () => {
       try {
-        const response = await axios.get("leaf-log.vercel.app/userplants", {
+        const response = await axios.get("https://leaf-log.vercel.app/userplants", {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${tokenFromCookie}`,
@@ -70,7 +70,7 @@ const NotificationsPage = () => {
     };
     try {
       const response = await axios.post(
-        "leaf-log.vercel.app/send-notification-email",
+        "https://leaf-log.vercel.app/send-notification-email",
         emailData,
         {
           withCredentials: true, // Only if you are using cookies for auth

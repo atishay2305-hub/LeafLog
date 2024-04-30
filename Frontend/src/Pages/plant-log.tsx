@@ -70,7 +70,7 @@ const PlantLog = () => {
 
     try {
       const response = await fetch(
-        `leaf-log.vercel.app/api/plantdata/search?plantSpecies=${plantSpecies}&scientificName=${scientificName}&cycle=${cycle}&watering=${watering}&other_name=${otherName}`
+        `https://leaf-log.vercel.app/api/plantdata/search?plantSpecies=${plantSpecies}&scientificName=${scientificName}&cycle=${cycle}&watering=${watering}&other_name=${otherName}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch search results");
@@ -89,7 +89,7 @@ const PlantLog = () => {
 
     try {
       const response = await fetch(
-        `leaf-log.vercel.app/api/plantdata?searchQuery=${searchQuery}`
+        `https://leaf-log.vercel.app/api/plantdata?searchQuery=${searchQuery}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch plant data");
@@ -117,7 +117,7 @@ const PlantLog = () => {
     }
 
     try {
-      const response = await fetch("leaf-log.vercel.app/logplant", {
+      const response = await fetch("https://leaf-log.vercel.app/logplant", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
