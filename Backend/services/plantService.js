@@ -48,7 +48,7 @@ export const createPlantLog = async(plantData, token) => {
 
 export const getPlantLogEntries = async(token) => {
     try {
-        const res = await fetch("https://clownfish-app-dimpj.ondigitalocean.app/api/plantlogs", {
+        const res = await fetch("/api/plantlogs", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

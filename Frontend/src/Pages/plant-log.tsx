@@ -147,7 +147,7 @@ const PlantLog = () => {
           "Plant logged successfully. Would you like to go to 'My Plants'?"
         );
         if (userResponse) {
-          window.location.href = "https://clownfish-app-dimpj.ondigitalocean.app/my-plants";
+          window.location.href = "/my-plants";
         }
       } else {
         const data = await response.json();
