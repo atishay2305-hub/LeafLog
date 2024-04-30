@@ -2,9 +2,9 @@
   "name": "leaflog",
   "version": "1.0.0",
   "description": "Please see https://github.com/verdetea22/LeafLog/wiki for more !",
-  "main": "app.mjs",
+  "main": "App.mjs",
   "scripts": {
-    "start": "node app.mjs",
+    "start": "node App.mjs",
     "test": "jest",
     "vercel-build": "echo hello"
   },
