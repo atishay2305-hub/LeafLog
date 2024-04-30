@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://leaf-log-4kpa.vercel.app/api"; 
+const API_BASE_URL = "https://leaflogfe.vercel.app/api"; 
 
 export const getUserPlants = async() => {
     try {
@@ -48,7 +48,7 @@ export const createPlantLog = async(plantData, token) => {
 
 export const getPlantLogEntries = async(token) => {
     try {
-        const res = await fetch("https://leaf-log-4kpa.vercel.app/api/plantlogs", {
+        const res = await fetch("https://leaflogfe.vercel.app/api/plantlogs", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
