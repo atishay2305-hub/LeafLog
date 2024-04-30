@@ -1,9 +1,12 @@
 {
-    "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-        "@/*": ["./*"]
-      }
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
     }
-  }
-  
+  },
+  "include": [
+    "**/*.js", // Include files ending with .js
+    "**/*.jsx" // Include files ending with .jsx
+  ]
+}
