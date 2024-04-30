@@ -1,4 +1,15 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+// next.config.js
 
-export default nextConfig;
+const nextConfig = {
+    // Define custom routes
+    redirects: async () => [
+      {
+        source: '/',
+        destination: '/index',
+        permanent: true, // or false if you want temporary redirect
+      },
+    ],
+  };
+  
+  export default nextConfig;
+  
