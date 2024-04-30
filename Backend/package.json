@@ -4,7 +4,7 @@
   "description": "Please see https://github.com/verdetea22/LeafLog/wiki for more !",
   "main": "app.mjs",
   "scripts": {
-    "start": "nodemon app.mjs",
+    "start": "node app.mjs",
     "test": "jest"
   },
   "author": "",

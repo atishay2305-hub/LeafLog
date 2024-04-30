@@ -68,19 +68,13 @@ Follow these simple steps to set up LeafLog on your local machine:
 4. Configure Google authentication credentials.
 5. Run the application: `npm run dev`
 
-Visit [LeafLog Documentation](link-to-docs) for detailed instructions and additional information.
-
-## Contributing
-
-We welcome contributions from the community! If you'd like to contribute to LeafLog, please follow our [Contribution Guidelines](link-to-contributing).
-
 ## License
 
 LeafLog is licensed under the [MIT License](link-to-license).
 
 ## Contact
 
-For any inquiries or support, reach out to us at [leaflog.support@example.com](mailto:leaflog.support@example.com).
+For any inquiries or support, reach out to us at [leaflogtest@gmail.com](mailto:leaflogtest@gmail.com).
 
 
 ## Testing
