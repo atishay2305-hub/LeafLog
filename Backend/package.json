@@ -5,7 +5,8 @@
   "main": "app.mjs",
   "scripts": {
     "start": "node app.mjs",
-    "test": "jest"
+    "test": "jest",
+    "vercel-build": "echo hello"
   },
   "author": "",
   "license": "ISC",

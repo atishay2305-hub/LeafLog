@@ -1,18 +1,1 @@
-{
-    "name": "Backend",
-    "version": 2,
-    "builds": [
-      { "src": "LeafLog/Backend/App.mjs", "use": "@vercel/node" }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "LeafLog/Backend/App.mjs"
-      },
-      {
-        "src": "/(.*)", 
-        "dest": "LeafLog/Backend/App.mjs"
-      }
-    ]
-  }
-  
+{ "version": 2, "rewrites": [{ "source": "/(.*)", "destination": "/api" }] }
