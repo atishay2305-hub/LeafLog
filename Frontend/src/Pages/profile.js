@@ -54,7 +54,7 @@ const Profile = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5002/upload", {
+      const response = await fetch("leaf-log.vercel.app/upload", {
         method: "POST",
         body: formData,
       });
