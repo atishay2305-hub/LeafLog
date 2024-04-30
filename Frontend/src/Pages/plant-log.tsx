@@ -208,11 +208,11 @@ const PlantLog = () => {
                         {searchResults.map((plant, index) => (
                           <div
                             key={index} // Changed key to index, as the array index is unique
-                            onClick={() => handleSelectPlant(plant.common_name)}
+                            onClick={() => handleSelectPlant(plant.plantSpecies)}
                             className="dropdown-item"
                           >
                             {/* {plant.plantSpecies} ({plant.scientificName}) */}
-                            {plant.common_name} ({plant.scientific_name})
+                            {plant.plantSpecies} ({plant.scientificName})
                           </div>
                         ))}
                       </div>
