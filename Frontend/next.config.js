@@ -1,4 +1,9 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+// next.config.js
 
-export default nextConfig;
+const nextConfig = {
+    // Specify the custom pages directory
+    pagesDir: 'Pages',
+  };
+  
+  module.exports = nextConfig;
+  
