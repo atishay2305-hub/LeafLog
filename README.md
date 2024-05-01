@@ -81,8 +81,7 @@ For any inquiries or support, reach out to us at [leaflogtest@gmail.com](mailto:
 
 Circle CI Digital Badge: [![CircleCI](https://circleci.com/gh/circleci/QzRsufw6pYtwMdv2BkLp31.svg?style=svg)](https://app.circleci.com/pipelines/circleci/QzRsufw6pYtwMdv2BkLp31/8SoGqeE27zCz2JRwayZTMa/80)
 
-
-
+Selenium: Just go into the folder "Testing with Selenium" and run the script called `test.py`.
 
 Happy Planting! 🌿✨
 
