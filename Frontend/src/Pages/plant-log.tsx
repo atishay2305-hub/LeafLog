@@ -36,10 +36,9 @@ const PlantLog = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const tokenFromCookie = Cookies.get("token"); // Get JWT token from cookie
+        const tokenFromCookie = Cookies.get("token"); 
         console.log(tokenFromCookie);
         if (!tokenFromCookie) {
-          // Redirect user to login page if token is not found
           Router.push("/login");
           return;
         }
@@ -108,12 +107,9 @@ const PlantLog = () => {
     setShowDropdown(false);
   };
 
-  // Code responsible for sending the token from the frontend
-  // Code responsible for sending the token from the frontend
   const handleLogPlant = async () => {
-    // Check required fields
     if (!plantSpecies || !watering) {
-      return; // Exit the function if required fields are not filled out
+      return; 
     }
 
     try {
@@ -121,21 +117,20 @@ const PlantLog = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Ensure correct token is sent here
+          Authorization: `Bearer ${token}`, 
         },
         body: JSON.stringify({
           plantSpecies,
-          scientificName, // This can be optional
+          scientificName, 
           otherName,
-          cycle, // This can be optional
+          cycle, 
           watering,
-          sunlight, // This can be optional
-          userEmail: userEmail, // Send user's email along with plant data
+          sunlight, 
+          userEmail: userEmail,
         }),
       });
 
       if (response.ok) {
-        // Clear the form data
         setplantSpecies("");
         setscientificName("");
         setOtherName(null);
@@ -143,12 +138,11 @@ const PlantLog = () => {
         setWatering("");
         setSunlight("");
 
-        // Confirm and redirect
         const userResponse = confirm(
           "Plant logged successfully. Would you like to go to 'My Plants'?"
         );
         if (userResponse) {
-          window.location.href = "http://localhost:3000/my-plants"; // Redirects to the my-plants page
+          window.location.href = "http://localhost:3000/my-plants"; 
         }
       } else {
         const data = await response.json();
@@ -207,7 +201,7 @@ const PlantLog = () => {
                       <div className="dropdown-content bg-white border border-gray-300 rounded-lg shadow-lg">
                         {searchResults.map((plant, index) => (
                           <div
-                            key={index} // Changed key to index, as the array index is unique
+                            key={index} 
                             onClick={() => handleSelectPlant(plant.common_name)}
                             className="dropdown-item"
                           >

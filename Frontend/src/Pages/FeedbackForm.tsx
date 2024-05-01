@@ -65,7 +65,7 @@ const FeedbackPage: React.FC = () => {
         });
         if (response.ok) {
           const newFeedback = await response.json();
-          setFeedbacks([...feedbacks, newFeedback]); // Update feedbacks state with new feedback
+          setFeedbacks([...feedbacks, newFeedback]);
           setName("");
           setEmail("");
           setTitle("");
@@ -85,7 +85,7 @@ const FeedbackPage: React.FC = () => {
       }
     }
   };
-  
+
   const handleLogout = () => {
     Cookies.remove("token");
     Router.push("/login");
@@ -177,7 +177,9 @@ const FeedbackPage: React.FC = () => {
                 </button>
               </form>
               <div className="mb-4">
-                <h2 className="text-lg font-semibold mb-2">Community Feedback</h2>
+                <h2 className="text-lg font-semibold mb-2">
+                  Community Feedback
+                </h2>
                 {feedbacks.length === 0 ? (
                   <p>No feedback sent yet</p>
                 ) : (
@@ -187,16 +189,12 @@ const FeedbackPage: React.FC = () => {
                         key={index}
                         className="bg-gray-100 p-4 rounded-md mb-2"
                       >
+                        <p className="font-semibold">Name: {feedback.name}</p>
+                        <p className="font-semibold">Email: {feedback.email}</p>
+                        <p className="font-semibold">Title: {feedback.title}</p>
                         <p className="font-semibold">
-                          Name: {feedback.name}
+                          Description: {feedback.description}
                         </p>
-                        <p className="font-semibold">
-                          Email: {feedback.email}
-                        </p>
-                        <p className="font-semibold">
-                          Title: {feedback.title}
-                        </p>
-                        <p className="font-semibold">Description: {feedback.description}</p>
                       </div>
                     ))}
                   </div>

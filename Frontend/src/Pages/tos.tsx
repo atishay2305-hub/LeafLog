@@ -6,11 +6,9 @@ import Cookies from "js-cookie";
 import Router from "next/router";
 
 export default function TosPage() {
-  // Check authentication status
   const isAuthenticated = !!Cookies.get("token");
 
   useEffect(() => {
-    // Redirect to login if not authenticated
     if (!isAuthenticated) {
       Router.push("/login");
     }

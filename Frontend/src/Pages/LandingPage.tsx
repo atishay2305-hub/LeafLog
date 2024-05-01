@@ -207,7 +207,6 @@ const LandingPage: React.FC = () => {
                     <p className="text-lg font-semibold leading-6 text-gray-900">
                       {person.name}
                     </p>
-                    {/* Render email if available */}
                     {person.email && (
                       <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                         {person.email}

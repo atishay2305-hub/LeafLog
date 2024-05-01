@@ -11,7 +11,7 @@ driver.maximize_window()
 REGISTER = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div/a[2]')
 REGISTER.click()
 
-time.sleep(2)  # Added a small delay to ensure the page loads completely
+time.sleep(2) 
 
 # name
 NAME = driver.find_element(By.XPATH, '//*[@id="name"]')
@@ -30,9 +30,8 @@ PASSWORD.send_keys("password123")
 SUBMIT = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/form/button')
 SUBMIT.click()
 
-time.sleep(2)  # Added a delay to ensure registration completes before moving to the next step
+time.sleep(2)  
 
-# Now, let's proceed to login
 driver.get("http://localhost:3000/login")
 driver.maximize_window()
 

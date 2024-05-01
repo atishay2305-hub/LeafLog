@@ -4,10 +4,10 @@ import {
   details as detailsCollection,
 } from "../config/mongoCollections.mjs";
 
-const plantApiKey = "sk-BKzY66269518b92125220"; // MM's unqiue API key
+const plantApiKey = "sk-BKzY66269518b92125220"; 
 const plantApiURL = "https://perenual.com/api/species-list";
 
-const detailsApiKey = "sk-BKzY66269518b92125220"; // MM's unqiue API key
+const detailsApiKey = "sk-BKzY66269518b92125220";
 const detailsApiURL = "https://perenual.com/api/species/details/2";
 
 export const plant_data = async () => {
