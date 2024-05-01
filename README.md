@@ -66,7 +66,7 @@ Follow these simple steps to set up LeafLog on your local machine:
 2. Install dependencies: `npm install`
 3. Set up your MongoDB database and configure the connection string.
 4. Configure Google authentication credentials.
-5. Run the application: `npm run dev`
+5. Run the application: `npm run dev`[Frontend] & `npm start' [Backend] 
 
 ## License
 
