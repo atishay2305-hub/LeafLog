@@ -1,9 +1,8 @@
 import axios from "axios";
 import { diseases as diseasesCollection } from "../config/mongoCollections.mjs";
 
-const apiKey = "sk-1cDo65c5314199c384079";
-const apiURL =
-  "https://perenual.com/api/pest-disease-list?key=sk-1cDo65c5314199c384079";
+const apiKey = process.env.API_KEY || "sk-1cDo65c5314199c384079";
+const apiURL = process.env.API_URL || "https://perenual.com/api/pest-disease-list?key=sk-1cDo65c5314199c384079";
 
 export const diseaseData = async () => {
   try {
