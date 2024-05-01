@@ -4,7 +4,7 @@ import Joi from "joi";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const SECRET = "leafloglogin";
+const SECRET = process.env.JWT_SECRET || "leafloglogin";
 
 const schema = Joi.object({
   email: Joi.string().email().required(),

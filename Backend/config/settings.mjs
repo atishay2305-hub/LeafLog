@@ -1,4 +1,11 @@
+// export const mongoConfig = {
+//   serverUrl: process.env.MONGO_SERVER_URL || 'mongodb://localhost:27017',
+//   database: process.env.MONGO_DATABASE || 'leaflog'
+// };
+
+  
 export const mongoConfig = {
-  serverUrl: 'mongodb+srv://atishay2305:d1N73QqeRIPbIlAS@leaflog.qc1rin7.mongodb.net/?retryWrites=true&w=majority&appName=leaflog',
-  database: 'leaflog'
+  serverUrl: process.env.MONGO_SERVER_URL || 'mongodb://localhost:27017',
+  database: process.env.MONGO_DATABASE || 'leaflog'
 };
+  

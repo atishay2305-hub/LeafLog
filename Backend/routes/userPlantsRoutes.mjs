@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { userPlants } from "../config/mongoCollections.mjs";
 
-const SECRET = "leafloglogin";
+const SECRET = process.env.JWT_SECRET || "leafloglogin";
 
 const router = express.Router();
 

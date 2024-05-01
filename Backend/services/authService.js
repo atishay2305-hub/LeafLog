@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-const SECRET = "leafloglogin"; // Ideally, this should be in your environment variables
+const SECRET = process.env.JWT_SECRET || "leafloglogin";
 
 // Function to generate a new JWT token
 exports.generateToken = function(user) {

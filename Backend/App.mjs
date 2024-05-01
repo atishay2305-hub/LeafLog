@@ -25,7 +25,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-const mongoURI = "mongodb+srv://atishay2305:d1N73QqeRIPbIlAS@leaflog.qc1rin7.mongodb.net/?retryWrites=true&w=majority&appName=leaflog";
+// const mongoURI = "mongodb+srv://atishay2305:d1N73QqeRIPbIlAS@leaflog.qc1rin7.mongodb.net/?retryWrites=true&w=majority&appName=leaflog";
+// connectDB(mongoURI);
+
+const mongoURI = process.env.MONGO_SERVER_URL || "mongodb://localhost:27017";
 connectDB(mongoURI);
 
 app.get("/", (req, res) => {
