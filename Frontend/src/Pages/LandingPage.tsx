@@ -81,7 +81,7 @@ const people: Person[] = [
     role: "Software Test",
   },
   {
-    name: "Caitlyn",
+    name: "Caitlin McLaughlin",
     role: "Frontend Developer",
   },
 ];
