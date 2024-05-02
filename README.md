@@ -45,7 +45,7 @@ Meet the brilliant minds behind LeafLog:
 
 - **A** - Atishay Jain
 - **B** - Mikayla Mount
-- **C** - Caitlyn
+- **C** - Caitlin McLaughlin
 - **D** - Hiral
 
 ## Technologies
