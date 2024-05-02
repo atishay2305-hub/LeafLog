@@ -25,7 +25,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-const mongoURI = "mongodb+srv://atishay2305:d1N73QqeRIPbIlAS@leaflog.qc1rin7.mongodb.net/?retryWrites=true&w=majority&appName=leaflog";
+// const mongoURI = "mongodb+srv://atishay2305:d1N73QqeRIPbIlAS@leaflog.qc1rin7.mongodb.net/?retryWrites=true&w=majority&appName=leaflog";
+// connectDB(mongoURI);
+
+const mongoURI = process.env.MONGO_SERVER_URL || "mongodb://localhost:27017";
 connectDB(mongoURI);
 
 app.get("/", (req, res) => {
@@ -192,11 +195,9 @@ const schedulePlantWateringEmails = (email, plants) => {
   });
 };
 
-// Send confirmation email
 const sendConfirmationEmail = async (email, plants) => {
-  let plantNames = ""; // Declare the variable here
+  let plantNames = ""; 
   try {
-    // Check if 'plants' is an array; if it's not, this will throw an error
     if (!Array.isArray(plants)) {
       throw new TypeError("Expected 'plants' to be an array");
     }
@@ -204,7 +205,7 @@ const sendConfirmationEmail = async (email, plants) => {
     console.log("Plants received in sendConfirmationEmail:", plants);
   } catch (error) {
     console.error(`Error processing plants array: ${error}`);
-    return; // Exit the function if there's an error
+    return; 
   }
 
   const mailOptions = {
@@ -222,7 +223,6 @@ const sendConfirmationEmail = async (email, plants) => {
   }
 };
 
-// Send watering email
 const sendWateringEmail = async (email, plantName) => {
   const mailOptions = {
     from: "leaflogtest@gmail.com",
@@ -240,20 +240,16 @@ const sendWateringEmail = async (email, plantName) => {
   }
 };
 
-// Endpoint to request notifications
 app.post("/request-notifications", async (req, res) => {
   const { email, plants } = req.body;
 
-  // Adding this check to see if plants is an array
   if (!Array.isArray(plants)) {
     return res.status(400).json({ error: "'plants' must be an array" });
   }
 
   try {
-    // You need to await the sending of the confirmation email
     await sendConfirmationEmail(email, plants);
 
-    // After confirmation, schedule the emails
     schedulePlantWateringEmails(email, plants);
 
     res.status(200).json({ message: "Notifications scheduled successfully." });

@@ -35,7 +35,7 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title> Login | LeafLog </title>{" "}
+        <title> Login | LeafLog Application </title>{" "}
       </Head>{" "}
       <section className="top-level bg-green-300 min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-xl p-10 bg-white shadow-lg rounded-lg text-center">
@@ -46,7 +46,7 @@ const Login = () => {
                 htmlFor="email"
                 className="block mb-4 text-lg font-medium text-gray-900"
               >
-                Your email
+                Your Email Address
               </label>
               <input
                 onChange={(e) =>
@@ -86,7 +86,7 @@ const Login = () => {
               Sign in
             </button>
             <p className="text-lg font-light text-gray-600">
-              Don’t have an account yet?
+              Don’t have an account yet? No worries, just Sign Up!
               <Link href="/register" legacyBehavior>
                 <a className="font-medium text-green-600 hover:underline">
                   {" "}

@@ -4,11 +4,11 @@ import {
   details as detailsCollection,
 } from "../config/mongoCollections.mjs";
 
-const plantApiKey = "sk-BKzY66269518b92125220"; // MM's unqiue API key
-const plantApiURL = "https://perenual.com/api/species-list";
+const plantApiKey = process.env.PLANT_API_KEY || "sk-BKzY66269518b92125220"; 
+const plantApiURL = process.env.PLANT_API_URL || "https://perenual.com/api/species-list";
 
-const detailsApiKey = "sk-BKzY66269518b92125220"; // MM's unqiue API key
-const detailsApiURL = "https://perenual.com/api/species/details/2";
+const detailsApiKey = process.env.DETAILS_API_KEY || "sk-BKzY66269518b92125220";
+const detailsApiURL = process.env.DETAILS_API_URL || "https://perenual.com/api/species/details/2";
 
 export const plant_data = async () => {
   try {

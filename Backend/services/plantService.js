@@ -4,7 +4,7 @@ export const getUserPlants = async() => {
     try {
         const response = await fetch(`${API_BASE_URL}/plant-logs`, {
             method: "GET",
-            credentials: "include", // Needed to include cookies for auth, if your API uses session authentication
+            credentials: "include", 
             headers: {
                 "Content-Type": "application/json",
             },

@@ -227,7 +227,7 @@ export default function Search() {
   useEffect(() => {
     const token = Cookies.get("token");
     if (!token) {
-      Router.push("/"); // Redirect to login page if token is not present
+      Router.push("/"); 
     }
   }, []);
 
@@ -237,7 +237,7 @@ export default function Search() {
 
   const addToMyPlants = async (plant: Plant) => {
     try {
-      const tokenFromCookie = Cookies.get("token"); // Retrieve the token from the cookie
+      const tokenFromCookie = Cookies.get("token"); 
       if (!tokenFromCookie) {
         throw new Error("Token not found in cookie.");
       }
@@ -246,13 +246,13 @@ export default function Search() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${tokenFromCookie}`, // Include the token in the Authorization header
+          Authorization: `Bearer ${tokenFromCookie}`, 
         },
         body: JSON.stringify({
           plantSpecies: plant.common_name,
           scientificName: plant.scientific_name,
-          otherName: null, // Adjust as per your requirements
-          cycle: plant.cycle, // Adjust as per your requirements
+          otherName: null, 
+          cycle: plant.cycle,
           watering: plant.watering,
           sunlight: plant.sunlight,
         }),

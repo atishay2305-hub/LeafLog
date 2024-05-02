@@ -66,7 +66,7 @@ Follow these simple steps to set up LeafLog on your local machine:
 2. Install dependencies: `npm install`
 3. Set up your MongoDB database and configure the connection string.
 4. Configure Google authentication credentials.
-5. Run the application: `npm run dev`
+5. Run the application: `npm run dev`[Frontend] & `npm start` [Backend] 
 
 ## License
 
@@ -76,13 +76,16 @@ LeafLog is licensed under the [MIT License](link-to-license).
 
 For any inquiries or support, reach out to us at [leaflogtest@gmail.com](mailto:leaflogtest@gmail.com).
 
-
 ## Testing
 
 Circle CI Digital Badge: [![CircleCI](https://circleci.com/gh/circleci/QzRsufw6pYtwMdv2BkLp31.svg?style=svg)](https://app.circleci.com/pipelines/circleci/QzRsufw6pYtwMdv2BkLp31/8SoGqeE27zCz2JRwayZTMa/80)
 
+Selenium: Just go into the folder "Testing with Selenium" and run the script called `test.py`.
 
+## Architecture
 
+1. Database: The database of the application is not locally running, it has been hosted on MongoDB Atlas, which is on an AWS server and the data is directly fetched from that.
+2. Backend: On the main branch implementation, the backend server is completed hosted on to the DigitalOcean platform and also can be accessed through this url: https://octopus-app-hworu.ondigitalocean.app/ [For Test]
 
 Happy Planting! 🌿✨
 

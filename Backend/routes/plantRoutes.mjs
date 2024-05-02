@@ -61,10 +61,8 @@ router.get("/api/plantdata/search", async (req, res, next) => {
     const { common_name, scientific_name, cycle, watering, other_name } =
       req.query;
 
-    // Minimum length requirement for search query
-    const minLength = 1; // Adjust as needed
+    const minLength = 1; 
 
-    // Check if the search query meets the minimum length requirement
     if (
       (common_name && common_name.length >= minLength) ||
       (scientific_name && scientific_name.length >= minLength) ||
@@ -72,31 +70,27 @@ router.get("/api/plantdata/search", async (req, res, next) => {
       (watering && watering.length >= minLength) ||
       (other_name && other_name.length >= minLength)
     ) {
-      // Construct regex pattern for case-insensitive search
+
       const commonNameRegexPattern = new RegExp(common_name, "i");
       const scientificNameRegexPattern = new RegExp(scientific_name, "i");
       const cycleRegexPattern = new RegExp(cycle, "i");
       const wateringRegexPattern = new RegExp(watering, "i");
       const otherNameRegexPattern = new RegExp(other_name, "i");
 
-      // Call the plant_data function to retrieve plant data
+
       await plant_data();
 
-      // Retrieve plant data from MongoDB
       const plantCollectionRef = await plantCollection();
       const plantData = await plantCollectionRef.find().toArray();
 
-      // Initialize an empty array to store search results
       let searchResults = [];
 
-      // Filter plant data by common name
       if (common_name) {
         searchResults = plantData.filter((plant) =>
           commonNameRegexPattern.test(plant.common_name)
         );
       }
 
-      // Filter plant data by scientific name
       if (scientific_name) {
         const scientificNameSearchResult = plantData.filter((plant) =>
           scientificNameRegexPattern.test(plant.scientific_name)
@@ -104,7 +98,6 @@ router.get("/api/plantdata/search", async (req, res, next) => {
         searchResults = [...searchResults, ...scientificNameSearchResult];
       }
 
-      // Filter plant data by cycle
       if (cycle) {
         const cycleSearchResult = plantData.filter((plant) =>
           cycleRegexPattern.test(plant.cycle)
@@ -112,7 +105,6 @@ router.get("/api/plantdata/search", async (req, res, next) => {
         searchResults = [...searchResults, ...cycleSearchResult];
       }
 
-      // Filter plant data by watering
       if (watering) {
         const wateringSearchResult = plantData.filter((plant) =>
           wateringRegexPattern.test(plant.watering)
@@ -120,7 +112,6 @@ router.get("/api/plantdata/search", async (req, res, next) => {
         searchResults = [...searchResults, ...wateringSearchResult];
       }
 
-      // Filter plant data by other name
       if (other_name) {
         const otherNameSearchResult = plantData.filter((plant) =>
           otherNameRegexPattern.test(plant.other_name)
@@ -128,24 +119,20 @@ router.get("/api/plantdata/search", async (req, res, next) => {
         searchResults = [...searchResults, ...otherNameSearchResult];
       }
 
-      // Limit search results to 20 items
       searchResults = searchResults.slice(0, 20);
 
       if (searchResults.length > 0) {
-        // Remove duplicates by converting to Set and back to array
         searchResults = Array.from(new Set(searchResults));
         return res.json(searchResults);
       }
     }
 
-    // If the search query does not meet the minimum length requirement or no matching plant found
     return res.status(404).json({ error: "Plant details not found" });
   } catch (error) {
     next(error);
   }
 });
 
-// Route to get all plant data
 router.get("/api/plantdata", async (req, res, next) => {
   try {
     const collection = await plantCollection();
@@ -156,7 +143,6 @@ router.get("/api/plantdata", async (req, res, next) => {
   }
 });
 
-// Route to get plant details by ID
 router.get("/api/plantdata/:id", async (req, res, next) => {
   try {
     const requestedId = new ObjectId(req.params.id);
@@ -171,7 +157,6 @@ router.get("/api/plantdata/:id", async (req, res, next) => {
   }
 });
 
-// Route to get all other names
 router.get("/api/plantdata/other_names", async (req, res, next) => {
   try {
     const otherNames = await getAllOtherNames();
@@ -181,7 +166,6 @@ router.get("/api/plantdata/other_names", async (req, res, next) => {
   }
 });
 
-// Route to get all families
 router.get("/api/plantdata/families", async (req, res, next) => {
   try {
     const families = await getAllFamilies();
@@ -191,7 +175,6 @@ router.get("/api/plantdata/families", async (req, res, next) => {
   }
 });
 
-// Route to get all origins
 router.get("/api/plantdata/origins", async (req, res, next) => {
   try {
     const origins = await getAllOrigins();
@@ -201,7 +184,6 @@ router.get("/api/plantdata/origins", async (req, res, next) => {
   }
 });
 
-// Route to get all common names
 router.get("/api/plantdata/common_names", async (req, res, next) => {
   try {
     const commonNames = await getPlantCommonNames();
@@ -211,7 +193,6 @@ router.get("/api/plantdata/common_names", async (req, res, next) => {
   }
 });
 
-// Route to get all scientific names
 router.get("/api/plantdata/scientific_names", async (req, res, next) => {
   try {
     const scientificNames = await getScientificNames();

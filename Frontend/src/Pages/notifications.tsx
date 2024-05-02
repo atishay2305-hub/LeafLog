@@ -24,7 +24,6 @@ const NotificationsPage = () => {
   useEffect(() => {
     const tokenFromCookie = Cookies.get("token");
     if (!tokenFromCookie) {
-      // Redirect user to login page if token is not found
       Router.push("/login");
       return;
     }
@@ -58,12 +57,11 @@ const NotificationsPage = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // TODO: Implement actual submission logic here.
     setIsSubmitted(true);
     await sendNotificationEmail(email);
   };
 
-  // Function to send email via nodemailer
+
   const sendNotificationEmail = async (recipientEmail: string) => {
     const emailData = {
       email: recipientEmail,
@@ -73,7 +71,7 @@ const NotificationsPage = () => {
         "http://localhost:5002/send-notification-email",
         emailData,
         {
-          withCredentials: true, // Only if you are using cookies for auth
+          withCredentials: true, 
         }
       );
       if (response.status === 200) {
@@ -94,9 +92,8 @@ const NotificationsPage = () => {
     const scheduleMapping: Record<string, string> = {
       Frequent: "Daily",
       Average: "Weekly",
-      // Add more mappings as needed
     };
-    return scheduleMapping[apiSchedule] || apiSchedule; // Fallback to the original if no mapping is found
+    return scheduleMapping[apiSchedule] || apiSchedule; 
   };
 
   // TODO: Replace with the actual rendering logic for errors and loading state
@@ -162,7 +159,6 @@ const NotificationsPage = () => {
                 ))
               )}
             </div>
-            {/* Submit button */}
             <button
               type="submit"
               className="bg-green-600 hover:bg-green-700 text-white py-3 px-16 text-lg rounded-lg font-medium transition duration-300"

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { userPlants } from "../config/mongoCollections.mjs";
 
-const SECRET = "leafloglogin";
+const SECRET = process.env.JWT_SECRET || "leafloglogin";
 
 const router = express.Router();
 
@@ -27,13 +27,11 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// Middleware to ensure JSON responses
 router.use((req, res, next) => {
   res.setHeader("Content-Type", "application/json");
   next();
 });
 
-// Route to log a plant for a user
 router.post("/logplant", verifyToken, async (req, res, next) => {
   try {
     const {
@@ -46,13 +44,12 @@ router.post("/logplant", verifyToken, async (req, res, next) => {
       userEmail,
     } = req.body;
 
-    // Extract user details from the token
-    const userId = req.user.id; // Assuming the user id is stored in the token payload as 'id'
+    const userId = req.user.id; 
 
     const userPlantsCollection = await userPlants();
 
     const result = await userPlantsCollection.insertOne({
-      userId: new ObjectId(userId), // Adjusted to use new ObjectId()
+      userId: new ObjectId(userId), 
       plantSpecies,
       scientificName,
       otherName,

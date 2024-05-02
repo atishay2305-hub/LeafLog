@@ -154,7 +154,7 @@ interface Plant {
   scientificName: string;
   cycle: string;
   watering: string;
-  sunlight: string[] | string; // If sunlight can be both an array and a string, you need to specify both types
+  sunlight: string[] | string; 
 }
 
 const MyPlants = () => {
@@ -165,7 +165,6 @@ const MyPlants = () => {
   useEffect(() => {
     const tokenFromCookie = Cookies.get("token");
     if (!tokenFromCookie) {
-      // Redirect user to login page if token is not found
       Router.push("/login");
       return;
     }
@@ -195,9 +194,8 @@ const MyPlants = () => {
     const scheduleMapping: Record<string, string> = {
       Frequent: "Daily",
       Average: "Weekly",
-      // Add more mappings as needed
     };
-    return scheduleMapping[apiSchedule] || apiSchedule; // Fallback to the original if no mapping is found
+    return scheduleMapping[apiSchedule] || apiSchedule; 
   };
 
   // const capitalizeAndReplaceUnderscores = (str: string) => {
@@ -207,7 +205,7 @@ const MyPlants = () => {
   //     .join(" ");
   // };
   const capitalizeAndReplaceUnderscores = (str: string | null) => {
-    if (!str) return ""; // Handle null or undefined strings
+    if (!str) return ""; 
     
     return str
       .split("_")
